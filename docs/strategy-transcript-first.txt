@@ -1,0 +1,7 @@
+getCurrentPlayer()
+getPlayerHand(RED)
+getBoardDimensions()
+isLegalMove(0,0,0)
+getPlayerHand(RED)
+
+Process finished with exit code 0
