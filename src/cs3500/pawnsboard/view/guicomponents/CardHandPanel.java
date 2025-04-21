@@ -17,6 +17,8 @@ import cs3500.pawnsboard.controller.listeners.CardSelectionListener;
 import cs3500.pawnsboard.model.ReadOnlyPawnsBoard;
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
+import cs3500.pawnsboard.view.colorscheme.ColorScheme;
+import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 
 /**
  * A panel that displays a player's hand of cards.
@@ -31,6 +33,7 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
 public class CardHandPanel implements HandPanel {
   
   private final ReadOnlyPawnsBoard<?, ?> model;
+  private final ColorSchemeManager colorSchemeManager;
   private final JPanel panel;
   private final JPanel cardsPanel;
   private final List<CardSelectionListener> listeners;
@@ -45,13 +48,18 @@ public class CardHandPanel implements HandPanel {
    * Constructs a hand panel for the Pawns Board game.
    *
    * @param model the read-only game model to display
+   * @param colorSchemeManager the color scheme manager to use
    */
-  public CardHandPanel(ReadOnlyPawnsBoard<?, ?> model) {
+  public CardHandPanel(ReadOnlyPawnsBoard<?, ?> model, ColorSchemeManager colorSchemeManager) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
+    if (colorSchemeManager == null) {
+      throw new IllegalArgumentException("ColorSchemeManager cannot be null");
+    }
 
     this.model = model;
+    this.colorSchemeManager = colorSchemeManager;
     this.listeners = new ArrayList<>();
 
     // Create card panel that will hold the cards
@@ -100,7 +108,7 @@ public class CardHandPanel implements HandPanel {
           
           // Check if within valid range
           if (cardIndex >= 0 && cardIndex < hand.size()) {
-            // Toggle highlight if clicking the same card
+            // Toggle highlight if clicking on the same card
             if (cardIndex == highlightedCard) {
               clearCardHighlights();
             } else {

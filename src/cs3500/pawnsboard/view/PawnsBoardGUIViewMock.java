@@ -5,7 +5,6 @@ import cs3500.pawnsboard.controller.listeners.CellSelectionListener;
 import cs3500.pawnsboard.controller.listeners.KeyboardActionListener;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
-import cs3500.pawnsboard.view.guicomponents.DrawingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,7 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
   private String title = "";
   private int positionX = 0;
   private int positionY = 0;
-  
-  // Track color scheme state explicitly by name for better clarity
-  private String currentSchemeName;
-  private String[] availableSchemeNames;
+  private final ColorSchemeManager colorSchemeManager;
 
   private final List<CardSelectionListener> cardListeners = new ArrayList<>();
   private final List<CellSelectionListener> cellListeners = new ArrayList<>();
@@ -40,10 +36,17 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
    * Constructs a new PawnsBoardGUIViewMock.
    */
   public PawnsBoardGUIViewMock() {
-    // Get available schemes from the manager
-    ColorSchemeManager manager = DrawingUtils.getColorSchemeManager();
-    this.availableSchemeNames = manager.getAvailableSchemeNames();
-    this.currentSchemeName = manager.getCurrentSchemeName(); // Start with actual current scheme
+    // Create a view-specific color scheme manager
+    this.colorSchemeManager = new ColorSchemeManager();
+  }
+
+  /**
+   * Gets the color scheme manager for this view.
+   *
+   * @return the color scheme manager
+   */
+  public ColorSchemeManager getColorSchemeManager() {
+    return colorSchemeManager;
   }
 
   /**
@@ -334,90 +337,52 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
   public boolean isVisible() {
     return visible;
   }
-  
+
   /**
    * Checks if high contrast mode is enabled.
    *
    * @return true if high contrast mode is enabled, false otherwise
    */
   public boolean isHighContrastMode() {
-    return "high_contrast".equals(currentSchemeName);
+    return "high_contrast".equals(colorSchemeManager.getCurrentSchemeName());
   }
-  
+
   /**
    * Sets the color scheme mode.
-   * This updates the mock's internal state and also informs the shared ColorSchemeManager.
    *
    * @param schemeName the name of the scheme to set
    */
   public void setColorScheme(String schemeName) {
-    // Update our internal tracking
-    this.currentSchemeName = schemeName;
-    
-    // Also update the real ColorSchemeManager for consistency
-    DrawingUtils.getColorSchemeManager().setColorScheme(schemeName);
-    
-    // Record that a refresh would have happened
-    this.refreshed = true;
+    colorSchemeManager.setColorScheme(schemeName);
   }
-  
+
   /**
-   * Toggles the color scheme to the next available scheme.
-   * Uses string-based identification to explicitly track which scheme is active.
+   * Toggles the color scheme.
    */
   public void toggleColorScheme() {
-    // Find the current scheme's index
+    String currentScheme = colorSchemeManager.getCurrentSchemeName();
+    String[] availableSchemes = colorSchemeManager.getAvailableSchemeNames();
+    
+    // Find current scheme index
     int currentIndex = -1;
-    for (int i = 0; i < availableSchemeNames.length; i++) {
-      if (availableSchemeNames[i].equals(currentSchemeName)) {
+    for (int i = 0; i < availableSchemes.length; i++) {
+      if (availableSchemes[i].equals(currentScheme)) {
         currentIndex = i;
         break;
       }
     }
     
-    if (currentIndex == -1) {
-      currentIndex = 0; // Default to first scheme if not found
-    }
-    
-    // Calculate the next index
-    int nextIndex = (currentIndex + 1) % availableSchemeNames.length;
-    
-    // Set to the next scheme
-    setColorScheme(availableSchemeNames[nextIndex]);
+    // Move to next scheme (circular)
+    int nextIndex = (currentIndex + 1) % availableSchemes.length;
+    colorSchemeManager.setColorScheme(availableSchemes[nextIndex]);
   }
-  
+
   /**
    * Gets the current color scheme name.
-   * This returns the explicit string identifier of the current scheme.
    *
-   * @return the current color scheme name (e.g., "normal" or "high_contrast")
+   * @return the current color scheme name
    */
   public String getCurrentColorScheme() {
-    return currentSchemeName;
-  }
-  
-  /**
-   * Resets the mock to its initial state for testing purposes.
-   * Useful for preparing for a new test case.
-   */
-  public void reset() {
-    this.visible = false;
-    this.highlightedCardIndex = -1;
-    this.highlightedRow = -1;
-    this.highlightedCol = -1;
-    this.simulatedPlayer = null;
-    this.refreshed = false;
-    this.selectionsCleared = false;
-    this.title = "";
-    this.positionX = 0;
-    this.positionY = 0;
-    
-    // Reset color scheme to whatever the ColorSchemeManager has as its default
-    this.currentSchemeName = DrawingUtils.getColorSchemeManager().getCurrentSchemeName();
-    
-    // Clear all listeners
-    this.cardListeners.clear();
-    this.cellListeners.clear();
-    this.keyListeners.clear();
+    return colorSchemeManager.getCurrentSchemeName();
   }
 }

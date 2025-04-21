@@ -16,6 +16,7 @@ import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.view.colorscheme.ColorScheme;
+import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 
 /**
  * A panel that displays the Pawns Board game board.
@@ -29,6 +30,7 @@ import cs3500.pawnsboard.view.colorscheme.ColorScheme;
 public class GameBoardPanel implements BoardPanel {
   
   private final ReadOnlyPawnsBoard<?, ?> model;
+  private final ColorSchemeManager colorSchemeManager;
   private final JPanel panel;
   private final List<CellSelectionListener> listeners;
   
@@ -40,13 +42,18 @@ public class GameBoardPanel implements BoardPanel {
    * Constructs a board panel for the Pawns Board game.
    *
    * @param model the read-only game model to display
+   * @param colorSchemeManager the color scheme manager to use
    */
-  public GameBoardPanel(ReadOnlyPawnsBoard<?, ?> model) {
+  public GameBoardPanel(ReadOnlyPawnsBoard<?, ?> model, ColorSchemeManager colorSchemeManager) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
+    if (colorSchemeManager == null) {
+      throw new IllegalArgumentException("ColorSchemeManager cannot be null");
+    }
     
     this.model = model;
+    this.colorSchemeManager = colorSchemeManager;
     this.listeners = new ArrayList<>();
     
     // Create the actual Swing panel
@@ -69,7 +76,7 @@ public class GameBoardPanel implements BoardPanel {
    * Updates the panel properties based on the current color scheme.
    */
   private void updatePanelProperties() {
-    ColorScheme scheme = DrawingUtils.getColorSchemeManager().getColorScheme();
+    ColorScheme scheme = colorSchemeManager.getColorScheme();
     panel.setBackground(scheme.getBackgroundColor());
     panel.setPreferredSize(new Dimension(600, 450)); // Increased board size
   }
@@ -196,6 +203,9 @@ public class GameBoardPanel implements BoardPanel {
    * @param yOffset the y offset for the board
    */
   private void drawCell(Graphics2D g2d, int row, int col, int xOffset, int yOffset) {
+    // Get the current color scheme
+    ColorScheme scheme = colorSchemeManager.getColorScheme();
+    
     // Calculate cell position
     int x = xOffset + (col + 1) * cellSize; // Add 1 for row score
     int y = yOffset + row * cellSize;
@@ -204,7 +214,7 @@ public class GameBoardPanel implements BoardPanel {
     java.awt.Rectangle bounds = new java.awt.Rectangle(x, y, cellSize, cellSize);
     
     // Use DrawingUtils to draw cell background
-    DrawingUtils.drawCellBackground(g2d, bounds, row == highlightedRow && col == highlightedCol);
+    DrawingUtils.drawCellBackground(g2d, bounds, row == highlightedRow && col == highlightedCol, scheme);
     
     try {
       // Draw cell content
@@ -247,7 +257,7 @@ public class GameBoardPanel implements BoardPanel {
       java.awt.Rectangle bounds = new java.awt.Rectangle(x, y, cellSize, cellSize);
       
       // Use DrawingUtils to draw pawns
-      DrawingUtils.drawPawns(g2d, bounds, count, owner);
+      DrawingUtils.drawPawns(g2d, bounds, count, owner, colorSchemeManager.getColorScheme());
     } catch (IllegalArgumentException | IllegalStateException e) {
       // Cell may be invalid or game not started
     }
@@ -305,8 +315,8 @@ public class GameBoardPanel implements BoardPanel {
       java.awt.Rectangle blueBounds = new java.awt.Rectangle(blueX, y, cellSize, cellSize);
       
       // Use DrawingUtils to draw scores
-      DrawingUtils.drawScore(g2d, redBounds, redScore, PlayerColors.RED);
-      DrawingUtils.drawScore(g2d, blueBounds, blueScore, PlayerColors.BLUE);
+      DrawingUtils.drawScore(g2d, redBounds, redScore, PlayerColors.RED, colorSchemeManager.getColorScheme());
+      DrawingUtils.drawScore(g2d, blueBounds, blueScore, PlayerColors.BLUE, colorSchemeManager.getColorScheme());
     } catch (IllegalArgumentException | IllegalStateException e) {
       // Row may be invalid or game not started
     }

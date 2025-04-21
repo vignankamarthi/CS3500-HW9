@@ -9,7 +9,6 @@ import java.awt.geom.Path2D;
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.view.colorscheme.ColorScheme;
-import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 
 /**
  * Utility class containing static methods for drawing game elements.
@@ -23,22 +22,8 @@ import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
  */
 public class DrawingUtils {
   
-  // Static ColorSchemeManager to manage color schemes
-  // We use a static manager to ensure consistent color schemes across the application
-  private static final ColorSchemeManager colorSchemeManager = new ColorSchemeManager();
-  
   private DrawingUtils() {
     // Utility class, not meant to be instantiated rather utilized
-  }
-  
-  /**
-   * Gets the current color scheme manager.
-   * This allows access to the color scheme manager for changing or getting the current scheme.
-   *
-   * @return the color scheme manager
-   */
-  public static ColorSchemeManager getColorSchemeManager() {
-    return colorSchemeManager;
   }
   
   /**
@@ -212,22 +197,22 @@ public class DrawingUtils {
    * @param g2d the graphics context
    * @param bounds the bounds of the cell
    * @param isHighlighted whether the cell is highlighted
+   * @param colorScheme the color scheme to use for drawing
    */
-  public static void drawCellBackground(Graphics2D g2d, Rectangle bounds, boolean isHighlighted) {
-    ColorScheme scheme = colorSchemeManager.getColorScheme();
-    
+  public static void drawCellBackground(Graphics2D g2d, Rectangle bounds, boolean isHighlighted, 
+                                      ColorScheme colorScheme) {
     // Set color based on highlight state
     if (isHighlighted) {
-      g2d.setColor(scheme.getHighlightedCell());
+      g2d.setColor(colorScheme.getHighlightedCell());
     } else {
-      g2d.setColor(scheme.getCellBackground());
+      g2d.setColor(colorScheme.getCellBackground());
     }
     
     // Draw cell background
     g2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
-    // Draw cell border using the cell border color from the scheme
-    g2d.setColor(scheme.getCellBorderColor());
+    // Draw cell border
+    g2d.setColor(colorScheme.getCellBorderColor());
     g2d.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
   }
   
@@ -238,15 +223,15 @@ public class DrawingUtils {
    * @param bounds the bounds of the cell
    * @param count the number of pawns
    * @param player the owner of the pawns
+   * @param colorScheme the color scheme to use for drawing
    */
-  public static void drawPawns(Graphics2D g2d, Rectangle bounds, int count, PlayerColors player) {
-    ColorScheme scheme = colorSchemeManager.getColorScheme();
-    
+  public static void drawPawns(Graphics2D g2d, Rectangle bounds, int count, PlayerColors player, 
+                             ColorScheme colorScheme) {
     // Set color based on player
     if (player == PlayerColors.RED) {
-      g2d.setColor(scheme.getRedPawnColor());
+      g2d.setColor(colorScheme.getRedPawnColor());
     } else {
-      g2d.setColor(scheme.getBluePawnColor());
+      g2d.setColor(colorScheme.getBluePawnColor());
     }
     
     // Calculate pawn size and position
@@ -258,7 +243,7 @@ public class DrawingUtils {
     g2d.fillOval(circleX, circleY, diameter, diameter);
     
     // Draw the count
-    g2d.setColor(scheme.getPawnTextColor());
+    g2d.setColor(colorScheme.getPawnTextColor());
     g2d.setFont(new Font("Arial", Font.BOLD, 14));
     String countStr = String.valueOf(count);
     int textWidth = g2d.getFontMetrics().stringWidth(countStr);
@@ -277,13 +262,11 @@ public class DrawingUtils {
    */
   public static void drawCellCard(Graphics2D g2d, Rectangle bounds, int value,
                                   PlayerColors player) {
-    ColorScheme scheme = colorSchemeManager.getColorScheme();
-    
-    // Set color based on player, using colors from the color scheme
+    // Set color based on player
     if (player == PlayerColors.RED) {
-      g2d.setColor(scheme.getRedPawnColor());
+      g2d.setColor(Color.PINK);
     } else {
-      g2d.setColor(scheme.getBluePawnColor());
+      g2d.setColor(Color.CYAN);
     }
     
     // Draw card background with insets
@@ -292,7 +275,7 @@ public class DrawingUtils {
                  bounds.width - 2 * inset, bounds.height - 2 * inset);
     
     // Draw card border
-    g2d.setColor(scheme.getCellBorderColor());
+    g2d.setColor(Color.BLACK);
     g2d.drawRect(bounds.x + inset, bounds.y + inset, 
                  bounds.width - 2 * inset, bounds.height - 2 * inset);
     
@@ -300,14 +283,6 @@ public class DrawingUtils {
     g2d.setFont(new Font("Arial", Font.BOLD, 16));
     String text = String.valueOf(value);
     int textWidth = g2d.getFontMetrics().stringWidth(text);
-    
-    // Set text color to ensure readability
-    if (player == PlayerColors.RED) {
-      g2d.setColor(scheme.getRedScoreTextColor() == Color.WHITE ? Color.BLACK : Color.WHITE);
-    } else {
-      g2d.setColor(scheme.getBlueScoreTextColor() == Color.WHITE ? Color.BLACK : Color.WHITE);
-    }
-    
     g2d.drawString(text, 
                   bounds.x + (bounds.width - textWidth) / 2, 
                   bounds.y + bounds.height / 2 + 6);
@@ -320,23 +295,23 @@ public class DrawingUtils {
    * @param bounds the bounds of the score cell
    * @param score the score value
    * @param player the player whose score is being displayed
+   * @param colorScheme the color scheme to use for drawing
    */
-  public static void drawScore(Graphics2D g2d, Rectangle bounds, int score, PlayerColors player) {
-    ColorScheme scheme = colorSchemeManager.getColorScheme();
-    
+  public static void drawScore(Graphics2D g2d, Rectangle bounds, int score, PlayerColors player, 
+                             ColorScheme colorScheme) {
     // Draw score background
     g2d.setColor(Color.LIGHT_GRAY);
     g2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
     // Draw score border
-    g2d.setColor(scheme.getCellBorderColor());
+    g2d.setColor(Color.BLACK);
     g2d.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
     // Draw score value
     if (player == PlayerColors.RED) {
-      g2d.setColor(scheme.getRedScoreTextColor());
+      g2d.setColor(colorScheme.getRedScoreTextColor());
     } else {
-      g2d.setColor(scheme.getBlueScoreTextColor());
+      g2d.setColor(colorScheme.getBlueScoreTextColor());
     }
     
     g2d.setFont(new Font("Arial", Font.BOLD, 16));
