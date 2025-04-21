@@ -6,6 +6,7 @@ import java.awt.Color;
  * Normal color scheme implementation that provides the default colors for the Pawns Board game.
  * This maintains the original appearance of the game.
  */
+//TODO: Test this class
 public class NormalColorScheme implements ColorScheme {
   
   @Override
