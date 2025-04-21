@@ -15,6 +15,7 @@ import cs3500.pawnsboard.model.ReadOnlyPawnsBoard;
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
+import cs3500.pawnsboard.view.colorscheme.ColorScheme;
 
 /**
  * A panel that displays the Pawns Board game board.
@@ -57,12 +58,20 @@ public class GameBoardPanel implements BoardPanel {
       }
     };
     
-    // Set panel properties
-    panel.setBackground(Color.DARK_GRAY);
-    panel.setPreferredSize(new Dimension(600, 450)); // Increased board size
+    // Set panel properties - use the background color from the color scheme
+    updatePanelProperties();
     
     // Add mouse listener for cell selection
     setupMouseListener();
+  }
+  
+  /**
+   * Updates the panel properties based on the current color scheme.
+   */
+  private void updatePanelProperties() {
+    ColorScheme scheme = DrawingUtils.getColorSchemeManager().getColorScheme();
+    panel.setBackground(scheme.getBackgroundColor());
+    panel.setPreferredSize(new Dimension(600, 450)); // Increased board size
   }
   
   /**
@@ -333,6 +342,9 @@ public class GameBoardPanel implements BoardPanel {
   
   @Override
   public void renderBoard() {
+    // Update the panel properties to reflect any color scheme changes
+    updatePanelProperties();
+    
     if (panel != null) {
       panel.repaint();
     }

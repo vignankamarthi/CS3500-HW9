@@ -7,6 +7,7 @@ import java.util.Map;
  * Manager class for color schemes in the Pawns Board game.
  * Follows the Strategy pattern to allow switching between different color schemes at runtime.
  */
+//TODO: Test this class
 public class ColorSchemeManager {
 
   private final Map<String, ColorScheme> availableSchemes;

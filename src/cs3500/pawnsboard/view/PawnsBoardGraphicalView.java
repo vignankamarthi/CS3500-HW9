@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 
@@ -13,7 +14,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +25,9 @@ import cs3500.pawnsboard.controller.listeners.CellSelectionListener;
 import cs3500.pawnsboard.controller.listeners.KeyboardActionListener;
 import cs3500.pawnsboard.model.ReadOnlyPawnsBoard;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
+import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 import cs3500.pawnsboard.view.guicomponents.CardHandPanel;
+import cs3500.pawnsboard.view.guicomponents.DrawingUtils;
 import cs3500.pawnsboard.view.guicomponents.GameBoardPanel;
 
 /**
@@ -37,6 +42,7 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   private final CardHandPanel handPanel;
   private final JPanel infoPanel;
   private final JLabel statusLabel;
+  private final JButton contrastToggleButton;
 
   private final List<CardSelectionListener> cardListeners;
   private final List<CellSelectionListener> cellListeners;
@@ -44,6 +50,10 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
 
   // Track which player this view represents
   private PlayerColors viewPlayer;
+  
+  // Current index in available schemes
+  private int currentSchemeIndex;
+  private String[] availableSchemes;
 
   /**
    * Constructs a graphical view for the Pawns Board game.
@@ -59,11 +69,25 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     this.cardListeners = new ArrayList<>();
     this.cellListeners = new ArrayList<>();
     this.keyListeners = new ArrayList<>();
+    
+    // Get available color schemes
+    ColorSchemeManager manager = DrawingUtils.getColorSchemeManager();
+    this.availableSchemes = manager.getAvailableSchemeNames();
+    this.currentSchemeIndex = 0; // Start with the first scheme (normal)
 
     // Create panels
     this.boardPanel = new GameBoardPanel(model);
     this.handPanel = new CardHandPanel(model);
     this.infoPanel = new JPanel();
+
+    // Create toggle button for color schemes
+    this.contrastToggleButton = new JButton(getNextSchemeName());
+    contrastToggleButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        toggleColorScheme();
+      }
+    });
 
     // Initial setup
     this.statusLabel = new JLabel("Current Player: ", SwingConstants.CENTER);
@@ -81,6 +105,46 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   }
 
   /**
+   * Gets the name of the next color scheme in the cycle.
+   *
+   * @return the name of the next color scheme
+   */
+  private String getNextSchemeName() {
+    // Calculate the next index (cycling through available schemes)
+    int nextIndex = (currentSchemeIndex + 1) % availableSchemes.length;
+    // Return the scheme name at that index
+    return "Switch to " + availableSchemes[nextIndex] + " mode";
+  }
+
+  /**
+   * Toggles between available color schemes.
+   */
+  public void toggleColorScheme() {
+    // Cycle to the next scheme
+    currentSchemeIndex = (currentSchemeIndex + 1) % availableSchemes.length;
+    
+    // Set the new scheme
+    String newScheme = availableSchemes[currentSchemeIndex];
+    DrawingUtils.getColorSchemeManager().setColorScheme(newScheme);
+    
+    // Update button text to show the next scheme
+    contrastToggleButton.setText("Switch to " + 
+            availableSchemes[(currentSchemeIndex + 1) % availableSchemes.length] + " mode");
+    
+    // Refresh the view
+    refresh();
+  }
+
+  /**
+   * Gets the current color scheme name.
+   *
+   * @return the current color scheme name
+   */
+  public String getCurrentColorScheme() {
+    return DrawingUtils.getColorSchemeManager().getCurrentSchemeName();
+  }
+
+  /**
    * Sets up the layout of the frame.
    * This method arranges the panels in the frame using BorderLayout.
    */
@@ -88,21 +152,30 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     // Main layout
     setLayout(new BorderLayout());
 
+    // Create a panel for the info and toggle button
+    JPanel topPanel = new JPanel(new BorderLayout());
+    topPanel.setBackground(Color.LIGHT_GRAY);
+    topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    
+    // Add status label to center of top panel
+    topPanel.add(statusLabel, BorderLayout.CENTER);
+    
+    // Create a panel for the toggle button
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    buttonPanel.setBackground(Color.LIGHT_GRAY);
+    buttonPanel.add(contrastToggleButton);
+    
+    // Add button panel to right side of top panel
+    topPanel.add(buttonPanel, BorderLayout.EAST);
+    
     // Add panels to the frame
-    add(infoPanel, BorderLayout.NORTH);
+    add(topPanel, BorderLayout.NORTH);
     add(boardPanel.getPanel(), BorderLayout.CENTER);
     add(handPanel.getPanel(), BorderLayout.SOUTH);
 
     // Set panel sizes
-    infoPanel.setPreferredSize(new Dimension(getWidth(), 50));
+    topPanel.setPreferredSize(new Dimension(getWidth(), 50));
     handPanel.getPanel().setPreferredSize(new Dimension(getWidth(), 300));
-
-    // Setup info panel
-    infoPanel.setBackground(Color.LIGHT_GRAY);
-    infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10,
-            10, 10));
-    infoPanel.setLayout(new BorderLayout());
-    infoPanel.add(statusLabel, BorderLayout.CENTER);
   }
 
   /**
@@ -127,6 +200,16 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
       @Override
       public void actionPerformed(ActionEvent e) {
         notifyKeyListenersPass();
+      }
+    });
+    
+    // Bind H key to toggle color scheme
+    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke("H"), "toggleScheme");
+    getRootPane().getActionMap().put("toggleScheme", new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        toggleColorScheme();
       }
     });
   }

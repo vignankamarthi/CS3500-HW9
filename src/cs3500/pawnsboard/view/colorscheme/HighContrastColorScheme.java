@@ -7,8 +7,12 @@ import java.awt.Color;
  * for better accessibility in the Pawns Board game.
  * This implementation focuses on making the board more accessible.
  */
-//TODO: Test this class
 public class HighContrastColorScheme implements ColorScheme {
+  
+  @Override
+  public Color getBackgroundColor() {
+    return Color.WHITE;
+  }
   
   @Override
   public Color getCellBackground() {
@@ -42,6 +46,6 @@ public class HighContrastColorScheme implements ColorScheme {
   
   @Override
   public Color getBlueScoreTextColor() {
-    return this.getBluePawnColor();// Bright cyan
+    return this.getBluePawnColor(); // Bright cyan
   }
 }

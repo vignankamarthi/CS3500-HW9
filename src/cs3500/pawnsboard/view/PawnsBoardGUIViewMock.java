@@ -4,6 +4,7 @@ import cs3500.pawnsboard.controller.listeners.CardSelectionListener;
 import cs3500.pawnsboard.controller.listeners.CellSelectionListener;
 import cs3500.pawnsboard.controller.listeners.KeyboardActionListener;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
+import cs3500.pawnsboard.view.guicomponents.DrawingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,22 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
   private String title = "";
   private int positionX = 0;
   private int positionY = 0;
+  private String currentSchemeName;
+  private int currentSchemeIndex = 0;
+  private String[] availableSchemes;
 
   private final List<CardSelectionListener> cardListeners = new ArrayList<>();
   private final List<CellSelectionListener> cellListeners = new ArrayList<>();
   private final List<KeyboardActionListener> keyListeners = new ArrayList<>();
+
+  /**
+   * Constructs a new PawnsBoardGUIViewMock.
+   */
+  public PawnsBoardGUIViewMock() {
+    // Get available schemes from the manager
+    availableSchemes = DrawingUtils.getColorSchemeManager().getAvailableSchemeNames();
+    currentSchemeName = availableSchemes[0]; // Default to first scheme
+  }
 
   /**
    * Highlights a card in the current player's hand.
@@ -317,5 +330,48 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
    */
   public boolean isVisible() {
     return visible;
+  }
+  
+  /**
+   * Checks if high contrast mode is enabled.
+   *
+   * @return true if high contrast mode is enabled, false otherwise
+   */
+  public boolean isHighContrastMode() {
+    return "high_contrast".equals(currentSchemeName);
+  }
+  
+  /**
+   * Sets the color scheme mode.
+   *
+   * @param schemeName the name of the scheme to set
+   */
+  public void setColorScheme(String schemeName) {
+    this.currentSchemeName = schemeName;
+    
+    // Find the index of the scheme
+    for (int i = 0; i < availableSchemes.length; i++) {
+      if (availableSchemes[i].equals(schemeName)) {
+        currentSchemeIndex = i;
+        break;
+      }
+    }
+  }
+  
+  /**
+   * Toggles the color scheme.
+   */
+  public void toggleColorScheme() {
+    currentSchemeIndex = (currentSchemeIndex + 1) % availableSchemes.length;
+    currentSchemeName = availableSchemes[currentSchemeIndex];
+  }
+  
+  /**
+   * Gets the current color scheme name.
+   *
+   * @return the current color scheme name
+   */
+  public String getCurrentColorScheme() {
+    return currentSchemeName;
   }
 }

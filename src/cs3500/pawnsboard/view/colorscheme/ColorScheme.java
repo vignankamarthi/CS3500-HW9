@@ -12,6 +12,13 @@ import java.awt.Color;
 public interface ColorScheme {
   
   /**
+   * Gets the background color for the board panel.
+   *
+   * @return the background color
+   */
+  Color getBackgroundColor();
+  
+  /**
    * Gets the color for cell backgrounds.
    *
    * @return the cell background color
