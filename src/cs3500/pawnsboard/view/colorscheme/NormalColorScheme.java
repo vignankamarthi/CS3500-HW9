@@ -53,5 +53,13 @@ public class NormalColorScheme implements ColorScheme {
     return this.getBluePawnColor();
   }
   
-
+  @Override
+  public Color getRedOwnedCellColor() {
+    return this.getRedPawnColor();
+  }
+  
+  @Override
+  public Color getBlueOwnedCellColor() {
+    return this.getBluePawnColor();
+  }
 }

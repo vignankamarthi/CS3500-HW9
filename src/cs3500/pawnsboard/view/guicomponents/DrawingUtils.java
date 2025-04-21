@@ -8,6 +8,7 @@ import java.awt.geom.Path2D;
 
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
+import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.view.colorscheme.ColorScheme;
 
 /**
@@ -198,13 +199,27 @@ public class DrawingUtils {
    * @param bounds the bounds of the cell
    * @param isHighlighted whether the cell is highlighted
    * @param colorScheme the color scheme to use for drawing
+   * @param content the content type of the cell (EMPTY, PAWNS, CARD)
+   * @param owner the owner of the cell, or null if the cell is empty
    */
   public static void drawCellBackground(Graphics2D g2d, Rectangle bounds, boolean isHighlighted, 
-                                      ColorScheme colorScheme) {
-    // Set color based on highlight state
+                                        ColorScheme colorScheme, CellContent content, 
+                                        PlayerColors owner) {
+    // Set color based on highlight state first
     if (isHighlighted) {
       g2d.setColor(colorScheme.getHighlightedCell());
-    } else {
+    }
+    // Then check if the cell has an owner for background color
+    else if (owner != null && content == CellContent.CARD) {
+      // Use the owner's color for the cell background
+      if (owner == PlayerColors.RED) {
+        g2d.setColor(colorScheme.getRedOwnedCellColor());
+      } else {
+        g2d.setColor(colorScheme.getBlueOwnedCellColor());
+      }
+    } 
+    // Default to standard cell background
+    else {
       g2d.setColor(colorScheme.getCellBackground());
     }
     
@@ -262,20 +277,14 @@ public class DrawingUtils {
    */
   public static void drawCellCard(Graphics2D g2d, Rectangle bounds, int value,
                                   PlayerColors player) {
-    // Set color based on player
-    if (player == PlayerColors.RED) {
-      g2d.setColor(Color.PINK);
-    } else {
-      g2d.setColor(Color.CYAN);
-    }
+    // Note: We don't need to set the background color here anymore 
+    // since drawCellBackground should have already set the background color based on ownership
     
-    // Draw card background with insets
-    int inset = 2;
-    g2d.fillRect(bounds.x + inset, bounds.y + inset, 
-                 bounds.width - 2 * inset, bounds.height - 2 * inset);
+    // Just draw a border and text overlay for clarity
     
     // Draw card border
     g2d.setColor(Color.BLACK);
+    int inset = 2;
     g2d.drawRect(bounds.x + inset, bounds.y + inset, 
                  bounds.width - 2 * inset, bounds.height - 2 * inset);
     
@@ -283,6 +292,9 @@ public class DrawingUtils {
     g2d.setFont(new Font("Arial", Font.BOLD, 16));
     String text = String.valueOf(value);
     int textWidth = g2d.getFontMetrics().stringWidth(text);
+    
+    // Use white text for better contrast against the colored background
+    g2d.setColor(Color.WHITE);
     g2d.drawString(text, 
                   bounds.x + (bounds.width - textWidth) / 2, 
                   bounds.y + bounds.height / 2 + 6);

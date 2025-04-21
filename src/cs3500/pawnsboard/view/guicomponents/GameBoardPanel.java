@@ -213,14 +213,16 @@ public class GameBoardPanel implements BoardPanel {
     // Create bounds for utility method
     java.awt.Rectangle bounds = new java.awt.Rectangle(x, y, cellSize, cellSize);
     
-    // Use DrawingUtils to draw cell background
-    DrawingUtils.drawCellBackground(g2d, bounds, row == highlightedRow && col == highlightedCol, scheme);
-    
     try {
-      // Draw cell content
+      // Get cell content and owner information
       CellContent content = model.getCellContent(row, col);
       PlayerColors owner = model.getCellOwner(row, col);
       
+      // Use DrawingUtils to draw cell background with content and owner information
+      DrawingUtils.drawCellBackground(g2d, bounds, row == highlightedRow && col == highlightedCol, 
+                                    scheme, content, owner);
+      
+      // Draw additional cell content based on type
       switch (content) {
         case EMPTY:
           // Nothing to draw for empty cells
@@ -328,6 +330,11 @@ public class GameBoardPanel implements BoardPanel {
    * @param g2d the graphics context
    */
   private void drawUnstartedGameMessage(Graphics2D g2d) {
+    // Set background to match the color scheme
+    g2d.setColor(colorSchemeManager.getColorScheme().getBackgroundColor());
+    g2d.fillRect(0, 0, panel.getWidth(), panel.getHeight());
+    
+    // Draw the message
     g2d.setColor(Color.WHITE);
     String message = "Game has not been started";
     int width = g2d.getFontMetrics().stringWidth(message);

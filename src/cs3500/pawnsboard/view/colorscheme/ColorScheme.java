@@ -73,4 +73,18 @@ public interface ColorScheme {
    * @return the cell border color
    */
   Color getCellBorderColor();
+  
+  /**
+   * Gets the background color for cells owned by the Red player.
+   *
+   * @return the Red-owned cell background color
+   */
+  Color getRedOwnedCellColor();
+  
+  /**
+   * Gets the background color for cells owned by the Blue player.
+   *
+   * @return the Blue-owned cell background color
+   */
+  Color getBlueOwnedCellColor();
 }

@@ -54,4 +54,13 @@ public class HighContrastColorScheme implements ColorScheme {
     return Color.BLACK;
   }
   
+  @Override
+  public Color getRedOwnedCellColor() {
+    return this.getRedPawnColor();
+  }
+  
+  @Override
+  public Color getBlueOwnedCellColor() {
+    return this.getBluePawnColor(); 
+  }
 }
