@@ -202,16 +202,6 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
         notifyKeyListenersPass();
       }
     });
-    
-    // Bind H key to show color scheme dropdown
-    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-            KeyStroke.getKeyStroke("H"), "showSchemeDropdown");
-    getRootPane().getActionMap().put("showSchemeDropdown", new AbstractAction() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        colorSchemeComboBox.showPopup();
-      }
-    });
   }
 
   /**

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
  * <p>This comprehensive test class verifies the behavior of the PawnsBoardGUIViewMock,
  * a mock implementation of the PawnsBoardGUIView interface used for testing GUI interactions
  * in the Pawns Board game. There are also tests for the Color Scheme class's integrated 
- * methods in here as well.</p>
+ * methods in here as well for HW9 Part 0.</p>
  *
  * <p>The test suite covers various aspects of the mock view, including:
  * <ul>

@@ -381,8 +381,66 @@ additions and changes include:
 These changes provide a robust, extensible framework for the Pawns Board game, allowing for easy
 addition of new player types, strategies, and game features.
 
+
+
+## Changes for HW9 
+
+### Changes for Part 0 (High Contrast Mode)
+
+#### Implementation Details
+
+In this iteration, we implemented a high contrast mode to improve accessibility in the Pawns Board game GUI. We followed the Strategy pattern to allow for different color schemes to be selected and swapped at runtime.
+
+1. **Color Scheme Strategy Pattern**:
+    - Created a `ColorScheme` interface that defines all colors used in the game
+    - Implemented `NormalColorScheme` for the current appearance
+    - Implemented `HighContrastColorScheme` for enhanced visibility
+    - Added a `ColorSchemeManager` that maintains available schemes and selects the active one
+
+2. **View Integration**:
+    - Modified `DrawingUtils` to reference colors from the color scheme instead of hard-coded values
+    - Updated component classes (`GameBoardPanel`, `CardHandPanel`) to use the color scheme
+    - Added a dropdown menu for switching between color schemes
+    - Ensured each view instance maintains its own separate color scheme setting
+
+3. **Design Considerations**:
+    - Each view has its own `ColorSchemeManager` instance, allowing different players to have different settings
+    - Color scheme changes are isolated from the model, following MVC principles
+    - The Strategy pattern allows for easy addition of new themes in the future
+
+#### Testing Approach
+
+We extended our testing framework to verify the color scheme functionality:
+
+1. **Enhanced Mock View**:
+    - Updated `PawnsBoardGUIViewMock` to track color scheme state
+    - Added methods to get/set/toggle color schemes to facilitate testing
+    - Implemented verification methods to check which scheme is active
+
+2. **Unit Tests**:
+    - Created comprehensive tests in `PawnsBoardGUIViewMockTest` for color scheme functionality
+    - Verified initial state, scheme switching, and high contrast detection
+    - Tested toggling between schemes and scheme-specific state tracking
+
+#### Testing Images
+
+The implementation includes visual documentation in the form of screenshots showing the application with different color schemes. These images can be found in the `test/cs3500/pawnsboard/view/TestingImages` directory and show:
+
+- Normal mode vs. High Contrast mode comparison
+- Different board states with high contrast enabled
+- Card display with enhanced visibility
+- UI controls for switching between modes
+
+These screenshots serve as both documentation and a visual testing reference to ensure the color schemes are correctly implemented and provide the intended accessibility benefits.
+
+
+### Changes for Part 1
+
+
 ### Command Line Instructions to Ensure Smooth Submission
 
 zip -rX -D submission.zip src/ test/ docs/ homework5.jar README.md -x '*/.*' '*/__MACOSX/*'
+
+
 
 
