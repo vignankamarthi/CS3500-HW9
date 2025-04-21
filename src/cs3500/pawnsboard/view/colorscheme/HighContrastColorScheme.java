@@ -31,12 +31,12 @@ public class HighContrastColorScheme implements ColorScheme {
   
   @Override
   public Color getRedPawnColor() {
-    return new Color(255, 50, 50); // Bright red
+    return new Color(255, 20, 20); // Bright red
   }
   
   @Override
   public Color getBluePawnColor() {
-    return new Color(50, 200, 255); // Bright cyan
+    return new Color(20, 200, 255); // Bright cyan
   }
   
   @Override
@@ -46,7 +46,7 @@ public class HighContrastColorScheme implements ColorScheme {
   
   @Override
   public Color getRedScoreTextColor() {
-    return this.getRedPawnColor(); // Bright red
+    return Color.BLACK;
   }
   
   @Override
