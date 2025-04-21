@@ -10,12 +10,17 @@ public class NormalColorScheme implements ColorScheme {
   
   @Override
   public Color getBackgroundColor() {
-    return Color.BLACK;
+    return Color.DARK_GRAY;
   }
   
   @Override
   public Color getCellBackground() {
     return Color.GRAY;
+  }
+  
+  @Override
+  public Color getCellBorderColor() {
+    return Color.BLACK;
   }
   
   @Override
@@ -47,4 +52,6 @@ public class NormalColorScheme implements ColorScheme {
   public Color getBlueScoreTextColor() {
     return this.getBluePawnColor();
   }
+  
+
 }

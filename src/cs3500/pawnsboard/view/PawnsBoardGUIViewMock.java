@@ -4,6 +4,7 @@ import cs3500.pawnsboard.controller.listeners.CardSelectionListener;
 import cs3500.pawnsboard.controller.listeners.CellSelectionListener;
 import cs3500.pawnsboard.controller.listeners.KeyboardActionListener;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
+import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 import cs3500.pawnsboard.view.guicomponents.DrawingUtils;
 
 import java.util.ArrayList;
@@ -26,9 +27,10 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
   private String title = "";
   private int positionX = 0;
   private int positionY = 0;
+  
+  // Track color scheme state explicitly by name for better clarity
   private String currentSchemeName;
-  private int currentSchemeIndex = 0;
-  private String[] availableSchemes;
+  private String[] availableSchemeNames;
 
   private final List<CardSelectionListener> cardListeners = new ArrayList<>();
   private final List<CellSelectionListener> cellListeners = new ArrayList<>();
@@ -39,8 +41,9 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
    */
   public PawnsBoardGUIViewMock() {
     // Get available schemes from the manager
-    availableSchemes = DrawingUtils.getColorSchemeManager().getAvailableSchemeNames();
-    currentSchemeName = availableSchemes[0]; // Default to first scheme
+    ColorSchemeManager manager = DrawingUtils.getColorSchemeManager();
+    this.availableSchemeNames = manager.getAvailableSchemeNames();
+    this.currentSchemeName = manager.getCurrentSchemeName(); // Start with actual current scheme
   }
 
   /**
@@ -343,35 +346,78 @@ public class PawnsBoardGUIViewMock implements PawnsBoardGUIView {
   
   /**
    * Sets the color scheme mode.
+   * This updates the mock's internal state and also informs the shared ColorSchemeManager.
    *
    * @param schemeName the name of the scheme to set
    */
   public void setColorScheme(String schemeName) {
+    // Update our internal tracking
     this.currentSchemeName = schemeName;
     
-    // Find the index of the scheme
-    for (int i = 0; i < availableSchemes.length; i++) {
-      if (availableSchemes[i].equals(schemeName)) {
-        currentSchemeIndex = i;
-        break;
-      }
-    }
+    // Also update the real ColorSchemeManager for consistency
+    DrawingUtils.getColorSchemeManager().setColorScheme(schemeName);
+    
+    // Record that a refresh would have happened
+    this.refreshed = true;
   }
   
   /**
-   * Toggles the color scheme.
+   * Toggles the color scheme to the next available scheme.
+   * Uses string-based identification to explicitly track which scheme is active.
    */
   public void toggleColorScheme() {
-    currentSchemeIndex = (currentSchemeIndex + 1) % availableSchemes.length;
-    currentSchemeName = availableSchemes[currentSchemeIndex];
+    // Find the current scheme's index
+    int currentIndex = -1;
+    for (int i = 0; i < availableSchemeNames.length; i++) {
+      if (availableSchemeNames[i].equals(currentSchemeName)) {
+        currentIndex = i;
+        break;
+      }
+    }
+    
+    if (currentIndex == -1) {
+      currentIndex = 0; // Default to first scheme if not found
+    }
+    
+    // Calculate the next index
+    int nextIndex = (currentIndex + 1) % availableSchemeNames.length;
+    
+    // Set to the next scheme
+    setColorScheme(availableSchemeNames[nextIndex]);
   }
   
   /**
    * Gets the current color scheme name.
+   * This returns the explicit string identifier of the current scheme.
    *
-   * @return the current color scheme name
+   * @return the current color scheme name (e.g., "normal" or "high_contrast")
    */
   public String getCurrentColorScheme() {
     return currentSchemeName;
+  }
+  
+  /**
+   * Resets the mock to its initial state for testing purposes.
+   * Useful for preparing for a new test case.
+   */
+  public void reset() {
+    this.visible = false;
+    this.highlightedCardIndex = -1;
+    this.highlightedRow = -1;
+    this.highlightedCol = -1;
+    this.simulatedPlayer = null;
+    this.refreshed = false;
+    this.selectionsCleared = false;
+    this.title = "";
+    this.positionX = 0;
+    this.positionY = 0;
+    
+    // Reset color scheme to whatever the ColorSchemeManager has as its default
+    this.currentSchemeName = DrawingUtils.getColorSchemeManager().getCurrentSchemeName();
+    
+    // Clear all listeners
+    this.cardListeners.clear();
+    this.cellListeners.clear();
+    this.keyListeners.clear();
   }
 }

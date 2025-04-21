@@ -226,8 +226,8 @@ public class DrawingUtils {
     // Draw cell background
     g2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
-    // Draw cell border
-    g2d.setColor(Color.BLACK);
+    // Draw cell border using the cell border color from the scheme
+    g2d.setColor(scheme.getCellBorderColor());
     g2d.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
   }
   
@@ -277,11 +277,13 @@ public class DrawingUtils {
    */
   public static void drawCellCard(Graphics2D g2d, Rectangle bounds, int value,
                                   PlayerColors player) {
-    // Set color based on player
+    ColorScheme scheme = colorSchemeManager.getColorScheme();
+    
+    // Set color based on player, using colors from the color scheme
     if (player == PlayerColors.RED) {
-      g2d.setColor(Color.PINK);
+      g2d.setColor(scheme.getRedPawnColor());
     } else {
-      g2d.setColor(Color.CYAN);
+      g2d.setColor(scheme.getBluePawnColor());
     }
     
     // Draw card background with insets
@@ -290,7 +292,7 @@ public class DrawingUtils {
                  bounds.width - 2 * inset, bounds.height - 2 * inset);
     
     // Draw card border
-    g2d.setColor(Color.BLACK);
+    g2d.setColor(scheme.getCellBorderColor());
     g2d.drawRect(bounds.x + inset, bounds.y + inset, 
                  bounds.width - 2 * inset, bounds.height - 2 * inset);
     
@@ -298,6 +300,14 @@ public class DrawingUtils {
     g2d.setFont(new Font("Arial", Font.BOLD, 16));
     String text = String.valueOf(value);
     int textWidth = g2d.getFontMetrics().stringWidth(text);
+    
+    // Set text color to ensure readability
+    if (player == PlayerColors.RED) {
+      g2d.setColor(scheme.getRedScoreTextColor() == Color.WHITE ? Color.BLACK : Color.WHITE);
+    } else {
+      g2d.setColor(scheme.getBlueScoreTextColor() == Color.WHITE ? Color.BLACK : Color.WHITE);
+    }
+    
     g2d.drawString(text, 
                   bounds.x + (bounds.width - textWidth) / 2, 
                   bounds.y + bounds.height / 2 + 6);
@@ -319,7 +329,7 @@ public class DrawingUtils {
     g2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
     // Draw score border
-    g2d.setColor(Color.BLACK);
+    g2d.setColor(scheme.getCellBorderColor());
     g2d.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
     // Draw score value

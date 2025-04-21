@@ -66,4 +66,11 @@ public interface ColorScheme {
    * @return the Blue score text color
    */
   Color getBlueScoreTextColor();
+  
+  /**
+   * Gets the color for cell borders.
+   *
+   * @return the cell border color
+   */
+  Color getCellBorderColor();
 }

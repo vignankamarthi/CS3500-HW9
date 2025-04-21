@@ -11,12 +11,17 @@ public class HighContrastColorScheme implements ColorScheme {
   
   @Override
   public Color getBackgroundColor() {
-    return Color.WHITE;
+    return Color.DARK_GRAY;
   }
   
   @Override
   public Color getCellBackground() {
     return Color.BLACK;
+  }
+
+  @Override
+  public Color getCellBorderColor() {
+    return Color.WHITE;
   }
   
   @Override
@@ -46,6 +51,7 @@ public class HighContrastColorScheme implements ColorScheme {
   
   @Override
   public Color getBlueScoreTextColor() {
-    return this.getBluePawnColor(); // Bright cyan
+    return Color.BLACK;
   }
+  
 }

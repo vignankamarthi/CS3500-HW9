@@ -51,9 +51,9 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   // Track which player this view represents
   private PlayerColors viewPlayer;
   
-  // Current index in available schemes
-  private int currentSchemeIndex;
-  private String[] availableSchemes;
+  // Track color scheme state explicitly by name
+  private String currentSchemeName;
+  private String[] availableSchemeNames;
 
   /**
    * Constructs a graphical view for the Pawns Board game.
@@ -72,8 +72,8 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     
     // Get available color schemes
     ColorSchemeManager manager = DrawingUtils.getColorSchemeManager();
-    this.availableSchemes = manager.getAvailableSchemeNames();
-    this.currentSchemeIndex = 0; // Start with the first scheme (normal)
+    this.availableSchemeNames = manager.getAvailableSchemeNames();
+    this.currentSchemeName = manager.getCurrentSchemeName(); 
 
     // Create panels
     this.boardPanel = new GameBoardPanel(model);
@@ -81,7 +81,7 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     this.infoPanel = new JPanel();
 
     // Create toggle button for color schemes
-    this.contrastToggleButton = new JButton(getNextSchemeName());
+    this.contrastToggleButton = new JButton(getToggleButtonText());
     contrastToggleButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -105,43 +105,98 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   }
 
   /**
-   * Gets the name of the next color scheme in the cycle.
+   * Gets the appropriate button text for the toggle button.
+   * This explicitly identifies which scheme will be next.
    *
-   * @return the name of the next color scheme
+   * @return formatted button text showing what scheme will be toggled to
    */
-  private String getNextSchemeName() {
-    // Calculate the next index (cycling through available schemes)
-    int nextIndex = (currentSchemeIndex + 1) % availableSchemes.length;
-    // Return the scheme name at that index
-    return "Switch to " + availableSchemes[nextIndex] + " mode";
+  private String getToggleButtonText() {
+    // Find the current scheme's index
+    int currentIndex = -1;
+    for (int i = 0; i < availableSchemeNames.length; i++) {
+      if (availableSchemeNames[i].equals(currentSchemeName)) {
+        currentIndex = i;
+        break;
+      }
+    }
+    
+    if (currentIndex == -1) {
+      return "Toggle Color Scheme"; // Fallback if scheme not found
+    }
+    
+    // Get the next scheme name (wrapping around if needed)
+    int nextIndex = (currentIndex + 1) % availableSchemeNames.length;
+    String nextSchemeName = availableSchemeNames[nextIndex];
+    
+    // Format for display with proper text
+    String displayName = formatSchemeNameForDisplay(nextSchemeName);
+    return "Switch to " + displayName + " Mode";
+  }
+  
+  /**
+   * Formats a scheme name for display in the UI.
+   * Converts internal identifiers like "normal" to display names like "Normal".
+   *
+   * @param schemeName the internal scheme name
+   * @return a formatted display name
+   */
+  private String formatSchemeNameForDisplay(String schemeName) {
+    if ("normal".equals(schemeName)) {
+      return "Normal";
+    } else if ("high_contrast".equals(schemeName)) {
+      return "High Contrast";
+    } else {
+      // Capitalize first letter and replace underscores with spaces for other schemes
+      String[] words = schemeName.split("_");
+      StringBuilder result = new StringBuilder();
+      
+      for (String word : words) {
+        if (word.length() > 0) {
+          result.append(Character.toUpperCase(word.charAt(0)))
+                .append(word.substring(1).toLowerCase())
+                .append(" ");
+        }
+      }
+      
+      return result.toString().trim();
+    }
   }
 
   /**
    * Toggles between available color schemes.
+   * Uses an explicit string-based approach to cycle through schemes.
    */
   public void toggleColorScheme() {
-    // Cycle to the next scheme
-    currentSchemeIndex = (currentSchemeIndex + 1) % availableSchemes.length;
+    // Find the current scheme's index
+    int currentIndex = -1;
+    for (int i = 0; i < availableSchemeNames.length; i++) {
+      if (availableSchemeNames[i].equals(currentSchemeName)) {
+        currentIndex = i;
+        break;
+      }
+    }
+    
+    if (currentIndex == -1) {
+      currentIndex = 0; // Default to first scheme if not found
+    }
+    
+    // Calculate the next index
+    int nextIndex = (currentIndex + 1) % availableSchemeNames.length;
+    
+    // Get the next scheme name
+    String nextSchemeName = availableSchemeNames[nextIndex];
     
     // Set the new scheme
-    String newScheme = availableSchemes[currentSchemeIndex];
-    DrawingUtils.getColorSchemeManager().setColorScheme(newScheme);
+    DrawingUtils.getColorSchemeManager().setColorScheme(nextSchemeName);
     
-    // Update button text to show the next scheme
-    contrastToggleButton.setText("Switch to " + 
-            availableSchemes[(currentSchemeIndex + 1) % availableSchemes.length] + " mode");
+    // Update our tracked scheme name
+    this.currentSchemeName = nextSchemeName;
+    
+    // Update button text for the next toggle
+    contrastToggleButton.setText(getToggleButtonText());
     
     // Refresh the view
     refresh();
-  }
-
-  /**
-   * Gets the current color scheme name.
-   *
-   * @return the current color scheme name
-   */
-  public String getCurrentColorScheme() {
-    return DrawingUtils.getColorSchemeManager().getCurrentSchemeName();
   }
 
   /**
