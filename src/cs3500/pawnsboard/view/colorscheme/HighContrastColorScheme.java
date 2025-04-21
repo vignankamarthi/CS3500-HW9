@@ -7,7 +7,6 @@ import java.awt.Color;
  * for better accessibility in the Pawns Board game.
  * This implementation focuses on making the board more accessible.
  */
-//TODO: Test this class
 public class HighContrastColorScheme implements ColorScheme {
   
   @Override

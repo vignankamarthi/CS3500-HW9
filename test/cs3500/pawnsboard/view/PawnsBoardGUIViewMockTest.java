@@ -18,7 +18,8 @@ import static org.junit.Assert.assertTrue;
  *
  * <p>This comprehensive test class verifies the behavior of the PawnsBoardGUIViewMock,
  * a mock implementation of the PawnsBoardGUIView interface used for testing GUI interactions
- * in the Pawns Board game.</p>
+ * in the Pawns Board game. There are also tests for the Color Scheme class's integrated 
+ * methods in here as well.</p>
  *
  * <p>The test suite covers various aspects of the mock view, including:
  * <ul>
@@ -294,5 +295,107 @@ public class PawnsBoardGUIViewMockTest {
     public void onPassAction() {
       // Do nothing, just a stub for testing
     }
+  }
+
+  //===============================================
+  // Tests for New Color Scheme Integration
+  //===============================================
+
+  /**
+   * Tests the initial state of the color scheme.
+   *
+   * <p>Verifies that a newly created mock view starts with the normal color scheme.</p>
+   */
+  @Test
+  public void testInitialColorScheme() {
+    assertEquals("Initial color scheme should be 'normal'",
+            "normal", mockView.getCurrentColorScheme());
+    assertFalse("Initial color scheme should not be high contrast",
+            mockView.isHighContrastMode());
+  }
+
+  /**
+   * Tests setting a specific color scheme.
+   *
+   * <p>Verifies that the color scheme can be changed to a specific scheme by name.</p>
+   */
+  @Test
+  public void testSetColorScheme() {
+    mockView.setColorScheme("high_contrast");
+    assertEquals("Color scheme should be updated",
+            "high_contrast", mockView.getCurrentColorScheme());
+    assertTrue("High contrast mode should be true",
+            mockView.isHighContrastMode());
+    
+    mockView.setColorScheme("normal");
+    assertEquals("Color scheme should be reverted to normal",
+            "normal", mockView.getCurrentColorScheme());
+    assertFalse("High contrast mode should be false",
+            mockView.isHighContrastMode());
+  }
+
+  /**
+   * Tests toggling between color schemes.
+   *
+   * <p>Verifies that the color scheme can be toggled between normal and high contrast.</p>
+   */
+  @Test
+  public void testToggleColorScheme() {
+    // Start with normal scheme
+    assertEquals("Initial color scheme should be 'normal'",
+            "normal", mockView.getCurrentColorScheme());
+    
+    // First toggle should switch to high contrast
+    mockView.toggleColorScheme();
+    assertEquals("Color scheme should be switched to high contrast",
+            "high_contrast", mockView.getCurrentColorScheme());
+    assertTrue("High contrast mode should be true",
+            mockView.isHighContrastMode());
+    
+    // Second toggle should switch back to normal
+    mockView.toggleColorScheme();
+    assertEquals("Color scheme should be switched back to normal",
+            "normal", mockView.getCurrentColorScheme());
+    assertFalse("High contrast mode should be false",
+            mockView.isHighContrastMode());
+  }
+
+  /**
+   * Tests the isHighContrastMode method.
+   *
+   * <p>Verifies that isHighContrastMode correctly reports the current mode.</p>
+   */
+  @Test
+  public void testIsHighContrastMode() {
+    // Default should be false (normal mode)
+    assertFalse("Default should not be high contrast mode",
+            mockView.isHighContrastMode());
+    
+    // Set to high contrast and check
+    mockView.setColorScheme("high_contrast");
+    assertTrue("Should now be in high contrast mode",
+            mockView.isHighContrastMode());
+    
+    // Set back to normal and check
+    mockView.setColorScheme("normal");
+    assertFalse("Should now be back in normal mode",
+            mockView.isHighContrastMode());
+  }
+
+  /**
+   * Tests the getCurrentColorScheme method.
+   *
+   * <p>Verifies that getCurrentColorScheme correctly returns the current scheme name.</p>
+   */
+  @Test
+  public void testGetCurrentColorScheme() {
+    // Default should be "normal"
+    assertEquals("Default color scheme should be 'normal'",
+            "normal", mockView.getCurrentColorScheme());
+    
+    // Set to high contrast and check
+    mockView.setColorScheme("high_contrast");
+    assertEquals("Current color scheme should be 'high_contrast'",
+            "high_contrast", mockView.getCurrentColorScheme());
   }
 }
