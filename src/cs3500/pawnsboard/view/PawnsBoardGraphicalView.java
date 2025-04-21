@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
-import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 
@@ -42,7 +42,7 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   private final CardHandPanel handPanel;
   private final JPanel infoPanel;
   private final JLabel statusLabel;
-  private final JButton contrastToggleButton;
+  private final JComboBox<String> colorSchemeComboBox;
 
   private final List<CardSelectionListener> cardListeners;
   private final List<CellSelectionListener> cellListeners;
@@ -51,8 +51,7 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   // Track which player this view represents
   private PlayerColors viewPlayer;
   
-  // Current index in available schemes
-  private int currentSchemeIndex;
+  // Available color schemes
   private String[] availableSchemes;
 
   /**
@@ -73,19 +72,21 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     // Create a view-specific color scheme manager
     this.colorSchemeManager = new ColorSchemeManager();
     this.availableSchemes = colorSchemeManager.getAvailableSchemeNames();
-    this.currentSchemeIndex = 0; // Start with the first scheme (normal)
 
     // Create panels with this view's color scheme manager
     this.boardPanel = new GameBoardPanel(model, colorSchemeManager);
     this.handPanel = new CardHandPanel(model, colorSchemeManager);
     this.infoPanel = new JPanel();
 
-    // Create toggle button for color schemes
-    this.contrastToggleButton = new JButton(getNextSchemeName());
-    contrastToggleButton.addActionListener(new ActionListener() {
+    // Create dropdown for color schemes
+    this.colorSchemeComboBox = new JComboBox<>(availableSchemes);
+    colorSchemeComboBox.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        toggleColorScheme();
+        String selectedScheme = (String) colorSchemeComboBox.getSelectedItem();
+        if (selectedScheme != null) {
+          setColorScheme(selectedScheme);
+        }
       }
     });
 
@@ -105,52 +106,42 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   }
 
   /**
-   * Gets the name of the next color scheme in the cycle.
+   * Sets the color scheme by name.
    *
-   * @return the name of the next color scheme
+   * @param schemeName the name of the color scheme to use
+   * @throws IllegalArgumentException if scheme name is null, empty, or not in available schemes
    */
-  private String getNextSchemeName() {
-    // Calculate the next index (cycling through available schemes)
-    int nextIndex = (currentSchemeIndex + 1) % availableSchemes.length;
-    // Return the scheme name at that index
-    return "Switch to " + availableSchemes[nextIndex] + " mode";
-  }
-
-  /**
-   * Toggles between available color schemes.
-   */
-  public void toggleColorScheme() {
-    // Cycle to the next scheme
-    currentSchemeIndex = (currentSchemeIndex + 1) % availableSchemes.length;
+  public void setColorScheme(String schemeName) {
+    if (schemeName == null || schemeName.isEmpty() || !schemeExists(schemeName)) {
+      throw new IllegalArgumentException("Scheme name cannot be null or empty and must be one of: " 
+              + String.join(", ", availableSchemes));
+    }
     
     // Set the new scheme
-    String newScheme = availableSchemes[currentSchemeIndex];
-    colorSchemeManager.setColorScheme(newScheme);
+    colorSchemeManager.setColorScheme(schemeName);
     
-    // Update button text to show the next scheme
-    contrastToggleButton.setText("Switch to " + 
-            availableSchemes[(currentSchemeIndex + 1) % availableSchemes.length] + " mode");
+    // Update the combo box selection if it doesn't match
+    if (!schemeName.equals(colorSchemeComboBox.getSelectedItem())) {
+      colorSchemeComboBox.setSelectedItem(schemeName);
+    }
     
     // Refresh the view
     refresh();
   }
-
-  /**
-   * Gets the current color scheme name.
-   *
-   * @return the current color scheme name
-   */
-  public String getCurrentColorScheme() {
-    return colorSchemeManager.getCurrentSchemeName();
-  }
   
   /**
-   * Gets the color scheme manager for this view.
+   * Checks if a scheme name exists in the available schemes.
    *
-   * @return the color scheme manager
+   * @param schemeName the name to check
+   * @return true if the scheme exists, false otherwise
    */
-  public ColorSchemeManager getColorSchemeManager() {
-    return colorSchemeManager;
+  private boolean schemeExists(String schemeName) {
+    for (String scheme : availableSchemes) {
+      if (scheme.equals(schemeName)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -172,7 +163,7 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     // Create a panel for the toggle button
     JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
     buttonPanel.setBackground(Color.LIGHT_GRAY);
-    buttonPanel.add(contrastToggleButton);
+    buttonPanel.add(colorSchemeComboBox);
     
     // Add button panel to right side of top panel
     topPanel.add(buttonPanel, BorderLayout.EAST);
@@ -212,13 +203,13 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
       }
     });
     
-    // Bind H key to toggle color scheme
+    // Bind H key to show color scheme dropdown
     getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-            KeyStroke.getKeyStroke("H"), "toggleScheme");
-    getRootPane().getActionMap().put("toggleScheme", new AbstractAction() {
+            KeyStroke.getKeyStroke("H"), "showSchemeDropdown");
+    getRootPane().getActionMap().put("showSchemeDropdown", new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        toggleColorScheme();
+        colorSchemeComboBox.showPopup();
       }
     });
   }
