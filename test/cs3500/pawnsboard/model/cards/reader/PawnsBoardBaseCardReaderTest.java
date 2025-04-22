@@ -96,7 +96,7 @@ public class PawnsBoardBaseCardReaderTest {
     } catch (NullPointerException e) {
       assertEquals("Expected appropriate exception message",
               "Cannot invoke " +
-                      "\"cs3500.pawnsboard.model.cards.factory.CardFactory.createPawnsBoardBaseCard"
+                      "\"cs3500.pawnsboard.model.cards.factory.CardFactory.createPawnsBoardCard"
                       + "(String, int, int, char[][])\" because \"this.cardFactory\" is null",
               e.getMessage());
     }

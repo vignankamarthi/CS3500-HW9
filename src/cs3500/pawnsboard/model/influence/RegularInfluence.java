@@ -16,7 +16,7 @@ public class RegularInfluence implements Influence {
   /**
    * Applies regular influence to a cell.
    * - If the cell is empty, adds a pawn of the current player
-   * - If the cell has pawns owned by the current player, increases pawn count (up to MAX_PAWNS)
+   * - If the cell has pawns owned by the current player, increases pawn count (up to MAX_PAWNS = 3)
    * - If the cell has pawns owned by the opponent, changes ownership to the current player
    * - If the cell has a card, no effect is applied
    *

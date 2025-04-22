@@ -8,6 +8,7 @@ import cs3500.pawnsboard.model.influence.InfluenceManager;
  * Factory implementation for creating {@link PawnsBoardAugmentedCard} objects.
  * This class is responsible for creating augmented cards with different influence types.
  */
+//TODO: Test this class
 public class PawnsBoardAugmentedCardFactory implements CardFactory<PawnsBoardAugmentedCard> {
   
   private final InfluenceManager influenceManager;
@@ -36,7 +37,7 @@ public class PawnsBoardAugmentedCardFactory implements CardFactory<PawnsBoardAug
    * @return a new PawnsBoardAugmentedCard instance
    */
   @Override
-  public PawnsBoardAugmentedCard createPawnsBoardBaseCard(String name, int cost, int value,
+  public PawnsBoardAugmentedCard createPawnsBoardCard(String name, int cost, int value,
                                                       char[][] influenceGrid) {
     return PawnsBoardAugmentedCard.fromCharGrid(name, cost, value, influenceGrid, influenceManager);
   }

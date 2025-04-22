@@ -2,7 +2,6 @@ package cs3500.pawnsboard.model.cards.reader;
 
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.cards.factory.CardFactory;
-import cs3500.pawnsboard.model.cards.factory.PawnsBoardAugmentedCardFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +14,7 @@ import java.util.Scanner;
  * from configuration files for the augmented Pawns Board game.
  * Supports enhanced influence types (regular, upgrading, devaluing).
  */
+//TODO: Test this class
 public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugmentedCard> {
   
   private final CardFactory<PawnsBoardAugmentedCard> cardFactory;
@@ -88,8 +88,8 @@ public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugme
     char[][] influenceGrid = readInfluenceGrid(scanner);
     
     // Use the augmented card factory to create the card
-    return ((PawnsBoardAugmentedCardFactory) cardFactory)
-            .createPawnsBoardAugmentedCard(name, cost, value, influenceGrid);
+    return cardFactory.createPawnsBoardCard(name, cost, value, influenceGrid);
+
   }
   
   /**

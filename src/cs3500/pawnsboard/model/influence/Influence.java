@@ -1,5 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
 import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
@@ -17,7 +18,7 @@ public interface Influence {
    * @return true if the influence was successfully applied, false otherwise
    * @throws Exception if there is an issue applying the influence
    */
-  boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) throws Exception;
+  boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) throws Exception;
   
   /**
    * Checks if this influence is a regular influence (adds/converts pawns).

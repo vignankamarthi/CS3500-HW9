@@ -129,7 +129,7 @@ public class PawnsBoardBaseCardDeckBuilderTest {
     influenceGrid[1][2] = 'I';
 
     // Add a card to the deck
-    deck.add(cardFactory.createPawnsBoardBaseCard("TestCard", 1, 2,
+    deck.add(cardFactory.createPawnsBoardCard("TestCard", 1, 2,
             influenceGrid));
 
     // This should not throw an exception
@@ -161,7 +161,7 @@ public class PawnsBoardBaseCardDeckBuilderTest {
       influenceGrid[1][2] = 'I';
 
       // Add three copies of the same card
-      PawnsBoardBaseCard card = cardFactory.createPawnsBoardBaseCard("DuplicateCard", 1,
+      PawnsBoardBaseCard card = cardFactory.createPawnsBoardCard("DuplicateCard", 1,
               2, influenceGrid);
       deck.add(card);
       deck.add(card);
@@ -193,7 +193,7 @@ public class PawnsBoardBaseCardDeckBuilderTest {
     influenceGrid[1][2] = 'I';
 
     // Add two copies of the same card
-    PawnsBoardBaseCard card = cardFactory.createPawnsBoardBaseCard("DuplicateCard", 1,
+    PawnsBoardBaseCard card = cardFactory.createPawnsBoardCard("DuplicateCard", 1,
             2, influenceGrid);
     deck.add(card);
     deck.add(card);

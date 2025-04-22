@@ -18,8 +18,8 @@ public class PawnsBoardBaseCardFactory implements CardFactory<PawnsBoardBaseCard
    * @return a new {@link PawnsBoardBaseCard} instance
    */
   @Override
-  public PawnsBoardBaseCard createPawnsBoardBaseCard(String name, int cost, int value,
-                                            char[][] influenceGrid) {
+  public PawnsBoardBaseCard createPawnsBoardCard(String name, int cost, int value,
+                                                 char[][] influenceGrid) {
     return new CardBuilder()
         .withName(name)
         .withCost(cost)

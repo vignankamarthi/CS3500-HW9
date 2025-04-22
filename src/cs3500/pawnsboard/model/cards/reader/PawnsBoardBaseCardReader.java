@@ -81,7 +81,7 @@ public class PawnsBoardBaseCardReader implements CardReader<PawnsBoardBaseCard> 
     char[][] influenceGrid = readInfluenceGrid(scanner);
     
     // Use the factory to create the card
-    return cardFactory.createPawnsBoardBaseCard(name, cost, value, influenceGrid);
+    return cardFactory.createPawnsBoardCard(name, cost, value, influenceGrid);
   }
   
   /**

@@ -30,7 +30,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test creating a card with valid parameters.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_ValidParameters() {
+  public void testCreatePawnsBoardCard_ValidParameters() {
     // Create a valid influence grid
     char[][] influenceGrid = new char[5][5];
     for (int i = 0; i < 5; i++) {
@@ -42,7 +42,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[1][2] = 'I';
 
     // Create a card with the influence grid
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("TestCard", 2,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("TestCard", 2,
             3, influenceGrid);
 
     // Verify card properties
@@ -67,7 +67,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test creating a card with minimum valid values (cost = 1, value = 1).
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_MinimumValues() {
+  public void testCreatePawnsBoardCard_MinimumValues() {
     // Create a valid influence grid
     char[][] influenceGrid = new char[5][5];
     for (int i = 0; i < 5; i++) {
@@ -78,7 +78,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[2][2] = 'C';
 
     // Create a card with minimum valid values
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("MinCard", 1, 1,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("MinCard", 1, 1,
             influenceGrid);
 
     // Verify card properties
@@ -91,7 +91,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test creating a card with maximum valid cost (cost = 3).
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_MaximumCost() {
+  public void testCreatePawnsBoardCard_MaximumCost() {
     // Create a valid influence grid
     char[][] influenceGrid = new char[5][5];
     for (int i = 0; i < 5; i++) {
@@ -102,7 +102,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[2][2] = 'C';
 
     // Create a card with maximum valid cost
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("MaxCostCard", 3,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("MaxCostCard", 3,
             5, influenceGrid);
 
     // Verify card properties
@@ -115,7 +115,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test creating a card with a complex influence grid pattern.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_ComplexInfluenceGrid() {
+  public void testCreatePawnsBoardCard_ComplexInfluenceGrid() {
     // Create a complex influence grid
     char[][] influenceGrid = new char[5][5];
     for (int i = 0; i < 5; i++) {
@@ -130,7 +130,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[3][3] = 'I'; // Bottom-right diagonal
 
     // Create a card with the complex influence grid
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("ComplexCard", 2,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("ComplexCard", 2,
             4, influenceGrid);
 
     // Verify influence grid was properly converted
@@ -153,7 +153,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test creating a card with no influence cells (only the center marker).
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_NoInfluenceCells() {
+  public void testCreatePawnsBoardCard_NoInfluenceCells() {
     // Create an influence grid with no 'I' cells
     char[][] influenceGrid = new char[5][5];
     for (int i = 0; i < 5; i++) {
@@ -164,7 +164,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[2][2] = 'C'; // Only the center marker
 
     // Create a card with no influence cells
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("NoInfluenceCard", 1,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("NoInfluenceCard", 1,
             2, influenceGrid);
 
     // Verify all influence grid cells are false
@@ -181,7 +181,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test creating a card with all cells having influence (except the center).
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_AllInfluenceCells() {
+  public void testCreatePawnsBoardCard_AllInfluenceCells() {
     // Create an influence grid with all 'I' cells except center
     char[][] influenceGrid = new char[5][5];
     for (int i = 0; i < 5; i++) {
@@ -192,7 +192,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[2][2] = 'C'; // Center marker
 
     // Create a card with maximum influence
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("MaxInfluenceCard", 3,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("MaxInfluenceCard", 3,
             5, influenceGrid);
 
     // Verify all cells except center have influence
@@ -215,7 +215,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test that creating a card with an invalid name throws the correct exception.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_InvalidName() {
+  public void testCreatePawnsBoardCard_InvalidName() {
     try {
       // Create a valid influence grid
       char[][] influenceGrid = new char[5][5];
@@ -227,7 +227,7 @@ public class PawnsBoardBaseCardFactoryTest {
       influenceGrid[2][2] = 'C';
 
       // Try to create a card with null name
-      factory.createPawnsBoardBaseCard(null, 1, 2, influenceGrid);
+      factory.createPawnsBoardCard(null, 1, 2, influenceGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Card name cannot be null or empty", e.getMessage());
     }
@@ -243,7 +243,7 @@ public class PawnsBoardBaseCardFactoryTest {
       influenceGrid[2][2] = 'C';
 
       // Try to create a card with empty name
-      factory.createPawnsBoardBaseCard("", 1, 2, influenceGrid);
+      factory.createPawnsBoardCard("", 1, 2, influenceGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Card name cannot be null or empty", e.getMessage());
     }
@@ -253,7 +253,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test that creating a card with an invalid cost throws the correct exception.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_InvalidCost() {
+  public void testCreatePawnsBoardCard_InvalidCost() {
     try {
       // Create a valid influence grid
       char[][] influenceGrid = new char[5][5];
@@ -265,7 +265,7 @@ public class PawnsBoardBaseCardFactoryTest {
       influenceGrid[2][2] = 'C';
 
       // Try to create a card with cost = 0
-      factory.createPawnsBoardBaseCard("TestCard", 0, 2, influenceGrid);
+      factory.createPawnsBoardCard("TestCard", 0, 2, influenceGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Card cost must be between 1 and 3", e.getMessage());
     }
@@ -281,7 +281,7 @@ public class PawnsBoardBaseCardFactoryTest {
       influenceGrid[2][2] = 'C';
 
       // Try to create a card with cost = 4
-      factory.createPawnsBoardBaseCard("TestCard", 4, 2, influenceGrid);
+      factory.createPawnsBoardCard("TestCard", 4, 2, influenceGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Card cost must be between 1 and 3", e.getMessage());
     }
@@ -291,7 +291,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test that creating a card with a negative value throws the correct exception.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_InvalidValue() {
+  public void testCreatePawnsBoardCard_InvalidValue() {
     try {
       // Create a valid influence grid
       char[][] influenceGrid = new char[5][5];
@@ -303,7 +303,7 @@ public class PawnsBoardBaseCardFactoryTest {
       influenceGrid[2][2] = 'C';
 
       // Try to create a card with value = 0
-      factory.createPawnsBoardBaseCard("TestCard", 1, 0, influenceGrid);
+      factory.createPawnsBoardCard("TestCard", 1, 0, influenceGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Card value must be positive", e.getMessage());
     }
@@ -319,7 +319,7 @@ public class PawnsBoardBaseCardFactoryTest {
       influenceGrid[2][2] = 'C';
 
       // Try to create a card with negative value
-      factory.createPawnsBoardBaseCard("TestCard", 1, -5, influenceGrid);
+      factory.createPawnsBoardCard("TestCard", 1, -5, influenceGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Card value must be positive", e.getMessage());
     }
@@ -329,10 +329,10 @@ public class PawnsBoardBaseCardFactoryTest {
    * Test that creating a card with a null influence grid throws the correct exception.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_NullInfluenceGrid() {
+  public void testCreatePawnsBoardCard_NullInfluenceGrid() {
     try {
       // Try to create a card with null influence grid
-      factory.createPawnsBoardBaseCard("TestCard", 1, 2, null);
+      factory.createPawnsBoardCard("TestCard", 1, 2, null);
     } catch (IllegalArgumentException e) {
       assertEquals("Influence grid must be a 5x5 grid", e.getMessage());
     }
@@ -343,7 +343,7 @@ public class PawnsBoardBaseCardFactoryTest {
    * exception.
    */
   @Test
-  public void testCreatePawnsBoardBaseCard_WrongSizeInfluenceGrid() {
+  public void testCreatePawnsBoardCard_WrongSizeInfluenceGrid() {
     try {
       // Create an influence grid that's too small
       char[][] smallGrid = new char[4][5];
@@ -355,7 +355,7 @@ public class PawnsBoardBaseCardFactoryTest {
       smallGrid[2][2] = 'C';
 
       // Try to create a card with wrong-sized influence grid
-      factory.createPawnsBoardBaseCard("TestCard", 1, 2, smallGrid);
+      factory.createPawnsBoardCard("TestCard", 1, 2, smallGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Influence grid must be a 5x5 grid", e.getMessage());
     }
@@ -372,7 +372,7 @@ public class PawnsBoardBaseCardFactoryTest {
       }
 
       // Try to create a card with uneven influence grid
-      factory.createPawnsBoardBaseCard("TestCard", 1, 2, unevenGrid);
+      factory.createPawnsBoardCard("TestCard", 1, 2, unevenGrid);
     } catch (IllegalArgumentException e) {
       assertEquals("Influence grid must be a 5x5 grid", e.getMessage());
     }
@@ -393,7 +393,7 @@ public class PawnsBoardBaseCardFactoryTest {
     influenceGrid[2][2] = 'C'; // Center marked with 'C'
 
     // Create a card
-    PawnsBoardBaseCard card = factory.createPawnsBoardBaseCard("CenterCard", 2,
+    PawnsBoardBaseCard card = factory.createPawnsBoardCard("CenterCard", 2,
             3, influenceGrid);
 
     // Verify the center is marked as 'C' in the char representation

@@ -25,41 +25,16 @@ public class DevaluingInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
+  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
-    if (cell.getContent() == CellContent.CARD) {
-      if (cell instanceof PawnsBoardAugmentedCell) {
-        PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
-        
-        // Store card info before devaluing in case we need to restore pawns
-        Card cardInCell = cell.getCard();
-        PlayerColors cardOwner = cell.getOwner();
-        int cardCost = (cardInCell != null) ? cardInCell.getCost() : 0;
-        
-        // Decrease value by 1
-        augmentedCell.devalue(1);
-        
-        // Card removal is handled in the devalue method of PawnsBoardAugmentedCell
-        return true;
-      }
-    } else if (cell.getContent() == CellContent.PAWNS) {
-      // No effect on cells with pawns, but influence is preserved for future cards
-      if (cell instanceof PawnsBoardAugmentedCell) {
-        PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
-        augmentedCell.devalue(1);
-        return true;
-      }
-    } else if (cell.getContent() == CellContent.EMPTY) {
-      // For empty cells, we still apply the devaluation for future cards
-      if (cell instanceof PawnsBoardAugmentedCell) {
-        PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
-        augmentedCell.devalue(1);
-        return true;
-      }
-    }
+    PawnsBoardAugmentedCell<?> augmentedCell = cell;
     
-    // No effect on other cell types or non-augmented cells
-    return false;
+    // Decrease value by 1 regardless of cell content
+    // This is preserved for future cards that may be placed here
+    augmentedCell.devalue(1);
+    
+    // Card removal (if necessary) is handled in the devalue method of PawnsBoardAugmentedCell
+    return true;
   }
   
   @Override

@@ -19,6 +19,7 @@ import java.util.Map;
  * Provides methods to create, validate, and process decks of augmented cards
  * that support different influence types.
  */
+//TODO: Test this class
 public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAugmentedCard> {
 
   private final CardReader<PawnsBoardAugmentedCard> cardReader;
@@ -126,8 +127,6 @@ public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAug
                 "Deck contains more than two copies of card: " + name);
       }
     }
-    
-    // Optional: Add additional validation for influence type distribution
-    // For example, ensure there's a minimum number of cards with each influence type
+
   }
 }
