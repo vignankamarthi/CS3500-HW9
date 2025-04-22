@@ -38,19 +38,4 @@ public interface AugmentedReadOnlyPawnsBoard<C extends Card, E extends PawnsBoar
   @Override
   int getCellValueModifier(int row, int col) 
           throws IllegalArgumentException, IllegalStateException;
-  
-  /**
-   * Gets the effective value of a card in a specific cell, including any value modifiers.
-   * The effective value is the original card value plus any value modifiers.
-   * For scoring purposes, the effective value is never less than 0.
-   *
-   * @param row the row index of the cell
-   * @param col the column index of the cell
-   * @return the effective value of the card, or 0 if there is no card
-   * @throws IllegalArgumentException if the coordinates are invalid
-   * @throws IllegalStateException    if the game hasn't been started
-   */
-  @Override
-  int getEffectiveCardValue(int row, int col)
-          throws IllegalArgumentException, IllegalStateException;
 }

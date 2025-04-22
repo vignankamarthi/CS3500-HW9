@@ -57,8 +57,8 @@ public interface AugmentedPawnsBoard<C extends Card, E extends PawnsBoardCell<C>
   /**
    * Removes a card from a cell and replaces it with pawns.
    * The number of pawns is equal to the ORIGINAL card's cost (up to a maximum of 3).
-   * The pawns belong to the player who owned the card.
-   * This is used when a card's effective value becomes 0 or less.
+   * The pawns belong to the player who owns the card.
+   * This is used when a card's effective value becomes zero or less.
    *
    * @param row the row index of the cell
    * @param col the column index of the cell

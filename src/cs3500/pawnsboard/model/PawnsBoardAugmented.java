@@ -1,11 +1,9 @@
 package cs3500.pawnsboard.model;
 
-import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.cards.deckbuilder.DeckBuilder;
 import cs3500.pawnsboard.model.cards.deckbuilder.PawnsBoardAugmentedDeckBuilder;
 import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.model.exceptions.IllegalAccessException;
@@ -66,7 +64,6 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
   /**
    * Constructs a PawnsBoardAugmented with default deck builder and influence manager.
    */
-  @SuppressWarnings("unchecked")
   public PawnsBoardAugmented() {
     this.influenceManager = new InfluenceManager();
     // Note: This requires a cast because DeckBuilder uses a type parameter
@@ -528,18 +525,6 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
   }
 
   /**
-   * Gets the dimensions of the board.
-   * 
-   * @return an array with rows as the first element and columns as the second
-   * @throws IllegalStateException if the game hasn't been started
-   */
-  @Override
-  public int[] getBoardDimensions() throws IllegalStateException {
-    validateGameStarted();
-    return new int[]{rows, columns};
-  }
-
-  /**
    * Gets the card at a specific cell.
    *
    * @param row the row index of the cell
@@ -563,17 +548,7 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     return cell.getCard();
   }
 
-  /**
-   * Gets the dimensions of the board.
-   *
-   * @return an array where the first element is the number of rows and the second is the number of columns
-   * @throws IllegalStateException if the game hasn't been started
-   */
-  @Override
-  public int[] getBoardDimensions() throws IllegalStateException {
-    validateGameStarted();
-    return new int[]{rows, columns};
-  }
+
 
   /**
    * Gets the row scores for both players for a specific row.

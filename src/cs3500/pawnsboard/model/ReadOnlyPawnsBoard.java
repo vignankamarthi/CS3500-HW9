@@ -183,8 +183,9 @@ public interface ReadOnlyPawnsBoard<C extends Card, E extends PawnsBoardCell<C>>
   
   /**
    * Gets the effective value of a card in a specific cell, including any value modifiers.
-   * Default implementation returns the card's original value.
-   * Augmented implementations should override this to provide the effective value.
+   * This method is used internally for score calculations. Default implementation returns
+   * the card's original value. Implementations may override this to provide custom effective value
+   * calculations (like with cell value modifiers).
    *
    * @param row the row index of the cell
    * @param col the column index of the cell
