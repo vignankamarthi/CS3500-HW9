@@ -14,7 +14,6 @@ import java.util.Scanner;
  * from configuration files for the augmented Pawns Board game.
  * Supports enhanced influence types (regular, upgrading, devaluing).
  */
-//TODO: Test this class
 public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugmentedCard> {
   
   private final CardFactory<PawnsBoardAugmentedCard> cardFactory;
@@ -42,6 +41,9 @@ public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugme
    */
   @Override
   public List<PawnsBoardAugmentedCard> readCards(String filePath) throws IllegalArgumentException {
+    if (filePath == null || filePath.isEmpty()) {
+      throw new IllegalArgumentException("Card file path cannot be null or empty");
+    }
     List<PawnsBoardAugmentedCard> cards = new ArrayList<>();
     File file = new File(filePath);
     

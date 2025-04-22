@@ -8,7 +8,6 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
  * This influence adds pawns to empty cells, increases pawn count for owned pawns,
  * and changes ownership of opponent's pawns.
  */
-//TODO: Test this class
 public class RegularInfluence implements Influence {
   
   private static final int MAX_PAWNS = 3;

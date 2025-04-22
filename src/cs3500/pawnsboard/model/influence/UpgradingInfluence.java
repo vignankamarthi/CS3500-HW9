@@ -11,7 +11,6 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
  * Upgrades are preserved even for empty cells or cells with pawns,
  * affecting future cards that may be placed there.
  */
-//TODO: Test this class
 public class UpgradingInfluence implements Influence {
   
   /**

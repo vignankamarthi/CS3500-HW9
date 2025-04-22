@@ -8,7 +8,6 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
  * Implementation of blank influence that has no effect on cells.
  * This is used to represent 'X' in the influence grid, indicating no influence.
  */
-//TODO: Test this class
 public class BlankInfluence implements Influence {
   
   /**

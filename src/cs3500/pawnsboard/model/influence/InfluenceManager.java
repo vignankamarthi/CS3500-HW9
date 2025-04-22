@@ -11,7 +11,6 @@ import java.util.Map;
  * This class follows the Strategy Pattern to select and apply the appropriate
  * influence type based on a character code.
  */
-//TODO: Test this class
 public class InfluenceManager {
   
   private final Map<Character, Influence> influenceStrategies;
