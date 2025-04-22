@@ -28,8 +28,10 @@ import java.util.List;
  * <p>When a devaluing influence reduces a card's effective value to 0 or less,
  * the card is removed and replaced with pawns equal to its cost (up to 3).</p>
  *
- * @param <C> the type of Card used in this game, must be PawnsBoardAugmentedCard
+ * @param <C> the type of Card used in this game
  */
+//TODO: Create base testing file
+//TODO: Create integration tests for model (mock textual view - to be made)
 public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard> 
         extends AbstractPawnsBoard<C, PawnsBoardAugmentedCell<C>>
         implements AugmentedPawnsBoard<C, PawnsBoardAugmentedCell<C>> {
@@ -66,7 +68,6 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
    */
   public PawnsBoardAugmented() {
     this.influenceManager = new InfluenceManager();
-    // Note: This requires a cast because DeckBuilder uses a type parameter
     this.deckBuilder = (DeckBuilder<C>) new PawnsBoardAugmentedDeckBuilder(influenceManager);
   }
 
