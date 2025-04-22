@@ -19,9 +19,8 @@ public class BlankInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
-          throws Exception {
-    // No effect on any cell
+  public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) {
+    // No effect on any cell type
     return false;
   }
   

@@ -26,8 +26,8 @@ public class PawnsBoardAugmentedCardFactory implements CardFactory<PawnsBoardAug
   }
   
   /**
-   * Creates a base card with the specified parameters.
-   * Interprets the influence grid as standard (all 'I' influences).
+   * Creates an augmented card with the specified parameters.
+   * Supports mixed influence types including regular, upgrading, and devaluing.
    *
    * @param name         the name of the card
    * @param cost         the cost of the card (1-3)
@@ -38,20 +38,6 @@ public class PawnsBoardAugmentedCardFactory implements CardFactory<PawnsBoardAug
   @Override
   public PawnsBoardAugmentedCard createPawnsBoardBaseCard(String name, int cost, int value,
                                                       char[][] influenceGrid) {
-    return PawnsBoardAugmentedCard.fromCharGrid(name, cost, value, influenceGrid, influenceManager);
-  }
-  
-  /**
-   * Creates an augmented card with the specified parameters and mixed influence types.
-   *
-   * @param name         the name of the card
-   * @param cost         the cost of the card (1-3)
-   * @param value        the value score of the card
-   * @param influenceGrid the 5x5 influence grid for the card as chars with mixed influence types
-   * @return a new PawnsBoardAugmentedCard instance
-   */
-  public PawnsBoardAugmentedCard createPawnsBoardAugmentedCard(String name, int cost, int value,
-                                                          char[][] influenceGrid) {
     return PawnsBoardAugmentedCard.fromCharGrid(name, cost, value, influenceGrid, influenceManager);
   }
 }

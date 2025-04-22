@@ -1,6 +1,7 @@
 package cs3500.pawnsboard.model.influence;
 
 import cs3500.pawnsboard.model.cell.PawnsBoardCell;
+import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**
@@ -24,10 +25,13 @@ public class RegularInfluence implements Influence {
    * @return true if the influence was successfully applied, false for cells with cards
    * @throws Exception if there is an issue applying the influence
    */
-  
   @Override
   public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
+    if (currentPlayer == null) {
+      throw new IllegalArgumentException("Current player cannot be null");
+    }
+    
     switch (cell.getContent()) {
       case EMPTY:
         // Add a pawn of the current player
@@ -41,7 +45,7 @@ public class RegularInfluence implements Influence {
             cell.addPawn(currentPlayer);
             return true;
           }
-        } else {
+        } else if (cell.getOwner() != null) {
           // Convert ownership of pawns to current player
           cell.changeOwnership(currentPlayer);
           return true;

@@ -8,70 +8,94 @@ import java.util.Arrays;
 
 /**
  * An augmented card implementation that supports different influence types.
- * This class extends PawnsBoardBaseCard and adds the ability to have different
+ * This class implements Card directly and provides the ability to have different
  * influence types (regular, upgrading, devaluing) at different positions in the influence grid.
  */
-public class PawnsBoardAugmentedCard extends PawnsBoardBaseCard {
+public class PawnsBoardAugmentedCard implements Card {
   
+  private final String name;
+  private final int cost;
+  private final int value;
   private final Influence[][] influenceGrid;
   
   /**
    * Constructs a PawnsBoardAugmentedCard with the specified attributes.
    *
-   * @param name            the name of the card
-   * @param cost            the cost of the card (1-3 pawns)
-   * @param value           the value score of the card
-   * @param influenceGrid   the influence grid as a 2D array of Influence objects
+   * @param name          the name of the card
+   * @param cost          the cost of the card (1-3 pawns)
+   * @param value         the value score of the card
+   * @param influenceGrid the influence grid as a 2D array of Influence objects
    * @throws IllegalArgumentException if any parameter is invalid
    */
   public PawnsBoardAugmentedCard(String name, int cost, int value, Influence[][] influenceGrid) {
-    super(name, cost, value, convertToBoolean(influenceGrid));
-    
-    if (influenceGrid == null || influenceGrid.length != 5
-        || Arrays.stream(influenceGrid).anyMatch(
-                row -> row == null || row.length != 5)) {
-      throw new IllegalArgumentException("Influence grid must be a 5x5 grid of influence types");
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("Card name cannot be null or empty");
     }
-    
-    // Create a defensive copy of the influence grid
-    this.influenceGrid = new Influence[5][5];
-    for (int i = 0; i < 5; i++) {
-      for (int j = 0; j < 5; j++) {
-        this.influenceGrid[i][j] = influenceGrid[i][j];
-      }
+    if (cost < 1 || cost > 3) {
+      throw new IllegalArgumentException("Card cost must be between 1 and 3");
     }
-  }
-  
-  /**
-   * Converts an influence grid to a boolean grid for the base card.
-   * Any non-blank influence is considered to have influence (true).
-   *
-   * @param influenceGrid the influence grid to convert
-   * @return the boolean influence grid
-   */
-  private static boolean[][] convertToBoolean(Influence[][] influenceGrid) {
-    if (influenceGrid == null || influenceGrid.length != 5
+    if (value < 1) {
+      throw new IllegalArgumentException("Card value must be positive");
+    }
+    if (influenceGrid == null || influenceGrid.length != 5 
         || Arrays.stream(influenceGrid).anyMatch(
                 row -> row == null || row.length != 5)) {
       throw new IllegalArgumentException("Influence grid must be a 5x5 grid");
     }
     
-    boolean[][] booleanGrid = new boolean[5][5];
+    this.name = name;
+    this.cost = cost;
+    this.value = value;
     
+    // Create a defensive copy of the influence grid and ensure no null values
+    this.influenceGrid = new Influence[5][5];
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 5; j++) {
-        // An influence is active if it's not a blank influence and not null
-        if (influenceGrid[i][j] != null && 
-            influenceGrid[i][j].toChar() != 'X' &&
-            influenceGrid[i][j].toChar() != 'C') {
-          booleanGrid[i][j] = true;
-        } else {
-          booleanGrid[i][j] = false;
-        }
+        this.influenceGrid[i][j] = (influenceGrid[i][j] != null) ? 
+            influenceGrid[i][j] : new BlankInfluence();
       }
     }
-    
-    return booleanGrid;
+  }
+  
+  /**
+   * Gets the name of the card.
+   *
+   * @return the card name
+   */
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Gets the cost of the card (1-3 pawns).
+   *
+   * @return the card cost
+   */
+  @Override
+  public int getCost() {
+    return cost;
+  }
+
+  /**
+   * Gets the value score of the card.
+   *
+   * @return the value score
+   */
+  @Override
+  public int getValue() {
+    return value;
+  }
+
+  /**
+   * Gets the influence grid as a 2D boolean array.
+   * True indicates a cell has influence, false indicates no influence.
+   *
+   * @return the influence grid
+   */
+  @Override
+  public boolean[][] getInfluenceGrid() {
+    throw new UnsupportedOperationException("Augmented cards only contains influence grid");
   }
   
   /**
@@ -107,10 +131,8 @@ public class PawnsBoardAugmentedCard extends PawnsBoardBaseCard {
       for (int col = 0; col < 5; col++) {
         if (row == 2 && col == 2) {
           charGrid[row][col] = 'C'; // Card position
-        } else if (influenceGrid[row][col] != null) {
-          charGrid[row][col] = influenceGrid[row][col].toChar();
         } else {
-          charGrid[row][col] = 'X'; // No influence
+          charGrid[row][col] = influenceGrid[row][col].toChar();
         }
       }
     }
@@ -148,15 +170,80 @@ public class PawnsBoardAugmentedCard extends PawnsBoardBaseCard {
   }
   
   /**
-   * Returns a String representation of the augmented card with useful information.
+   * Determines if this card is equal to another object.
+   * Cards are equal if they have the same name, cost, value score, and influence grid.
+   *
+   * @param o the object to compare with
+   * @return true if equal, false otherwise
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    
+    PawnsBoardAugmentedCard card = (PawnsBoardAugmentedCard) o;
+    
+    if (cost != card.cost) {
+      return false;
+    }
+    if (value != card.value) {
+      return false;
+    }
+    if (!name.equals(card.name)) {
+      return false;
+    }
+    
+    // Compare influence grids
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 5; j++) {
+        Influence thisInfluence = influenceGrid[i][j];
+        Influence otherInfluence = card.influenceGrid[i][j];
+        
+        if (thisInfluence.toChar() != otherInfluence.toChar()) {
+          return false;
+        }
+      }
+    }
+    
+    return true;
+  }
+  
+  /**
+   * Returns a hash code value for the card.
+   * Consistent with equals: equal cards must have equal hash codes.
+   *
+   * @return a hash code value for this card
+   */
+  @Override
+  public int hashCode() {
+    int result = name.hashCode();
+    result = 31 * result + cost;
+    result = 31 * result + value;
+    
+    // Add influence grid to hash
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 5; j++) {
+        result = 31 * result + influenceGrid[i][j].toChar();
+      }
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Returns a String representation of the card with useful information.
    * 
-   * @return a String representation of the augmented card
+   * @return a String representation of the card
    */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(getName()).append(" (Cost: ").append(getCost())
-      .append(", Value: ").append(getValue()).append(")\n");
+    sb.append(name).append(" (Cost: ").append(cost)
+      .append(", Value: ").append(value).append(")\n");
     
     // Append influence grid
     char[][] charGrid = getInfluenceGridAsChars();

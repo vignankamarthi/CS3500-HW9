@@ -8,15 +8,15 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
 /**
  * Implementation of the upgrading influence type.
  * This influence increases the value of cells with cards.
- * It has no effect on empty cells or cells with pawns.
- * Value modifiers are composite and apply regardless of card ownership.
+ * Upgrades are preserved even for empty cells or cells with pawns,
+ * affecting future cards that may be placed there.
  */
 public class UpgradingInfluence implements Influence {
   
   /**
    * Applies upgrading influence to a cell.
-   * This only has an effect on cells with cards.
-   * No ownership checks are performed as value modifiers are composite.
+   * Increases the value of any card in the cell by 1.
+   * For empty cells or cells with pawns, the upgrade is preserved for future cards.
    *
    * @param cell the cell to apply influence to
    * @param currentPlayer the player who is applying the influence
@@ -26,17 +26,16 @@ public class UpgradingInfluence implements Influence {
   @Override
   public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
-    // We will only handle cells with cards
-    if (cell.getContent() == CellContent.CARD) {
-      // No ownership check - upgrade all cards
-      if (cell instanceof PawnsBoardAugmentedCell) {
-        PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
-        augmentedCell.upgrade(1); // Increase value by 1
-        return true;
-      }
+    if (cell instanceof PawnsBoardAugmentedCell) {
+      PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
+      
+      // Apply upgrade regardless of cell content
+      // This ensures future cards placed in this cell will also receive the upgrade
+      augmentedCell.upgrade(1);
+      return true;
     }
     
-    // No effect on other cell types
+    // No effect on non-augmented cells
     return false;
   }
   

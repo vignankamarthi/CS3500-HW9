@@ -11,7 +11,6 @@ import java.util.Map;
  * This class follows the Strategy Pattern to select and apply the appropriate
  * influence type based on a character code.
  */
-// TODO: Test this class
 public class InfluenceManager {
   
   private final Map<Character, Influence> influenceStrategies;
@@ -37,6 +36,9 @@ public class InfluenceManager {
    * @param influence the influence strategy to register
    */
   public void registerInfluence(char code, Influence influence) {
+    if (influence == null) {
+      throw new IllegalArgumentException("Influence cannot be null");
+    }
     influenceStrategies.put(code, influence);
   }
   
@@ -44,10 +46,11 @@ public class InfluenceManager {
    * Gets an influence strategy for the given character code.
    *
    * @param code the character code of the influence
-   * @return the corresponding influence strategy, or null if not found
+   * @return the corresponding influence strategy, or a BlankInfluence if not found
    */
   public Influence getInfluence(char code) {
-    return influenceStrategies.get(code);
+    Influence influence = influenceStrategies.get(code);
+    return (influence != null) ? influence : new BlankInfluence();
   }
   
   /**
@@ -63,11 +66,6 @@ public class InfluenceManager {
   public boolean applyInfluence(char code, PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
     Influence influence = getInfluence(code);
-    
-    if (influence == null) {
-      throw new IllegalArgumentException("Unknown influence code: " + code);
-    }
-    
     return influence.applyInfluence(cell, currentPlayer);
   }
   
@@ -77,7 +75,7 @@ public class InfluenceManager {
    *
    * @param charGrid the grid of character codes
    * @return a grid of influence objects
-   * @throws IllegalArgumentException if any character code is not registered
+   * @throws IllegalArgumentException if the character grid is invalid
    */
   public Influence[][] createInfluenceGrid(char[][] charGrid) {
     if (charGrid == null) {
@@ -93,23 +91,16 @@ public class InfluenceManager {
     Influence[][] influenceGrid = new Influence[rows][cols];
     
     for (int r = 0; r < rows; r++) {
-      if (charGrid[r].length != cols) {
+      if (charGrid[r] == null || charGrid[r].length != cols) {
         throw new IllegalArgumentException("Character grid must be rectangular");
       }
       
       for (int c = 0; c < cols; c++) {
         char code = charGrid[r][c];
-        Influence influence = getInfluence(code);
-        
-        if (influence == null) {
-          throw new IllegalArgumentException("Unknown influence code: " + code);
-        }
-        
-        influenceGrid[r][c] = influence;
+        influenceGrid[r][c] = getInfluence(code);
       }
     }
     
     return influenceGrid;
   }
-  
 }
