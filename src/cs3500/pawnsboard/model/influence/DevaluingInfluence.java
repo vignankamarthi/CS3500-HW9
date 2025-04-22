@@ -1,5 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
 import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.CellContent;
@@ -7,21 +8,16 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**
  * Implementation of the devaluing influence type.
- * This influence decreases the value of cells with cards owned by the opponent.
- * It has no effect on empty cells, cells with pawns, or cells with cards owned by the current player.
- * 
- * <p>Note: The value modification is implemented in the augmented cell class,
- * which will handle the actual value decrease.</p>
- *
- * TODO: Complete implementation after PawnsBoardAugmentedCell is created to properly handle the value modification logic.
+ * This influence decreases the value of cells with cards.
+ * It has no effect on empty cells or cells with pawns.
+ * Value modifiers are composite and apply regardless of card ownership.
  */
-// TODO: Test this class
 public class DevaluingInfluence implements Influence {
   
   /**
    * Applies devaluing influence to a cell.
-   * This only has an effect on cells with cards owned by the opponent.
-   * The implementation will depend on the cell supporting value modification.
+   * This only has an effect on cells with cards.
+   * No ownership checks are performed as value modifiers are composite.
    *
    * @param cell the cell to apply influence to
    * @param currentPlayer the player who is applying the influence
@@ -33,10 +29,10 @@ public class DevaluingInfluence implements Influence {
           throws Exception {
     // We will only handle cells with cards
     if (cell.getContent() == CellContent.CARD) {
-      // Only devalue cards owned by the opponent
-      if (cell.getOwner() != currentPlayer) {
-        // The actual decrease is handled by the augmented cell class
-        // This will be implemented when we create PawnsBoardAugmentedCell
+      // No ownership check - devalue all cards
+      if (cell instanceof PawnsBoardAugmentedCell) {
+        PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
+        augmentedCell.devalue(1); // Decrease value by 1
         return true;
       }
     }

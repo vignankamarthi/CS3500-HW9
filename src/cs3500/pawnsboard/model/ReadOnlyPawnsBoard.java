@@ -162,5 +162,39 @@ public interface ReadOnlyPawnsBoard<C extends Card, E extends PawnsBoardCell<C>>
    * @throws IllegalStateException if the game hasn't been started
    */
   PawnsBoard<C, E> copy() throws IllegalStateException;
-
+  
+  /**
+   * Gets the value modifier for a specific cell, if the model supports value modification.
+   * Default implementation returns 0, indicating no modification.
+   * Augmented implementations should override this to provide the actual value modifier.
+   *
+   * @param row the row index of the cell
+   * @param col the column index of the cell
+   * @return the value modifier for the cell (positive for upgrades, negative for devaluations),
+   *         or 0 if the model doesn't support value modification
+   * @throws IllegalArgumentException if the coordinates are invalid
+   * @throws IllegalStateException    if the game hasn't been started
+   */
+  default int getCellValueModifier(int row, int col)
+          throws IllegalArgumentException, IllegalStateException {
+    // Default implementation returns 0 (no modification)
+    return 0;
+  }
+  
+  /**
+   * Gets the effective value of a card in a specific cell, including any value modifiers.
+   * Default implementation returns the card's original value.
+   * Augmented implementations should override this to provide the effective value.
+   *
+   * @param row the row index of the cell
+   * @param col the column index of the cell
+   * @return the effective value of the card, or 0 if there is no card
+   * @throws IllegalArgumentException if the coordinates are invalid
+   * @throws IllegalStateException    if the game hasn't been started
+   */
+  default int getEffectiveCardValue(int row, int col)
+          throws IllegalArgumentException, IllegalStateException {
+    C card = getCardAtCell(row, col);
+    return card != null ? card.getValue() : 0;
+  }
 }

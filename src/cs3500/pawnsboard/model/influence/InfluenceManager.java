@@ -26,6 +26,8 @@ public class InfluenceManager {
     registerInfluence('I', new RegularInfluence());
     registerInfluence('U', new UpgradingInfluence());
     registerInfluence('D', new DevaluingInfluence());
+    registerInfluence('X', new BlankInfluence());
+    registerInfluence('C', new BlankInfluence()); // Center position is also a blank influence
   }
   
   /**
@@ -92,14 +94,14 @@ public class InfluenceManager {
     
     for (int r = 0; r < rows; r++) {
       if (charGrid[r].length != cols) {
-        throw new IllegalArgumentException("Character grid must be square (5x5)");
+        throw new IllegalArgumentException("Character grid must be rectangular");
       }
       
       for (int c = 0; c < cols; c++) {
         char code = charGrid[r][c];
         Influence influence = getInfluence(code);
         
-        if (influence == null && code != 'X' && code != 'C') {
+        if (influence == null) {
           throw new IllegalArgumentException("Unknown influence code: " + code);
         }
         

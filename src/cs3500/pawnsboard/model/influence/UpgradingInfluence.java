@@ -1,26 +1,22 @@
 package cs3500.pawnsboard.model.influence;
 
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
 import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**
  * Implementation of the upgrading influence type.
- * This influence increases the value of cells with cards owned by the player.
+ * This influence increases the value of cells with cards.
  * It has no effect on empty cells or cells with pawns.
- * 
- * <p>Note: The value modification is implemented in the augmented cell class,
- * which will handle the actual value increase.</p>
- *
- * TODO: Complete implementation after PawnsBoardAugmentedCell is created to properly handle the value modification logic.
+ * Value modifiers are composite and apply regardless of card ownership.
  */
-// TODO: Test this class
 public class UpgradingInfluence implements Influence {
   
   /**
    * Applies upgrading influence to a cell.
-   * This only has an effect on cells with cards owned by the current player.
-   * The implementation will depend on the cell supporting value modification.
+   * This only has an effect on cells with cards.
+   * No ownership checks are performed as value modifiers are composite.
    *
    * @param cell the cell to apply influence to
    * @param currentPlayer the player who is applying the influence
@@ -32,10 +28,10 @@ public class UpgradingInfluence implements Influence {
           throws Exception {
     // We will only handle cells with cards
     if (cell.getContent() == CellContent.CARD) {
-      // Only upgrade cards owned by the current player
-      if (cell.getOwner() == currentPlayer) {
-        // The actual increase is handled by the augmented cell class
-        // This will be implemented when we create PawnsBoardAugmentedCell
+      // No ownership check - upgrade all cards
+      if (cell instanceof PawnsBoardAugmentedCell) {
+        PawnsBoardAugmentedCell<?> augmentedCell = (PawnsBoardAugmentedCell<?>) cell;
+        augmentedCell.upgrade(1); // Increase value by 1
         return true;
       }
     }

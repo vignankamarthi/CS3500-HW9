@@ -25,8 +25,6 @@ public class RegularInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   
-  // TODO: Complete implementation after PawnsBoardAugmentedCell is created to properly handle the value modification logic.
-  // TODO: Test this class
   @Override
   public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
