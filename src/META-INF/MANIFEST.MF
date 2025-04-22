@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: cs3500.pawnsboard.PawnsBoardGame
+Main-Class: cs3500.pawnsboard.PawnsBoardGameLevel0
 

@@ -27,7 +27,7 @@ import java.io.File;
  * This class contains the entry point to run the game with a graphical user interface.
  * It supports command-line arguments for customizing the game setup.
  */
-public class PawnsBoardGame {
+public class PawnsBoardGameLevel0 {
 
   // Constants for board dimensions and hand size
   private static final int DEFAULT_ROWS = 3;
