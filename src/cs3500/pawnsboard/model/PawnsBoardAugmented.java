@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @param <C> the type of Card used in this game
  */
-//TODO: Create base testing file
+//TODO: Create base testing file and make sure it works
 //TODO: Create integration tests for model (mock textual view - to be made)
 public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard> 
         extends AbstractPawnsBoard<C, PawnsBoardAugmentedCell<C>>
