@@ -2,6 +2,9 @@ package cs3500.pawnsboard.model.cards.reader;
 
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.cards.factory.CardFactory;
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
+import cs3500.pawnsboard.model.enumerations.PlayerColors;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -411,9 +414,19 @@ public class PawnsBoardAugmentedCardReaderTest {
    * Mock influence implementation for testing.
    */
   private static class MockInfluence implements cs3500.pawnsboard.model.influence.Influence {
+
+    /**
+     * Applies the influence to a cell.
+     *
+     * @param cell          the cell to apply influence to
+     * @param currentPlayer the player who is applying the influence
+     * @return true if the influence was successfully applied, false otherwise
+     * @throws Exception if there is an issue applying the influence
+     */
     @Override
-    public boolean applyInfluence(cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell<?> cell,
-                                  cs3500.pawnsboard.model.enumerations.PlayerColors currentPlayer) {
+    public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, 
+                                                                         PlayerColors currentPlayer) 
+            throws Exception {
       return false;
     }
 

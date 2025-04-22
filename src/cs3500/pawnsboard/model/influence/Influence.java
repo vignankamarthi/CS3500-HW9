@@ -18,7 +18,8 @@ public interface Influence {
    * @return true if the influence was successfully applied, false otherwise
    * @throws Exception if there is an issue applying the influence
    */
-  boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) throws Exception;
+  <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, PlayerColors currentPlayer) 
+          throws Exception;
   
   /**
    * Checks if this influence is a regular influence (adds/converts pawns).

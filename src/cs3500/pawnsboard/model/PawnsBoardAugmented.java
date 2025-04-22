@@ -43,7 +43,7 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
   private final InfluenceManager influenceManager;
   
   // Deck builder for reading augmented cards
-  private final DeckBuilder<C> deckBuilder;
+  private final DeckBuilder<? extends C> deckBuilder;
 
   /**
    * Constructs a PawnsBoardAugmented with the specified deck builder and influence manager.
@@ -52,7 +52,8 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
    * @param influenceManager the influence manager to use for applying influences
    * @throws IllegalArgumentException if deckBuilder or influenceManager is null
    */
-  public PawnsBoardAugmented(DeckBuilder<C> deckBuilder, InfluenceManager influenceManager) {
+  public PawnsBoardAugmented(DeckBuilder<? extends C> deckBuilder, 
+                             InfluenceManager influenceManager) {
     if (deckBuilder == null) {
       throw new IllegalArgumentException("Deck builder cannot be null");
     }
@@ -68,7 +69,7 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
    */
   public PawnsBoardAugmented() {
     this.influenceManager = new InfluenceManager();
-    this.deckBuilder = (DeckBuilder<C>) new PawnsBoardAugmentedDeckBuilder(influenceManager);
+    this.deckBuilder = new PawnsBoardAugmentedDeckBuilder<>(influenceManager);
   }
 
   /**
@@ -100,8 +101,8 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     this.augmentedBoard = createEmptyAugmentedBoard(rows, cols);
 
     // Read decks from separate files for RED and BLUE players
-    List<C> redDeckCards = deckBuilder.createDeck(redDeckConfigPath, false);
-    List<C> blueDeckCards = deckBuilder.createDeck(blueDeckConfigPath, false);
+    List<C> redDeckCards = (List<C>) deckBuilder.createDeck(redDeckConfigPath, false);
+    List<C> blueDeckCards = (List<C>) deckBuilder.createDeck(blueDeckConfigPath, false);
 
     redDeck = redDeckCards;
     blueDeck = blueDeckCards;

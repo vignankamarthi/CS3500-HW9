@@ -68,7 +68,8 @@ public class InfluenceManager {
    * @throws IllegalArgumentException if the influence code is not registered
    * @throws Exception if there is an issue applying the influence
    */
-  public boolean applyInfluence(char code, PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
+  public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(char code, T cell, 
+                                                                       PlayerColors currentPlayer) 
           throws Exception {
     Influence influence = getInfluence(code);
     return influence.applyInfluence(cell, currentPlayer);

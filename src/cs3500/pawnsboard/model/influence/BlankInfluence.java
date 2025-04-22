@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
 import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**
@@ -20,7 +19,8 @@ public class BlankInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) {
+  public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, 
+                                                                       PlayerColors currentPlayer) {
     // No effect on any cell type
     return false;
   }

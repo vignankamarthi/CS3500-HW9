@@ -14,9 +14,10 @@ import java.util.Scanner;
  * from configuration files for the augmented Pawns Board game.
  * Supports enhanced influence types (regular, upgrading, devaluing).
  */
-public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugmentedCard> {
+public class PawnsBoardAugmentedCardReader<C extends PawnsBoardAugmentedCard> 
+        implements CardReader<C> {
   
-  private final CardFactory<PawnsBoardAugmentedCard> cardFactory;
+  private final CardFactory<C> cardFactory;
   
   /**
    * Constructs a PawnsBoardAugmentedCardReader with the specified card factory.
@@ -24,7 +25,7 @@ public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugme
    * @param cardFactory factory for creating {@link PawnsBoardAugmentedCard} objects
    * @throws IllegalArgumentException if cardFactory is null
    */
-  public PawnsBoardAugmentedCardReader(CardFactory<PawnsBoardAugmentedCard> cardFactory) {
+  public PawnsBoardAugmentedCardReader(CardFactory<C> cardFactory) {
     if (cardFactory == null) {
       throw new IllegalArgumentException("Card factory cannot be null");
     }
@@ -40,11 +41,11 @@ public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugme
    * @throws IllegalArgumentException if the file cannot be read or has invalid format
    */
   @Override
-  public List<PawnsBoardAugmentedCard> readCards(String filePath) throws IllegalArgumentException {
+  public List<C> readCards(String filePath) throws IllegalArgumentException {
     if (filePath == null || filePath.isEmpty()) {
       throw new IllegalArgumentException("Card file path cannot be null or empty");
     }
-    List<PawnsBoardAugmentedCard> cards = new ArrayList<>();
+    List<C> cards = new ArrayList<>();
     File file = new File(filePath);
     
     try (Scanner scanner = new Scanner(file)) {
@@ -69,7 +70,7 @@ public class PawnsBoardAugmentedCardReader implements CardReader<PawnsBoardAugme
    * @return a {@link PawnsBoardAugmentedCard} object
    * @throws IllegalArgumentException if card format is invalid
    */
-  private PawnsBoardAugmentedCard readSingleCard(Scanner scanner) throws IllegalArgumentException {
+  private C readSingleCard(Scanner scanner) throws IllegalArgumentException {
     // Read card header
     if (!scanner.hasNextLine()) {
       throw new IllegalArgumentException("Unexpected end of file");

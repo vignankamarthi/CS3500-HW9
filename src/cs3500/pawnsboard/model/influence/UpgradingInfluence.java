@@ -24,14 +24,12 @@ public class UpgradingInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
+  public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, 
+                                                                       PlayerColors currentPlayer) 
           throws Exception {
-    // We can assume we're working with augmented cells in this context
-    PawnsBoardAugmentedCell<?> augmentedCell = cell;
-    
     // Apply upgrade regardless of cell content
     // This ensures future cards placed in this cell will also receive the upgrade
-    augmentedCell.upgrade(1);
+    cell.upgrade(1);
     return true;
   }
   

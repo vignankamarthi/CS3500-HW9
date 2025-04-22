@@ -281,8 +281,18 @@ public class InfluenceManagerTest {
     final PawnsBoardAugmentedCell<?>[] capturedCell = new PawnsBoardAugmentedCell<?>[1];
 
     Influence testInfluence = new Influence() {
+
+      /**
+       * Applies the influence to a cell.
+       *
+       * @param cell          the cell to apply influence to
+       * @param currentPlayer the player who is applying the influence
+       * @return true if the influence was successfully applied, false otherwise
+       * @throws Exception if there is an issue applying the influence
+       */
       @Override
-      public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) {
+      public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, PlayerColors 
+              currentPlayer) throws Exception {
         capturedCell[0] = cell;
         capturedPlayer[0] = currentPlayer;
         return true;

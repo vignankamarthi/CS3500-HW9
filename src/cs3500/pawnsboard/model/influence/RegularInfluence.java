@@ -25,7 +25,8 @@ public class RegularInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
+  public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, 
+                                                                       PlayerColors currentPlayer) 
           throws Exception {
     if (currentPlayer == null) {
       throw new IllegalArgumentException("Current player cannot be null");

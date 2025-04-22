@@ -19,18 +19,18 @@ import java.util.Map;
  * Provides methods to create, validate, and process decks of augmented cards
  * that support different influence types.
  */
-public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAugmentedCard> {
+public class PawnsBoardAugmentedDeckBuilder<C extends PawnsBoardAugmentedCard> 
+        implements DeckBuilder<C> {
 
-  private final CardReader<PawnsBoardAugmentedCard> cardReader;
+  private final CardReader<C> cardReader;
   
   /**
    * Constructs a PawnsBoardAugmentedDeckBuilder with a default influence manager.
    */
   public PawnsBoardAugmentedDeckBuilder() {
     InfluenceManager influenceManager = new InfluenceManager();
-    CardFactory<PawnsBoardAugmentedCard> cardFactory = 
-            new PawnsBoardAugmentedCardFactory(influenceManager);
-    this.cardReader = new PawnsBoardAugmentedCardReader(cardFactory);
+    CardFactory<C> cardFactory = new PawnsBoardAugmentedCardFactory<>(influenceManager);
+    this.cardReader = new PawnsBoardAugmentedCardReader<>(cardFactory);
   }
   
   /**
@@ -43,9 +43,9 @@ public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAug
     if (influenceManager == null) {
       throw new IllegalArgumentException("Influence manager cannot be null");
     }
-    CardFactory<PawnsBoardAugmentedCard> cardFactory = 
-            new PawnsBoardAugmentedCardFactory(influenceManager);
-    this.cardReader = new PawnsBoardAugmentedCardReader(cardFactory);
+    CardFactory<C> cardFactory =
+            new PawnsBoardAugmentedCardFactory<>(influenceManager);
+    this.cardReader = new PawnsBoardAugmentedCardReader<>(cardFactory);
   }
   
   /**
@@ -54,7 +54,7 @@ public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAug
    * @param cardReader the card reader to use for reading cards from files
    * @throws IllegalArgumentException if cardReader is null
    */
-  public PawnsBoardAugmentedDeckBuilder(CardReader<PawnsBoardAugmentedCard> cardReader) {
+  public PawnsBoardAugmentedDeckBuilder(CardReader<C> cardReader) {
     if (cardReader == null) {
       throw new IllegalArgumentException("Card reader cannot be null");
     }
@@ -69,7 +69,7 @@ public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAug
    * @throws InvalidDeckConfigurationException if the deck configuration is invalid
    */
   @Override
-  public List<PawnsBoardAugmentedCard> createDeck(String filePath)
+  public List<C> createDeck(String filePath)
           throws InvalidDeckConfigurationException {
     return createDeck(filePath, true);
   }
@@ -83,11 +83,11 @@ public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAug
    * @throws InvalidDeckConfigurationException if the deck configuration is invalid
    */
   @Override
-  public List<PawnsBoardAugmentedCard> createDeck(String filePath, boolean shuffle)
+  public List<C> createDeck(String filePath, boolean shuffle)
           throws InvalidDeckConfigurationException {
     try {
       // Read cards from file
-      List<PawnsBoardAugmentedCard> cards = new ArrayList<>(cardReader.readCards(filePath));
+      List<C> cards = new ArrayList<>(cardReader.readCards(filePath));
 
       // Validate deck
       validateDeck(cards);
@@ -112,7 +112,7 @@ public class PawnsBoardAugmentedDeckBuilder implements DeckBuilder<PawnsBoardAug
    * @throws InvalidDeckConfigurationException if the deck doesn't follow game rules
    */
   @Override
-  public void validateDeck(List<PawnsBoardAugmentedCard> deck)
+  public void validateDeck(List<C> deck)
           throws InvalidDeckConfigurationException {
     // Count occurrences of each card name
     Map<String, Integer> cardCounts = new HashMap<>();

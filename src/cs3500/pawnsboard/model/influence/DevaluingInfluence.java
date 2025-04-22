@@ -22,13 +22,13 @@ public class DevaluingInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
+  public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell,
+                                                                       PlayerColors currentPlayer) 
           throws Exception {
-    PawnsBoardAugmentedCell<?> augmentedCell = cell;
     
     // Decrease value by 1 regardless of cell content
     // This is preserved for future cards that may be placed here
-    augmentedCell.devalue(1);
+    cell.devalue(1);
     
     // Card removal (if necessary) is handled in the devalue method of PawnsBoardAugmentedCell
     return true;
