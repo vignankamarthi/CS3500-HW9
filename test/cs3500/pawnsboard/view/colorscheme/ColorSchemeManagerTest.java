@@ -212,6 +212,21 @@ public class ColorSchemeManagerTest {
   }
 
   /**
+   * Tests that the card text color is BLACK in high contrast mode.
+   */
+  @Test
+  public void testHighContrastModeCardTextColor() {
+    // Set to high contrast
+    manager.setColorScheme("high_contrast");
+    ColorScheme scheme = manager.getColorScheme();
+
+    // Verify card text color is BLACK for better readability
+    assertEquals("Card text color should be BLACK in high contrast mode",
+            Color.BLACK, scheme.getCardTextColor());
+  }
+
+
+  /**
    * A mock implementation of ColorScheme for testing.
    */
   private static class MockColorScheme implements ColorScheme {
@@ -275,4 +290,6 @@ public class ColorSchemeManagerTest {
       return Color.PINK;
     }
   }
+  
+  
 }

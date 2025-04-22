@@ -167,4 +167,15 @@ public class HighContrastColorSchemeTest {
     assertEquals("Blue owned cell color should be the same instance as blue pawn color", 
             colorScheme.getBluePawnColor(), colorScheme.getBlueOwnedCellColor());
   }
+
+  /**
+   * Tests that the getCardTextColor method returns the correct color.
+   */
+  @Test
+  public void testGetCardTextColor() {
+    assertEquals("Card text color should be black",
+            Color.BLACK, colorScheme.getCardTextColor());
+  }
+  
+  
 }

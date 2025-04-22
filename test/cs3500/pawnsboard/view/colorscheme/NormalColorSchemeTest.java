@@ -123,6 +123,8 @@ public class NormalColorSchemeTest {
     assertEquals("Blue owned cell color should match blue pawn color", 
             colorScheme.getBluePawnColor(), colorScheme.getBlueOwnedCellColor());
   }
+  
+  
 
   /**
    * Tests the consistency between color methods that should return the same color.
@@ -142,4 +144,14 @@ public class NormalColorSchemeTest {
     assertEquals("Blue owned cell color should be the same instance as blue pawn color", 
             colorScheme.getBluePawnColor(), colorScheme.getBlueOwnedCellColor());
   }
+  
+  /**
+   * Tests that the getCardTextColor method returns the correct color.
+   */
+  @Test
+  public void testGetCardTextColor() {
+    assertEquals("Card text color should be white",
+            Color.WHITE, colorScheme.getCardTextColor());
+  }
+  
 }
