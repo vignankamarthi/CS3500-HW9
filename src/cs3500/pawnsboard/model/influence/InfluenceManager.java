@@ -1,6 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import java.util.Map;
  * This class follows the Strategy Pattern to select and apply the appropriate
  * influence type based on a character code.
  */
+//TODO: Test this class
 public class InfluenceManager {
   
   private final Map<Character, Influence> influenceStrategies;
@@ -68,7 +69,7 @@ public class InfluenceManager {
    * @throws IllegalArgumentException if the influence code is not registered
    * @throws Exception if there is an issue applying the influence
    */
-  public boolean applyInfluence(char code, PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
+  public boolean applyInfluence(char code, PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
     Influence influence = getInfluence(code);
     return influence.applyInfluence(cell, currentPlayer);

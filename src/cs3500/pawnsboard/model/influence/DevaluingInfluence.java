@@ -1,9 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
 import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
-import cs3500.pawnsboard.model.cards.Card;
-import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**
@@ -11,6 +8,7 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
  * This influence decreases the value of cells with cards.
  * If a card's value becomes 0 or less, the card is removed and replaced with pawns.
  */
+//TODO: Test this class
 public class DevaluingInfluence implements Influence {
   
   /**

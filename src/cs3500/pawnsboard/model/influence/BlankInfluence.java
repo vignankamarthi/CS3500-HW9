@@ -1,5 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
 import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
@@ -7,6 +8,7 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
  * Implementation of blank influence that has no effect on cells.
  * This is used to represent 'X' in the influence grid, indicating no influence.
  */
+//TODO: Test this class
 public class BlankInfluence implements Influence {
   
   /**
@@ -19,7 +21,7 @@ public class BlankInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) {
+  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) {
     // No effect on any cell type
     return false;
   }

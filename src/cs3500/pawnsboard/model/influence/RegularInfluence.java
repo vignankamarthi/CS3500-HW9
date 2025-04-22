@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
-import cs3500.pawnsboard.model.enumerations.CellContent;
+import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**
@@ -9,6 +8,7 @@ import cs3500.pawnsboard.model.enumerations.PlayerColors;
  * This influence adds pawns to empty cells, increases pawn count for owned pawns,
  * and changes ownership of opponent's pawns.
  */
+//TODO: Test this class
 public class RegularInfluence implements Influence {
   
   private static final int MAX_PAWNS = 3;
@@ -26,7 +26,7 @@ public class RegularInfluence implements Influence {
    * @throws Exception if there is an issue applying the influence
    */
   @Override
-  public boolean applyInfluence(PawnsBoardCell<?> cell, PlayerColors currentPlayer) 
+  public boolean applyInfluence(PawnsBoardAugmentedCell<?> cell, PlayerColors currentPlayer) 
           throws Exception {
     if (currentPlayer == null) {
       throw new IllegalArgumentException("Current player cannot be null");

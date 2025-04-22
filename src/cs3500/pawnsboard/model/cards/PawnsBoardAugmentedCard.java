@@ -11,6 +11,7 @@ import java.util.Arrays;
  * This class implements Card directly and provides the ability to have different
  * influence types (regular, upgrading, devaluing) at different positions in the influence grid.
  */
+//TODO: Test this class
 public class PawnsBoardAugmentedCard implements Card {
   
   private final String name;
