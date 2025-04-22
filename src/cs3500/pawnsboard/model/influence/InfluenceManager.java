@@ -49,8 +49,12 @@ public class InfluenceManager {
    * @return the corresponding influence strategy, or a BlankInfluence if not found
    */
   public Influence getInfluence(char code) {
-    Influence influence = influenceStrategies.get(code);
-    return (influence != null) ? influence : new BlankInfluence();
+    Influence influenceCode = influenceStrategies.get(code);
+    
+    if (influenceCode != influenceStrategies.get(code) ) {
+      throw new IllegalArgumentException("Influence code " + code + " not in influence strategy");
+    }
+    return influenceCode;
   }
   
   /**
