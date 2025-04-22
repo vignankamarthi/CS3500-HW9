@@ -286,7 +286,7 @@ public class GameBoardPanel implements BoardPanel {
       java.awt.Rectangle bounds = new java.awt.Rectangle(x, y, cellSize, cellSize);
       
       // Use DrawingUtils to draw cell card
-      DrawingUtils.drawCellCard(g2d, bounds, value, owner);
+      DrawingUtils.drawCellCard(g2d, bounds, value, owner, colorSchemeManager.getColorScheme());
     } catch (IllegalArgumentException | IllegalStateException e) {
       // Cell may be invalid or game not started
     }

@@ -269,5 +269,10 @@ public class ColorSchemeManagerTest {
     public Color getBlueOwnedCellColor() {
       return Color.PINK;
     }
+    
+    @Override
+    public Color getCardTextColor() {
+      return Color.PINK;
+    }
   }
 }

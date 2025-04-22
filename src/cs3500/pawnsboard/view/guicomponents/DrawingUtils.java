@@ -274,9 +274,10 @@ public class DrawingUtils {
    * @param bounds the bounds of the cell
    * @param value the value of the card
    * @param player the owner of the card
+   * @param colorScheme the color scheme to use for drawing
    */
   public static void drawCellCard(Graphics2D g2d, Rectangle bounds, int value,
-                                  PlayerColors player) {
+                                  PlayerColors player, ColorScheme colorScheme) {
     // Note: We don't need to set the background color here anymore 
     // since drawCellBackground should have already set the background color based on ownership
     
@@ -293,8 +294,8 @@ public class DrawingUtils {
     String text = String.valueOf(value);
     int textWidth = g2d.getFontMetrics().stringWidth(text);
     
-    // Use white text for better contrast against the colored background
-    g2d.setColor(Color.WHITE);
+    // Use the color scheme's card text color
+    g2d.setColor(colorScheme.getCardTextColor());
     g2d.drawString(text, 
                   bounds.x + (bounds.width - textWidth) / 2, 
                   bounds.y + bounds.height / 2 + 6);

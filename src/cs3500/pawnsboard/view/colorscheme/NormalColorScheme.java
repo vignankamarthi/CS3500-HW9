@@ -62,4 +62,9 @@ public class NormalColorScheme implements ColorScheme {
   public Color getBlueOwnedCellColor() {
     return this.getBluePawnColor();
   }
+  
+  @Override
+  public Color getCardTextColor() {
+    return Color.WHITE;
+  }
 }

@@ -87,4 +87,11 @@ public interface ColorScheme {
    * @return the Blue-owned cell background color
    */
   Color getBlueOwnedCellColor();
+  
+  /**
+   * Gets the color for text on card cells.
+   *
+   * @return the card cell text color
+   */
+  Color getCardTextColor();
 }
