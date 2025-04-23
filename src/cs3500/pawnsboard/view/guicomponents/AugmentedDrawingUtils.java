@@ -62,8 +62,8 @@ public class AugmentedDrawingUtils {
         g2d.setColor(colorScheme.getDevaluingInfluenceColor());
       }
       
-      // Create modifier text with appropriate size (12pt font is a good size for top corner)
-      g2d.setFont(new Font("Arial", Font.BOLD, 12));
+      // Create modifier text with appropriate size (16pt font is a good size for top corner)
+      g2d.setFont(new Font("Arial", Font.BOLD, 16));
       String modifierText = (valueModifier > 0 ? "+" : "") + valueModifier;
       
       // Draw in top right corner with small margin
@@ -199,7 +199,7 @@ public class AugmentedDrawingUtils {
       }
       
       // Create modifier text with appropriate size
-      g2d.setFont(new Font("Arial", Font.BOLD, 12));
+      g2d.setFont(new Font("Arial", Font.BOLD, 16));
       String modifierText = (valueModifier > 0 ? "+" : "") + valueModifier;
       
       // Draw in top right corner with small margin
@@ -243,7 +243,7 @@ public class AugmentedDrawingUtils {
     g2d.drawString(card.getName(), bounds.x + 10, bounds.y + 20);
     
     // Draw card cost and value with larger font
-    g2d.setFont(new Font("Arial", Font.BOLD, 12));
+    g2d.setFont(new Font("Arial", Font.BOLD, 16));
     g2d.drawString("Cost: " + card.getCost(), bounds.x + 10, bounds.y + 40);
     g2d.drawString("Value: " + card.getValue(), bounds.x + 10, bounds.y + 60);
     
@@ -298,7 +298,7 @@ public class AugmentedDrawingUtils {
       }
       
       // Create modifier text with appropriate size
-      g2d.setFont(new Font("Arial", Font.BOLD, 12));
+      g2d.setFont(new Font("Arial", Font.BOLD, 16));
       String modifierText = (valueModifier > 0 ? "+" : "") + valueModifier;
       
       // Draw in top right corner with small margin

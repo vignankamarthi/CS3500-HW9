@@ -539,6 +539,41 @@ We implemented a comprehensive testing strategy to verify all aspects of the new
 These tests ensure the robustness and correctness of the new influence system, verifying both the individual components and their integration into the larger game model/framework.
 
 
+### Changes for Part 2 (Visualizing New Influence Types)
+
+#### Implementation Details
+
+In this iteration, we implemented visualization for the new influence types and value modifiers in the Pawns Board Game GUI:
+
+1. **Augmented Drawing Utilities**:
+   - Implemented `AugmentedDrawingUtils` class with rendering capabilities for influence types
+   - Implemented value modifier display methods for cells and cards
+   - Added color-coded influence type visualization on card grids
+
+2. **GUI Component Extensions**:
+   - Implemented `AugmentedGameBoardPanel` to display cells with value modifiers
+   - Implemented `AugmentedCardHandPanel` to display cards with influence types
+   - Implemented `PawnsBoardAugmentedGraphicalView` for influence visualization
+
+3. **Color Coding**:
+   - Normal mode colors:
+      - Regular influence ('I'): Cyan
+      - Upgrading influence ('U'): Bright Green
+      - Devaluing influence ('D'): Dark Red (Maroon)
+      - Value modifiers: Positive in green, negative in red
+   - High Contrast mode colors:
+      - Regular influence ('I'): Bright Cyan
+      - Upgrading influence ('U'): Bright Green
+      - Devaluing influence ('D'): Purple
+      - Value modifiers: Positive in bright green, negative in purple
+
+4. **Design Considerations**:
+   - Maintained backward compatibility with existing controllers
+   - Ensured clear visual distinction between influence types
+   - Value modifiers displayed as "+1", "-2", etc. in top right corners
+   - Preserved color scheme switching functionality for accessibility
+
+
 
 ### Command Line Instructions to Ensure Smooth Submission
 

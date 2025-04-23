@@ -185,7 +185,7 @@ public class PawnsBoardGameLevel2 {
     redView.refresh();
     blueView.refresh();
     
-    // Display instructions to the user
+    // Display Simple Instructions for Augmented Game
     JOptionPane.showMessageDialog(null,
             "Augmented Pawns Board Game - Human vs. Human\n\n" +
                     "How to play:\n" +
