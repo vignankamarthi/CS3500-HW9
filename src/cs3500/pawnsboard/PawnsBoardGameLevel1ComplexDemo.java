@@ -114,8 +114,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       System.out.println();
       System.out.println("Notice the card was immediately removed when its value reached 0");
-      System.out.println("The cell now has pawns equal to the original card's cost (1 in this case)");
-      System.out.println("This demonstrates the core mechanic: cards with 0 or negative value are removed");
+      System.out.println("The cell now has pawns equal to the original card's cost " +
+              "(1 in this case)");
+      System.out.println("This demonstrates the core mechanic: cards with 0 or negative " +
+              "value are removed");
       System.out.println();
 
       // Add RED pawns to (1,2) for next demonstration
@@ -154,12 +156,14 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       // ===== DEMONSTRATION 5: STRONG DEVALUING INFLUENCE =====
       System.out.println("============= FEATURE DEMONSTRATION: NEGATIVE VALUE REMOVAL =====");
-      System.out.println("BLUE plays 'Corrupt' (value 3) at (0,3) - This has strong devaluing influences");
-      System.out.println("It will create cells with -2 modifiers to demonstrate negative value removal");
+      System.out.println("BLUE plays 'Corrupt' (value 3) at (0,4) - This has strong " +
+              "devaluing influences");
+      System.out.println("It will create cells with -2 modifiers to demonstrate" +
+              " negative value removal");
       System.out.println();
 
-      executeMove(model, view, 1, 0, 3,
-              "BLUE places Corrupt at (0,3)");
+      executeMove(model, view, 1, 0, 4,
+              "BLUE places Corrupt at (0,4)");
 
       System.out.println();
       System.out.println("Notice the strong -2 devaluing modifiers this card creates");
@@ -177,8 +181,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
       }
 
       // ===== DEMONSTRATION 6: NEGATIVE VALUE CARD REMOVAL =====
-      System.out.println("============= FEATURE DEMONSTRATION: NEGATIVE VALUE CARD REMOVAL =====");
-      System.out.println("RED plays 'Upgrade' (value 1) at (1,1) - This is a cell with a -2 modifier");
+      System.out.println("============= FEATURE DEMONSTRATION: NEGATIVE VALUE CARD REMOVAL " +
+              "=====");
+      System.out.println("RED plays 'Upgrade' (value 1) at (1,1) - This is a cell with a -2" +
+              " modifier");
       System.out.println("The effective value will be -1 (1 + (-2) = -1)");
       System.out.println("Since this is less than 0, the card should be automatically removed");
       System.out.println();
@@ -187,21 +193,31 @@ public class PawnsBoardGameLevel1ComplexDemo {
               "RED places Upgrade at (1,1)");
 
       System.out.println();
-      System.out.println("Notice the card was immediately removed since its value was negative (-1)");
-      System.out.println("The cell now has pawns equal to the original card's cost (1 in this case)");
+      System.out.println("Notice the card was immediately removed since its value was " +
+              "negative (-1)");
+      System.out.println("The cell now has pawns equal to the original card's cost " +
+              "(1 in this case)");
       System.out.println("This demonstrates that cards with negative values are also removed");
       System.out.println();
 
       // ===== DEMONSTRATION 7: SETTING UP FOR MULTI-STEP DEVALUING =====
+      // Declare variables at the beginning, before they're used in later steps
+      int targetRow = -1;
+      int targetCol = -1;
+      final int decayTargetRow;
+      final int decayTargetCol;
+      
       try {
         // Find a suitable cell for BLUE pawns
-        int targetRow = 2;
-        int targetCol = 3;
+        targetRow = 2;
+        targetCol = 3;
         // Make sure the cell doesn't already have a card
         if (model.getCellContent(targetRow, targetCol) != CellContent.CARD) {
           addPawnsToCell(model, targetRow, targetCol, PlayerColors.BLUE, 2);
-          System.out.println("Added BLUE pawns to position (" + targetRow + "," + targetCol + ") for next demonstration");
-          System.out.println(view.renderGameState("After adding pawns for devaluing demonstration"));
+          System.out.println("Added BLUE pawns to position (" + targetRow + "," + targetCol + ") " +
+                  "for next demonstration");
+          System.out.println(view.renderGameState("After adding pawns for " +
+                  "devaluing demonstration"));
           System.out.println();
         } else {
           System.out.println("Could not add BLUE pawns for demonstration - cell already contains a card");
@@ -212,12 +228,14 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       // ===== DEMONSTRATION 8: FIRST STEP DEVALUING =====
       System.out.println("============= FEATURE DEMONSTRATION: MULTI-STEP DEVALUING =====");
-      System.out.println("BLUE plays 'Weaken' at (2,3) - This applies -1 devaluing to nearby cards");
-      System.out.println("This will reduce any nearby card's value by 1, potentially removing cards with low value");
+      System.out.println("BLUE plays 'Weaken' at (2,4) - This applies -1 devaluing to" +
+              " nearby cards");
+      System.out.println("This will reduce any nearby card's value by 1, potentially " +
+              "removing cards with low value");
       System.out.println();
 
-      executeMove(model, view, 1, 2, 3,
-              "BLUE places Weaken at (2,3)");
+      executeMove(model, view, 1, 2, 4,
+              "BLUE places Weaken at (2,4)");
 
       System.out.println();
       System.out.println("The Shield card now has an effective value of 2 (3 - 1)");
@@ -227,8 +245,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
       // ===== DEMONSTRATION 9: SETTING UP FINAL DEVALUING =====
       try {
         // Find a suitable cell for RED pawns that isn't already occupied by a card
-        int targetRow = -1;
-        int targetCol = -1;
+        targetRow = -1;
+        targetCol = -1;
         
         // Check a few potential locations
         int[][] potentialLocations = {{1, 3}, {0, 2}, {0, 3}};
@@ -244,8 +262,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
         
         if (targetRow >= 0) {
           addPawnsToCell(model, targetRow, targetCol, PlayerColors.RED, 1);
-          System.out.println("Added RED pawns to position (" + targetRow + "," + targetCol + ") for final devaluing step");
-          System.out.println(view.renderGameState("After adding pawns for devaluing step"));
+          System.out.println("Added RED pawns to position (" + targetRow + "," + targetCol + ") " +
+                  "for final devaluing step");
+          System.out.println(view.renderGameState("After adding pawns for" +
+                  " devaluing step"));
           System.out.println();
         } else {
           System.out.println("Could not find a suitable cell for the final devaluing step");
@@ -255,14 +275,16 @@ public class PawnsBoardGameLevel1ComplexDemo {
       }
 
       // Store the targetRow and targetCol for the next step
-      final int decayTargetRow = targetRow;
-      final int decayTargetCol = targetCol;
+      decayTargetRow = targetRow;
+      decayTargetCol = targetCol;
 
       // ===== DEMONSTRATION 10: STRONG DEVALUING CARD =====
       System.out.println("============= FEATURE DEMONSTRATION: COMPLETE CARD REMOVAL =====");
       if (decayTargetRow >= 0 && decayTargetCol >= 0) {
-        System.out.println("RED plays 'Decay' at (" + decayTargetRow + "," + decayTargetCol + ") - This applies strong devaluing");
-        System.out.println("This should bring nearby cards' values to 0 or below, triggering removal");
+        System.out.println("RED plays 'Decay' at (" + decayTargetRow + "," + decayTargetCol + ") " +
+                "- This applies strong devaluing");
+        System.out.println("This should bring nearby cards' values to 0 or below, triggering " +
+                "removal");
         System.out.println();
 
         executeMove(model, view, 2, decayTargetRow, decayTargetCol,
@@ -276,7 +298,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
       System.out.println();
       System.out.println("Look at cell (1,2) - the Shield card has been removed!");
       System.out.println("It's replaced with pawns equal to its original cost (2 in this case)");
-      System.out.println("This demonstrates that multi-step devaluing can remove higher-value cards");
+      System.out.println("This demonstrates that multi-step devaluing can remove " +
+              "higher-value cards");
       System.out.println();
 
       // ===== DEMONSTRATION 11: ADVANCED SCORING CALCULATION =====
@@ -311,8 +334,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
           for (int c = 0; c < BOARD_COLS && !foundCell; c++) {
             if (model.getCellContent(r, c) == CellContent.EMPTY) {
               addPawnsToCell(model, r, c, PlayerColors.BLUE, 2);
-              System.out.println("Added BLUE pawns to position (" + r + "," + c + ") for final demonstration");
-              System.out.println(view.renderGameState("After adding pawns for final demonstration"));
+              System.out.println("Added BLUE pawns to position (" + r + "," + c + ") for final " +
+                      "demonstration");
+              System.out.println(view.renderGameState("After adding pawns for " +
+                      "final demonstration"));
               System.out.println();
               finalRow = r;
               finalCol = c;
