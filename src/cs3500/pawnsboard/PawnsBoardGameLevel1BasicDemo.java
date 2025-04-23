@@ -21,6 +21,7 @@ import java.io.File;
  * - Mixed influence cards (all possible combinations)
  * - Scoring with modifiers
  */
+//TODO: Perfectly review demonstrations
 public class PawnsBoardGameLevel1BasicDemo {
 
   private static final int BOARD_ROWS = 3;
@@ -64,17 +65,17 @@ public class PawnsBoardGameLevel1BasicDemo {
         for (int i = 0; i < 1; i++) model.getCell(0, 0).addPawn(PlayerColors.RED);
         for (int i = 0; i < 1; i++) model.getCell(1, 0).addPawn(PlayerColors.RED);
         for (int i = 0; i < 1; i++) model.getCell(2, 0).addPawn(PlayerColors.RED);
-        
+
         for (int i = 0; i < 2; i++) model.getCell(0, 2).addPawn(PlayerColors.RED);
         for (int i = 0; i < 3; i++) model.getCell(2, 2).addPawn(PlayerColors.RED);
-        
+
         // For BLUE positions
         for (int i = 0; i < 1; i++) model.getCell(0, 4).addPawn(PlayerColors.BLUE);
         for (int i = 0; i < 1; i++) model.getCell(1, 4).addPawn(PlayerColors.BLUE);
         for (int i = 0; i < 2; i++) model.getCell(2, 4).addPawn(PlayerColors.BLUE);
-        
+
         for (int i = 0; i < 3; i++) model.getCell(1, 2).addPawn(PlayerColors.BLUE);
-        
+
         System.out.println("Pawns set up successfully for the demonstration");
         System.out.println(view.renderGameState("After Setting Up Pawns"));
         System.out.println();
@@ -87,10 +88,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("RED plays 'Upgrade' card at (0,0) - This card has only upgrading influences (U)");
       System.out.println("We expect to see cells around the card get +1 to their value modifiers");
       System.out.println();
-      
-      executeMove(model, view, 0, 0, 0, 
+
+      executeMove(model, view, 0, 0, 0,
               "RED places Upgrade at (0,0)");
-      
+
       System.out.println();
       System.out.println("Notice the '__+1' marks in cells around the card - these are value modifiers");
       System.out.println("Even empty cells can hold value modifiers for future cards");
@@ -101,10 +102,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("BLUE plays 'Corrupt' card at (0,4) - This card has only devaluing influences (D)");
       System.out.println("We expect to see cells around the card get -1 to their value modifiers");
       System.out.println();
-      
-      executeMove(model, view, 0, 0, 4, 
+
+      executeMove(model, view, 0, 0, 4,
               "BLUE places Corrupt at (0,4)");
-      
+
       System.out.println();
       System.out.println("Notice the '__-1' marks in cells around the card - these are negative modifiers");
       System.out.println("Devaluing influences decrease the effective value of cards");
@@ -116,10 +117,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("This will overlap with the previous 'Upgrade' card's influence area");
       System.out.println("We should see +2 modifiers where both influences overlap");
       System.out.println();
-      
-      executeMove(model, view, 0, 1, 0, 
+
+      executeMove(model, view, 0, 1, 0,
               "RED places Bless at (1,0)");
-      
+
       System.out.println();
       System.out.println("Look at cell (0,1) - it now shows a +2 modifier!");
       System.out.println("This proves that upgrading effects stack additively");
@@ -131,12 +132,12 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("This will overlap with the previous 'Corrupt' card's influence area");
       System.out.println("We should see -2 modifiers where both influences overlap");
       System.out.println();
-      
-      executeMove(model, view, 0, 1, 4, 
+
+      executeMove(model, view, 0, 1, 4,
               "BLUE places Wither at (1,4)");
-      
+
       System.out.println();
-      System.out.println("Look at cell (2,1) - it now shows a -2 modifier!");
+      System.out.println("Look at cell (1,3) - it now shows a -2 modifier!");
       System.out.println("This proves that devaluing effects stack additively");
       System.out.println();
 
@@ -145,10 +146,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("RED plays 'Spark' card at (2,0) - This card has only regular influences (I)");
       System.out.println("It will add pawns to empty cells and convert opponent pawns");
       System.out.println();
-      
-      executeMove(model, view, 0, 2, 0, 
+
+      executeMove(model, view, 0, 2, 0,
               "RED places Spark at (2,0)");
-      
+
       System.out.println();
       System.out.println("Notice the additional pawns added to the board by the regular influence");
       System.out.println("Regular influence works alongside the new upgrading/devaluing effects");
@@ -159,10 +160,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("BLUE plays 'Empower' card at (2,4) - This card has both upgrading and regular influences");
       System.out.println("It will add pawns AND add value modifiers to different cells simultaneously");
       System.out.println();
-      
-      executeMove(model, view, 0, 2, 4, 
+
+      executeMove(model, view, 0, 2, 4,
               "BLUE places Empower at (2,4)");
-      
+
       System.out.println();
       System.out.println("Notice this card adds both pawns AND value modifiers in its influence area");
       System.out.println("Cards can have multiple influence types affecting different cells");
@@ -173,10 +174,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("RED plays 'Curse' card at (0,2) - This card has both devaluing and regular influences");
       System.out.println("It will add pawns AND add negative value modifiers to different cells simultaneously");
       System.out.println();
-      
-      executeMove(model, view, 0, 0, 2, 
+
+      executeMove(model, view, 0, 0, 2,
               "RED places Curse at (0,2)");
-      
+
       System.out.println();
       System.out.println("Look at how this card combines regular and devaluing influences in one pattern");
       System.out.println("Some cells get pawns, while others get negative value modifiers");
@@ -187,10 +188,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("BLUE plays 'Harmony' card at (1,2) - This card has both upgrading and devaluing influences");
       System.out.println("It has NO regular influence, but combines the two new influence types");
       System.out.println();
-      
-      executeMove(model, view, 0, 1, 2, 
+
+      executeMove(model, view, 0, 1, 2,
               "BLUE places Harmony at (1,2)");
-      
+
       System.out.println();
       System.out.println("Notice this card applies BOTH positive and negative modifiers in different cells!");
       System.out.println("This demonstrates the full flexibility of the augmented influence system");
@@ -201,10 +202,10 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("RED plays 'Balance' card at (2,2) - This card has ALL THREE influence types");
       System.out.println("It combines upgrading, devaluing, AND regular influences in one pattern");
       System.out.println();
-      
-      executeMove(model, view, 0, 2, 2, 
+
+      executeMove(model, view, 0, 2, 2,
               "RED places Balance at (2,2)");
-      
+
       System.out.println();
       System.out.println("This card demonstrates the most complex influence pattern possible:");
       System.out.println("- Upgrading: Some cells get positive modifiers");
@@ -216,13 +217,13 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("============= DEMONSTRATION 10: SCORING WITH MODIFIERS =============");
       System.out.println("Let's examine how all these modifiers affect the game score");
       System.out.println();
-      
+
       // Display the current score
       int[] scores = model.getTotalScore();
       int[] row0Scores = model.getRowScores(0);
       int[] row1Scores = model.getRowScores(1);
       int[] row2Scores = model.getRowScores(2);
-      
+
       System.out.println("Row 0 scores: RED = " + row0Scores[0] + ", BLUE = " + row0Scores[1]);
       System.out.println("Row 1 scores: RED = " + row1Scores[0] + ", BLUE = " + row1Scores[1]);
       System.out.println("Row 2 scores: RED = " + row2Scores[0] + ", BLUE = " + row2Scores[1]);
@@ -254,11 +255,11 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("9. Negative stacking: Multiple -1 modifiers combine to -2 or lower");
       System.out.println("10. Scoring: Cards' effective values = original value + modifiers");
       System.out.println();
-      
+
       // Display final score
       int[] finalScores = model.getTotalScore();
       System.out.println("Final scores: RED = " + finalScores[0] + ", BLUE = " + finalScores[1]);
-      
+
       System.out.println();
       System.out.println("Final game state:");
       System.out.println(view.renderGameState("End of Basic Demonstration"));
