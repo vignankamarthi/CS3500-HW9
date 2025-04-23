@@ -11,7 +11,8 @@ import cs3500.pawnsboard.model.cards.Card;
  * Extends the base textual view to support value modifiers.
  * Renders the game state with the following enhanced format:
  * - Empty cells: "____" (four underscores)
- * - Cells with pawns: Number of pawns + owner letter + value modifier (e.g., "1r+1", "2b-2", "3r__")
+ * - Cells with pawns: Number of pawns + owner letter + value modifier 
+ * (e.g., "1r+1", "2b-2", "3r__")
  * - Empty cells with value modifiers: Two underscores + value modifier (e.g., "__+1", "__-2")
  * - Cells with cards: Owner letter + card value + value modifier (e.g., "R2__", "B3-1")
  *

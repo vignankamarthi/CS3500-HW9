@@ -208,7 +208,7 @@ public class PawnsBoardTextualView<C extends Card> implements PawnsBoardView {
    * @param col the column of the cell
    * @return a string representation of the cell
    */
-  private String renderCell(int row, int col) {
+  protected String renderCell(int row, int col) {
     try {
       CellContent content = model.getCellContent(row, col);
       
