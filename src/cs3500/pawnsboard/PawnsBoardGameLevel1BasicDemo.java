@@ -10,7 +10,6 @@ import cs3500.pawnsboard.model.exceptions.InvalidDeckConfigurationException;
 import cs3500.pawnsboard.model.influence.InfluenceManager;
 import cs3500.pawnsboard.view.PawnsBoardAugmentedTextualView;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
-import cs3500.pawnsboard.model.enumerations.CellContent;
 
 import java.io.File;
 
@@ -118,11 +117,11 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("We should see +2 modifiers where both influences overlap");
       System.out.println();
       
-      executeMove(model, view, 1, 1, 0, 
+      executeMove(model, view, 0, 1, 0, 
               "RED places Bless at (1,0)");
       
       System.out.println();
-      System.out.println("Look at cell (1,1) - it now shows a +2 modifier!");
+      System.out.println("Look at cell (0,1) - it now shows a +2 modifier!");
       System.out.println("This proves that upgrading effects stack additively");
       System.out.println();
 
@@ -133,11 +132,11 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("We should see -2 modifiers where both influences overlap");
       System.out.println();
       
-      executeMove(model, view, 1, 1, 4, 
+      executeMove(model, view, 0, 1, 4, 
               "BLUE places Wither at (1,4)");
       
       System.out.println();
-      System.out.println("Look at cell (1,3) - it now shows a -2 modifier!");
+      System.out.println("Look at cell (2,1) - it now shows a -2 modifier!");
       System.out.println("This proves that devaluing effects stack additively");
       System.out.println();
 
@@ -147,7 +146,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It will add pawns to empty cells and convert opponent pawns");
       System.out.println();
       
-      executeMove(model, view, 2, 2, 0, 
+      executeMove(model, view, 0, 2, 0, 
               "RED places Spark at (2,0)");
       
       System.out.println();
@@ -161,7 +160,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It will add pawns AND add value modifiers to different cells simultaneously");
       System.out.println();
       
-      executeMove(model, view, 2, 2, 4, 
+      executeMove(model, view, 0, 2, 4, 
               "BLUE places Empower at (2,4)");
       
       System.out.println();
@@ -175,7 +174,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It will add pawns AND add negative value modifiers to different cells simultaneously");
       System.out.println();
       
-      executeMove(model, view, 3, 0, 2, 
+      executeMove(model, view, 0, 0, 2, 
               "RED places Curse at (0,2)");
       
       System.out.println();
@@ -189,7 +188,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It has NO regular influence, but combines the two new influence types");
       System.out.println();
       
-      executeMove(model, view, 3, 1, 2, 
+      executeMove(model, view, 0, 1, 2, 
               "BLUE places Harmony at (1,2)");
       
       System.out.println();
@@ -203,7 +202,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It combines upgrading, devaluing, AND regular influences in one pattern");
       System.out.println();
       
-      executeMove(model, view, 4, 2, 2, 
+      executeMove(model, view, 0, 2, 2, 
               "RED places Balance at (2,2)");
       
       System.out.println();
