@@ -415,7 +415,7 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
       C card = cell.getCard();
       int effectiveValue = card.getValue() + cell.getValueModifier();
       
-      if (effectiveValue <= 0) {
+      if (effectiveValue == 0) {
         try {
           removeCardAndRestorePawns(row, col);
         } catch (IllegalAccessException e) {
@@ -489,7 +489,7 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     int originalValue = card.getValue();
     int effectiveValue = originalValue + valueModifier;
     
-    // Card should be removed if its effective value is 0 or negative
+    // Card should be removed if its effective value is 0 or less
     return effectiveValue <= 0;
   }
 

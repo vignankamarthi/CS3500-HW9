@@ -200,12 +200,12 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
   private void checkAndHandleDevaluation() {
     // Only check for removal if there's a card present
     if (content == CellContent.CARD && card != null) {
-      // Card should be removed if its effective value is 0 or less
+      // Card should be removed if its effective value is exactly 0
       // Effective value is original value + value modifier
       int originalValue = card.getValue();
       int effectiveValue = originalValue + valueModifier;
       
-      // If effective value is 0 or negative, remove the card
+      // If effective value is 0 or less, remove the card
       if (effectiveValue <= 0) {
         // Store card cost and owner before removing it
         int cardCost = card.getCost();

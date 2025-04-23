@@ -223,8 +223,8 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It has NO regular influence, but combines the two new influence types");
       System.out.println();
 
-      executeMove(model, view, 0, 1, 2,
-              "BLUE places Harmony at (1,2)");
+      executeMove(model, view, 0, 1, 4,
+              "BLUE places Harmony at (1,4)");
 
       System.out.println();
       System.out.println("Notice this card applies BOTH positive and negative modifiers in " +
