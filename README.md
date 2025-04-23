@@ -495,6 +495,49 @@ In this iteration, we extended the Pawns Board game with new influence types tha
     - `PawnsBoardGameLevel1ComplexDemo`: Demonstrates edge cases and interactions
     - `PawnsBoardStrategyMaximizeRowDemo`: Demonstrates MaximizeRowScore-Strategy is compatible with augmented model
 
+#### Testing Approach for Part 1 (New Influence Types)
+
+We implemented a comprehensive testing strategy to verify all aspects of the new influence system:
+
+1. **Unit Tests for Individual Influence Types**:
+   - `BlankInfluenceTest`: Verifies that the blank influence has no effect on cells
+   - `RegularInfluenceTest`: Tests pawn addition and conversion behaviors
+   - `UpgradingInfluenceTest`: Ensures value modifiers are correctly incremented
+   - `DevaluingInfluenceTest`: Verifies value reduction and card removal mechanics
+
+2. **Augmented Cell Tests**:
+   - `PawnsBoardAugmentedCellTest`: Tests value modifier tracking, stacking of influences, and threshold-based card removal from devaluing
+
+3. **Augmented Card Tests**:
+   - `PawnsBoardAugmentedCardTest`: Validates mixed influence grid creation and validation
+   - `PawnsBoardAugmentedCardFactoryTest`: Tests creation of cards with different influence patterns
+   - `PawnsBoardAugmentedCardReaderTest`: Ensures correct parsing of 'U' and 'D' from configuration files
+
+4. **Influence Management Tests**:
+   - `InfluenceManagerTest`: Tests influence registration, retrieval, and application
+   - Verifies correct delegation to appropriate influence strategies
+
+5. **Model Tests**:
+   - `PawnsBoardAugmentedTest`: Comprehensive tests for all augmented model behaviors (list below is non-exhaustive)
+   - Tests upgrading/devaluing methods
+   - Tests effective value calculations with modifiers
+   - Tests threshold-based card removal
+   - Tests influence persistence after card removal
+   - Tests scoring with value modifiers
+
+6. **View Tests**:
+   - `PawnsBoardAugmentedTextualViewTest`: Validates textual representation of value modifiers
+   - Tests notation for different cell states with modifiers
+
+7. **Edge Case Testing**:
+   - Tests for extreme value modifiers
+   - Tests for canceling influences (upgrade then devalue)
+   - Tests for stacking multiple influences
+   - Tests for devaluing to exactly zero
+   - Tests for devaluing below zero
+
+These tests ensure the robustness and correctness of the new influence system, verifying both the individual components and their integration into the larger game model/framework.
+
 
 
 ### Command Line Instructions to Ensure Smooth Submission
