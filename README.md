@@ -426,7 +426,75 @@ We extended our testing framework to verify the color scheme functionality:
 These screenshots serve as both documentation and a visual testing reference to ensure the color schemes are correctly implemented and provide the intended accessibility benefits.
 
 
-### Changes for Part 1
+### Changes for Part 1 (New Influence Types)
+
+In this iteration, we extended the Pawns Board game with new influence types that add strategic depth and balance to gameplay. The implementation follows a robust design that preserves compatibility with existing components while introducing powerful new mechanics.
+
+#### New Influence Types
+
+1. **Upgrading Influence ('U')**:
+    - Increases a cell's value modifier by +1
+    - Affects cards placed in the cell now or in the future
+    - Stacks with other upgrading influences for cumulative effect
+    - Represented by 'U' in card configuration files
+    - Cell notation: Shows "+1", "+2", etc. as modifiers in Textual View
+
+2. **Devaluing Influence ('D')**:
+    - Decreases a cell's value modifier by -1
+    - Reduces the effective value of cards in the cell
+    - Can cause cards to be removed if their effective value drops to 0 or below
+    - Represented by 'D' in card configuration files
+    - Cell notation: Shows "-1", "-2", etc. as modifiers in textual view
+
+3. **Card Removal Mechanics**:
+    - Cards with effective value ≤ 0 contribute nothing to scoring
+    - When a card's value equals 0 or drops below 0, it's removed and replaced with pawns equal to the card's cost
+    - Value modifiers are reset when a card is removed
+    - Influence effects on other cells from the removed card remain on the board
+
+#### Architecture Implementation
+
+1. **New Interfaces and Classes**:
+    - `AugmentedReadOnlyPawnsBoard`: Extends read-only interface with value modifier methods
+    - `AugmentedPawnsBoard`: Main interface for the enhanced model
+    - `PawnsBoardAugmented`: Implementation that supports all influence types
+    - `PawnsBoardAugmentedCell`: Enhanced cell that tracks value modifiers
+    - `PawnsBoardAugmentedCard`: Card implementation with mixed influence types
+
+2. **Influence System**:
+    - `Influence` interface: Common behavior for all influence types
+    - `RegularInfluence`, `UpgradingInfluence`, `DevaluingInfluence`: Specific implementations
+    - `InfluenceManager`: Factory and dispatcher for influence behaviors
+    - Strategy pattern used to select appropriate influence behavior
+
+3. **Enhanced Textual View**:
+    - `PawnsBoardAugmentedTextualView`: Shows value modifiers in cell notation
+    - Format examples: "1r+1" (pawn with +1 modifier), "B3-2" (Blue card value 3 with -2 modifier)
+
+4. **Upgraded Data Processing**:
+    - Augmented card readers and factories to process 'U' and 'D' in configuration files
+    - Augmented Deck builders implemented to support mixed influence patterns
+    - Scoring calculation refined to consider effective value after modifiers
+
+#### Design Considerations
+
+1. **Model Compatibility**:
+    - Original model preserved without changes
+    - Both models implement a common interface hierarchy
+    - Default methods in base interfaces maintain backward compatibility
+    - Strategies work with both models without modification
+
+2. **Value Calculation Logic**:
+    - Effective card value = original value + all applied modifiers
+    - Cell modifiers persist even when cells are empty
+    - Negative effective values contribute 0 to scoring
+    - Robust handling of edge cases (stacked modifiers, card removal)
+
+3. **Demonstrations**:
+    - `PawnsBoardGameLevel1BasicDemo`: Demonstrates core mechanics of upgrading/devaluing
+    - `PawnsBoardGameLevel1ComplexDemo`: Demonstrates edge cases and interactions
+    - `PawnsBoardStrategyMaximizeRowDemo`: Demonstrates MaximizeRowScore-Strategy is compatible with augmented model
+
 
 
 ### Command Line Instructions to Ensure Smooth Submission
