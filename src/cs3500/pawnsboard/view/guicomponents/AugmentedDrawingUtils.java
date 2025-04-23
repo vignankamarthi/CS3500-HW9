@@ -4,13 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Font;
-import java.awt.geom.Path2D;
 
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.model.enumerations.CellContent;
-import cs3500.pawnsboard.model.influence.Influence;
 import cs3500.pawnsboard.view.colorscheme.ColorScheme;
 
 /**
