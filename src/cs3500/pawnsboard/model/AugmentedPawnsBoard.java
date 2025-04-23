@@ -81,4 +81,17 @@ public interface AugmentedPawnsBoard<C extends Card, E extends PawnsBoardCell<C>
    */
   boolean shouldRemoveCard(int row, int col)
           throws IllegalArgumentException, IllegalStateException;
+  
+  /**
+   * Gets the cell at the specified position.
+   * This is a helper method for testing and demonstrations.
+   *
+   * @param row the row index
+   * @param col the column index
+   * @return the cell at the specified position
+   * @throws IllegalArgumentException if the coordinates are invalid
+   * @throws IllegalStateException if the game hasn't been started
+   */
+  E getCell(int row, int col)
+          throws IllegalArgumentException, IllegalStateException;
 }

@@ -747,4 +747,21 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     copy.blueHand = new ArrayList<>(this.blueHand);
   }
   
+  /**
+   * Gets the cell at the specified position.
+   * This is a helper method for testing and demonstrations.
+   *
+   * @param row the row index
+   * @param col the column index
+   * @return the cell at the specified position
+   * @throws IllegalArgumentException if the coordinates are invalid
+   * @throws IllegalStateException if the game hasn't been started
+   */
+  @Override
+  public PawnsBoardAugmentedCell<C> getCell(int row, int col)
+          throws IllegalArgumentException, IllegalStateException {
+    validateGameStarted();
+    validateCoordinates(row, col);
+    return augmentedBoard.get(row).get(col);
+  }
 }
