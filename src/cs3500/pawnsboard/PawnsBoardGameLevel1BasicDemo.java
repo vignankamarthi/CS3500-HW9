@@ -59,8 +59,29 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println(view.renderGameState("Game Start"));
       System.out.println();
 
-      // Add pawns strategically to support our demonstrations
-      setupPawnsForDemonstration(model);
+      // Add pawns for demonstrations
+      try {
+        // For RED positions (top to bottom, left to right)
+        for (int i = 0; i < 1; i++) model.getCell(0, 0).addPawn(PlayerColors.RED);
+        for (int i = 0; i < 1; i++) model.getCell(1, 0).addPawn(PlayerColors.RED);
+        for (int i = 0; i < 1; i++) model.getCell(2, 0).addPawn(PlayerColors.RED);
+        
+        for (int i = 0; i < 2; i++) model.getCell(0, 2).addPawn(PlayerColors.RED);
+        for (int i = 0; i < 3; i++) model.getCell(2, 2).addPawn(PlayerColors.RED);
+        
+        // For BLUE positions
+        for (int i = 0; i < 1; i++) model.getCell(0, 4).addPawn(PlayerColors.BLUE);
+        for (int i = 0; i < 1; i++) model.getCell(1, 4).addPawn(PlayerColors.BLUE);
+        for (int i = 0; i < 2; i++) model.getCell(2, 4).addPawn(PlayerColors.BLUE);
+        
+        for (int i = 0; i < 3; i++) model.getCell(1, 2).addPawn(PlayerColors.BLUE);
+        
+        System.out.println("Pawns set up successfully for the demonstration");
+        System.out.println(view.renderGameState("After Setting Up Pawns"));
+        System.out.println();
+      } catch (Exception e) {
+        System.out.println("Setup issue: " + e.getMessage());
+      }
 
       // ===== DEMONSTRATION 1: PURE UPGRADING INFLUENCE =====
       System.out.println("============= DEMONSTRATION 1: PURE UPGRADING INFLUENCE =============");
@@ -68,7 +89,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("We expect to see cells around the card get +1 to their value modifiers");
       System.out.println();
       
-      executeMove(model, view, 3, 0, 0, 
+      executeMove(model, view, 0, 0, 0, 
               "RED places Upgrade at (0,0)");
       
       System.out.println();
@@ -82,7 +103,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("We expect to see cells around the card get -1 to their value modifiers");
       System.out.println();
       
-      executeMove(model, view, 4, 0, 4, 
+      executeMove(model, view, 0, 0, 4, 
               "BLUE places Corrupt at (0,4)");
       
       System.out.println();
@@ -97,11 +118,11 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("We should see +2 modifiers where both influences overlap");
       System.out.println();
       
-      executeMove(model, view, 9, 1, 0, 
+      executeMove(model, view, 1, 1, 0, 
               "RED places Bless at (1,0)");
       
       System.out.println();
-      System.out.println("Look at the area between (0,0) and (1,0) - cells now have +2 modifiers!");
+      System.out.println("Look at cell (1,1) - it now shows a +2 modifier!");
       System.out.println("This proves that upgrading effects stack additively");
       System.out.println();
 
@@ -112,11 +133,11 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("We should see -2 modifiers where both influences overlap");
       System.out.println();
       
-      executeMove(model, view, 8, 1, 4, 
+      executeMove(model, view, 1, 1, 4, 
               "BLUE places Wither at (1,4)");
       
       System.out.println();
-      System.out.println("Look at the area between (0,4) and (1,4) - cells now have -2 modifiers!");
+      System.out.println("Look at cell (1,3) - it now shows a -2 modifier!");
       System.out.println("This proves that devaluing effects stack additively");
       System.out.println();
 
@@ -126,7 +147,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It will add pawns to empty cells and convert opponent pawns");
       System.out.println();
       
-      executeMove(model, view, 13, 2, 0, 
+      executeMove(model, view, 2, 2, 0, 
               "RED places Spark at (2,0)");
       
       System.out.println();
@@ -140,7 +161,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It will add pawns AND add value modifiers to different cells simultaneously");
       System.out.println();
       
-      executeMove(model, view, 5, 2, 4, 
+      executeMove(model, view, 2, 2, 4, 
               "BLUE places Empower at (2,4)");
       
       System.out.println();
@@ -148,16 +169,13 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("Cards can have multiple influence types affecting different cells");
       System.out.println();
 
-      // Add pawns to middle for mixed influence and card placement demonstrations
-      setupMiddlePawns(model);
-
       // ===== DEMONSTRATION 7: MIXED DI INFLUENCE (DEVALUING + REGULAR) =====
       System.out.println("============= DEMONSTRATION 7: MIXED DI INFLUENCE (DEVALUING + REGULAR) =============");
       System.out.println("RED plays 'Curse' card at (0,2) - This card has both devaluing and regular influences");
       System.out.println("It will add pawns AND add negative value modifiers to different cells simultaneously");
       System.out.println();
       
-      executeMove(model, view, 6, 0, 2, 
+      executeMove(model, view, 3, 0, 2, 
               "RED places Curse at (0,2)");
       
       System.out.println();
@@ -171,7 +189,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It has NO regular influence, but combines the two new influence types");
       System.out.println();
       
-      executeMove(model, view, 7, 1, 2, 
+      executeMove(model, view, 3, 1, 2, 
               "BLUE places Harmony at (1,2)");
       
       System.out.println();
@@ -185,7 +203,7 @@ public class PawnsBoardGameLevel1BasicDemo {
       System.out.println("It combines upgrading, devaluing, AND regular influences in one pattern");
       System.out.println();
       
-      executeMove(model, view, 7, 2, 2, 
+      executeMove(model, view, 4, 2, 2, 
               "RED places Balance at (2,2)");
       
       System.out.println();
@@ -255,91 +273,8 @@ public class PawnsBoardGameLevel1BasicDemo {
   }
 
   /**
-   * Sets up pawns in strategic positions for our demonstration.
-   * This ensures we can place cards exactly where needed for proper influence stacking.
-   *
-   * @param model the game model
-   */
-  private static void setupPawnsForDemonstration(PawnsBoardAugmented<PawnsBoardAugmentedCard> model) {
-    try {
-      // First, ensure corners have enough pawns for our core demonstrations
-      
-      // RED corner pawns
-      ensurePawnCount(model, 0, 0, PlayerColors.RED, 2); // For Upgrade card (cost 1)
-      ensurePawnCount(model, 1, 0, PlayerColors.RED, 2); // For Bless card (cost 1)
-      ensurePawnCount(model, 2, 0, PlayerColors.RED, 3); // For Spark card (cost 1)
-      
-      // BLUE corner pawns
-      ensurePawnCount(model, 0, 4, PlayerColors.BLUE, 2); // For Corrupt card (cost 1)
-      ensurePawnCount(model, 1, 4, PlayerColors.BLUE, 2); // For Wither card (cost 1)
-      ensurePawnCount(model, 2, 4, PlayerColors.BLUE, 3); // For Empower card (cost 2)
-      
-      // The central pawns will be added in setupMiddlePawns() later
-    } catch (Exception e) {
-      System.err.println("Error setting up pawns: " + e.getMessage());
-    }
-  }
-
-  /**
-   * Sets up pawns in the middle of the board for the later demonstrations.
-   * Called halfway through the demo when we need to place cards in central positions.
-   *
-   * @param model the game model
-   */
-  private static void setupMiddlePawns(PawnsBoardAugmented<PawnsBoardAugmentedCard> model) {
-    try {
-      // Add pawns to the center column for our mixed influence demonstrations
-      ensurePawnCount(model, 0, 2, PlayerColors.RED, 3);   // For Curse card (cost 2)
-      ensurePawnCount(model, 1, 2, PlayerColors.BLUE, 3);  // For Harmony card (cost 3)
-      ensurePawnCount(model, 2, 2, PlayerColors.RED, 3);   // For Balance card (cost 3)
-    } catch (Exception e) {
-      System.err.println("Error setting up middle pawns: " + e.getMessage());
-    }
-  }
-
-  /**
-   * Ensures a cell has exactly the specified number of pawns of the given color.
-   * Creates pawns if needed, does nothing if the count is already correct.
-   *
-   * @param model the game model
-   * @param row the row coordinate
-   * @param col the column coordinate
-   * @param color the player color for the pawns
-   * @param count the desired pawn count
-   */
-  private static void ensurePawnCount(PawnsBoardAugmented<PawnsBoardAugmentedCard> model,
-                                     int row, int col, PlayerColors color, int count) {
-    try {
-      if (model.getCellContent(row, col) == CellContent.EMPTY) {
-        // Add pawns until we reach the desired count
-        for (int i = 0; i < count; i++) {
-          model.getCell(row, col).addPawn(color);
-        }
-      } else if (model.getCellContent(row, col) == CellContent.PAWNS) {
-        // If the cell already has pawns of the right color, add more if needed
-        if (model.getCellOwner(row, col) == color) {
-          int currentCount = model.getPawnCount(row, col);
-          for (int i = currentCount; i < count; i++) {
-            model.getCell(row, col).addPawn(color);
-          }
-        } else {
-          // Wrong color pawns - remove by placing a dummy card and reset
-          System.err.println("Warning: Cell (" + row + "," + col + 
-                  ") has pawns of wrong color. Skipping setup for this cell.");
-        }
-      } else {
-        // Cell already has a card, skip it
-        System.err.println("Warning: Cell (" + row + "," + col + 
-                ") already has a card. Skipping setup for this cell.");
-      }
-    } catch (Exception e) {
-      System.err.println("Error setting up pawns at (" + row + "," + col + "): " + e.getMessage());
-    }
-  }
-
-  /**
    * Helper method to execute a move in the game.
-   * Attempts to place a card at the specified position and prints the result.
+   * Simply places the card at the specified position and prints the result.
    *
    * @param model the game model
    * @param view the game view
@@ -353,33 +288,18 @@ public class PawnsBoardGameLevel1BasicDemo {
                                      PawnsBoardAugmentedTextualView<PawnsBoardAugmentedCard> view,
                                      int cardIndex, int row, int col, String description) {
     try {
-      // Place the card - using the index directly, assuming setup is correct
+      // Place the card
       model.placeCard(cardIndex, row, col);
       System.out.println(view.renderGameState(description));
       return true;
-    } catch (IllegalAccessException e) {
-      System.out.println("Move failed (access): " + e.getMessage());
-    } catch (IllegalOwnerException e) {
-      System.out.println("Move failed (ownership): " + e.getMessage());
-    } catch (IllegalCardException e) {
-      System.out.println("Move failed (card): " + e.getMessage());
-    } catch (Exception e) {
+    } catch (IllegalAccessException | IllegalOwnerException | IllegalCardException e) {
+      // Just log the error
       System.out.println("Move failed: " + e.getMessage());
-      e.printStackTrace();
+      System.out.println(view.renderGameState("Failed: " + description));
+      return false;
+    } catch (Exception e) {
+      System.out.println("Unexpected error: " + e.getMessage());
+      return false;
     }
-    
-    try {
-      // Only pass turn if we're not in game over state
-      if (!model.isGameOver()) {
-        model.passTurn();
-        System.out.println(view.renderGameState("PASS - " + description + " failed"));
-      } else {
-        System.out.println("Game is already over, cannot pass turn");
-      }
-    } catch (Exception ex) {
-      System.err.println("Error passing turn: " + ex.getMessage());
-    }
-    
-    return false;
   }
 }
