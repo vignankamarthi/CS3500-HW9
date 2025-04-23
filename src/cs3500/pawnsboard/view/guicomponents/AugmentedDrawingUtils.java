@@ -49,7 +49,7 @@ public class AugmentedDrawingUtils {
     // First draw the regular cell background
     DrawingUtils.drawCellBackground(g2d, bounds, isHighlighted, colorScheme, content, owner);
     
-    // If there's a value modifier, draw it in the top right corner
+    // Show value modifiers (positive and negative) on empty and pawn cells
     if (valueModifier != 0) {
       // Save original font and color
       Font originalFont = g2d.getFont();
@@ -185,7 +185,7 @@ public class AugmentedDrawingUtils {
     // First draw the regular pawns
     DrawingUtils.drawPawns(g2d, bounds, count, player, colorScheme);
     
-    // If there's a value modifier, draw it in the top right corner
+    // Show value modifiers (positive and negative) on pawn cells
     if (valueModifier != 0) {
       // Save original font and color
       Font originalFont = g2d.getFont();
@@ -284,8 +284,8 @@ public class AugmentedDrawingUtils {
     // Draw the standard card cell (using effective value)
     DrawingUtils.drawCellCard(g2d, bounds, effectiveValue, player, colorScheme);
     
-    // If there's a value modifier, add indicator in top right
-    if (valueModifier != 0) {
+    // Only show negative value modifiers on cards
+    if (valueModifier < 0) {
       // Save original font and color
       Font originalFont = g2d.getFont();
       Color originalColor = g2d.getColor();

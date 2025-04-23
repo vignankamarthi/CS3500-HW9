@@ -26,7 +26,7 @@ import java.io.File;
  * This class provides a complete example of creating an augmented model,
  * connecting it to an augmented view, and setting up a controller for a human vs. human game.
  */
-public class AugmentedPawnsBoardDemo {
+public class PawnsBoardGameLevel2 {
 
   // Constants for board dimensions and hand size
   private static final int DEFAULT_ROWS = 3;
@@ -35,24 +35,14 @@ public class AugmentedPawnsBoardDemo {
 
   /**
    * Main method to run the demonstration.
-   * Creates and initializes the game components and displays the GUI.
    *
    * @param args command-line arguments (not used)
    */
-  public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> {
-      try {
-        // Create components
-        PawnsBoardAugmented<PawnsBoardAugmentedCard> model = createModel();
-        setupGame(model);
-        createAndShowGUI(model);
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(null,
-                "Error starting game: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-      }
-    });
+  public static void main(String[] args) throws InvalidDeckConfigurationException {
+    // Create components
+    PawnsBoardAugmented<PawnsBoardAugmentedCard> model = createModel();
+    setupGame(model);
+    createAndShowGUI(model);
   }
 
   /**
@@ -97,7 +87,8 @@ public class AugmentedPawnsBoardDemo {
     }
     
     // Start the game with the defined configuration
-    model.startGame(DEFAULT_ROWS, DEFAULT_COLUMNS, redDeckConfigPath, blueDeckConfigPath, DEFAULT_HAND_SIZE);
+    model.startGame(DEFAULT_ROWS, DEFAULT_COLUMNS, redDeckConfigPath, blueDeckConfigPath, 
+            DEFAULT_HAND_SIZE);
     
     // Add a status listener to log game events
     model.addModelStatusListener(new ModelStatusListener() {
@@ -206,9 +197,8 @@ public class AugmentedPawnsBoardDemo {
                     "- Green cells: Upgrading influence (+1 to card value)\n" +
                     "- Purple cells: Devaluing influence (-1 to card value)\n" +
                     "- Cyan cells: Regular influence\n" +
-                    "- Cards with value ≤ 0 are removed and replaced with pawns\n\n" +
-                    "Two windows will open - one for RED player and one for BLUE player.\n" +
-                    "Take turns playing on the appropriate window when it's your turn.",
+                    "- Cards with value ≤ 0 are removed and replaced with \n pawns equal to the " +
+                    "cost of the original card.",
             "Game Instructions", JOptionPane.INFORMATION_MESSAGE);
   }
 }

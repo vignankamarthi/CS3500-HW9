@@ -70,7 +70,7 @@ public class NormalColorScheme implements ColorScheme {
   
   @Override
   public Color getUpgradingInfluenceColor() {
-    return new Color(0, 150, 0); 
+    return new Color(0, 255, 0);
   }
   
   @Override
