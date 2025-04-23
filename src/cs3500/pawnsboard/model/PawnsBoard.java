@@ -41,6 +41,7 @@ import cs3500.pawnsboard.model.exceptions.InvalidDeckConfigurationException;
  * @param <E> the type of Cell used in this game's board
  */
 //TODO: Add Updated view screenshots for Demo
+//TODO: Update README to perfectly caputre all cahnges for level 1 (Part 2)
 public interface PawnsBoard<C extends Card, E extends PawnsBoardCell<C>>
         extends ReadOnlyPawnsBoard<C, E> {
 

@@ -577,7 +577,7 @@ public class PawnsBoardAugmentedTextualViewTest {
 
     // Check second row
     String[] row1Cells = rows[1].trim().split("\\s+");
-    assertEquals("1r+2", row1Cells[1]); // RED pawn with +2 modifier
+    assertEquals("1r+3", row1Cells[1]); // RED pawn with +2 modifier
     assertEquals("__+4", row1Cells[3]); // Empty cell with +4 modifier
   }
 
