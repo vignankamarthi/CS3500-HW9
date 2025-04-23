@@ -183,10 +183,11 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
     // Decrease the value modifier
     valueModifier -= amount;
     
-    // Check if there's a card and it needs to be removed due to devaluation
-    // Note: This is handled at cell level, but the model also checks, so it's okay
-    // if this doesn't always catch all cases
-    checkAndHandleDevaluation();
+    // Only check for card removal if there's actually a card present
+    // This prevents resetting value modifiers for cells without cards
+    if (content == CellContent.CARD && card != null) {
+      checkAndHandleDevaluation();
+    }
     
     return valueModifier;
   }
@@ -281,7 +282,9 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
     // Remove the card reference
     card = null;
     
-    // Reset value modifier to zero - important to clear any devaluation
+    // Reset value modifier to zero when a card is removed due to devaluation
+    // According to the rules: "Any increases or decreases from other influences exerted on that cell are removed."
+    // "In other words, the cell now adds +0 to a future card's value until another upgrading or devaluing influence affects it."
     valueModifier = 0;
   }
 }

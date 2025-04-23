@@ -687,14 +687,16 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     CellContent content = originalCell.getContent();
     PlayerColors owner = originalCell.getOwner();
     
+    // Always copy the value modifier first, regardless of cell content
+    // This ensures negative modifiers are preserved in the copy
+    cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
+    
     if (content == CellContent.PAWNS) {
       copyPawnsCell(originalCell, cellCopy, owner);
     } else if (content == CellContent.CARD) {
       copyCardCell(originalCell, cellCopy, owner);
-    } else if (originalCell.getValueModifier() != 0) {
-      // Copy value modifier for empty cells
-      cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
     }
+    // For EMPTY cells, we've already copied the value modifier above
   }
 
   /**
@@ -711,11 +713,8 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
       for (int i = 0; i < originalCell.getPawnCount(); i++) {
         cellCopy.addPawn(owner);
       }
-      
-      // Also copy any value modifier
-      if (originalCell.getValueModifier() != 0) {
-        cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
-      }
+      // Value modifier is already copied in the copyCell method,
+      // so we don't need to copy it again here
     } catch (Exception e) {
       throw new IllegalStateException("Error copying pawn: " + e.getMessage());
     }
@@ -731,11 +730,11 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
   private void copyCardCell(PawnsBoardAugmentedCell<C> originalCell, 
                          PawnsBoardAugmentedCell<C> cellCopy,
                          PlayerColors owner) {
-    // First set the card
+    // Set the card (value modifier is already copied in the copyCell method)
     cellCopy.setCard(originalCell.getCard(), owner);
     
-    // Then copy the value modifier directly without triggering card removal
-    cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
+    // Note: We don't need to copy the value modifier again here
+    // since it was already copied in the parent copyCell method
   }
 
   /**
