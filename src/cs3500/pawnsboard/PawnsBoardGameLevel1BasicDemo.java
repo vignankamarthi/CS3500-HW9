@@ -21,7 +21,6 @@ import java.io.File;
  * - Mixed influence cards (all possible combinations)
  * - Scoring with modifiers
  */
-//TODO: Perfectly review demonstrations
 public class PawnsBoardGameLevel1BasicDemo {
 
   private static final int BOARD_ROWS = 3;

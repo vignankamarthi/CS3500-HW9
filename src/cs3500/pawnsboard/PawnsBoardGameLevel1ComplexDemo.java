@@ -23,7 +23,6 @@ import java.io.File;
  * - Influence persistence
  * - Complex edge cases
  */
-//TODO: Perfectly review demonstrations
 public class PawnsBoardGameLevel1ComplexDemo {
 
   private static final int BOARD_ROWS = 3;

@@ -22,7 +22,6 @@ import java.util.Optional;
  * This demonstration shows how the strategy prioritizes row-by-row optimization
  * when making decisions in a game with value modifiers and influence effects.
  */
-//TODO: Perfectly review demonstrations
 public class PawnsBoardStrategyMaximizeRowDemo {
 
   private static final int BOARD_ROWS = 3;
