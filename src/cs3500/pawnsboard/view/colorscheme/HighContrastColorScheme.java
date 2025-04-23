@@ -68,4 +68,19 @@ public class HighContrastColorScheme implements ColorScheme {
   public Color getCardTextColor() {
     return Color.BLACK;
   }
+  
+  @Override
+  public Color getUpgradingInfluenceColor() {
+    return new Color(0, 255, 0);
+  }
+  
+  @Override
+  public Color getDevaluingInfluenceColor() {
+    return new Color(128, 0, 128); 
+  }
+  
+  @Override
+  public Color getValueModifierColor() {
+    return new Color(255, 140, 0);
+  }
 }

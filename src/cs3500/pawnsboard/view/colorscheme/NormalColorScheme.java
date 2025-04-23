@@ -67,4 +67,19 @@ public class NormalColorScheme implements ColorScheme {
   public Color getCardTextColor() {
     return Color.WHITE;
   }
+  
+  @Override
+  public Color getUpgradingInfluenceColor() {
+    return new Color(0, 150, 0); 
+  }
+  
+  @Override
+  public Color getDevaluingInfluenceColor() {
+    return new Color(128, 0, 0); 
+  }
+  
+  @Override
+  public Color getValueModifierColor() {
+    return Color.YELLOW;
+  }
 }

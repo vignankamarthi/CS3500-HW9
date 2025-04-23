@@ -93,4 +93,28 @@ public interface ColorScheme {
    * @return the card cell text color
    */
   Color getCardTextColor();
+  
+  /**
+   * Gets the color for upgrading influence cells.
+   * This represents the 'U' influence type in the augmented game.
+   *
+   * @return the upgrading influence color
+   */
+  Color getUpgradingInfluenceColor();
+  
+  /**
+   * Gets the color for devaluing influence cells.
+   * This represents the 'D' influence type in the augmented game.
+   *
+   * @return the devaluing influence color
+   */
+  Color getDevaluingInfluenceColor();
+  
+  /**
+   * Gets the color for displaying value modifiers.
+   * This is used to show the +/- values on cells.
+   *
+   * @return the value modifier text color
+   */
+  Color getValueModifierColor();
 }
