@@ -627,11 +627,31 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
    * @return a new PawnsBoardAugmented with the same state
    * @throws IllegalStateException if the game hasn't been started
    */
-  //TODO: Refactor to under 50 lines
   @Override
   public PawnsBoardAugmented<C> copy() throws IllegalStateException {
     validateGameStarted();
+    
     PawnsBoardAugmented<C> copy = new PawnsBoardAugmented<>(deckBuilder, influenceManager);
+    
+    // Copy basic game state
+    copyBasicGameState(copy);
+    
+    // Create and copy the board
+    copy.augmentedBoard = createEmptyAugmentedBoard(rows, columns);
+    copyBoardState(copy);
+    
+    // Copy decks and hands
+    copyDecksAndHands(copy);
+    
+    return copy;
+  }
+
+  /**
+   * Copies basic game state to the target copy.
+   *
+   * @param copy the target copy
+   */
+  private void copyBasicGameState(PawnsBoardAugmented<C> copy) {
     copy.gameStarted = this.gameStarted;
     copy.gameOver = this.gameOver;
     copy.currentPlayerColors = this.currentPlayerColors;
@@ -639,47 +659,95 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     copy.startingHandSize = this.startingHandSize;
     copy.rows = this.rows;
     copy.columns = this.columns;
-    copy.augmentedBoard = new ArrayList<>(rows);
+  }
+
+  /**
+   * Copies the board state to the target copy.
+   *
+   * @param copy the target copy
+   */
+  private void copyBoardState(PawnsBoardAugmented<C> copy) {
     for (int r = 0; r < rows; r++) {
-      List<PawnsBoardAugmentedCell<C>> rowCopy = new ArrayList<>(columns);
       for (int c = 0; c < columns; c++) {
         PawnsBoardAugmentedCell<C> originalCell = this.augmentedBoard.get(r).get(c);
-        PawnsBoardAugmentedCell<C> cellCopy = new PawnsBoardAugmentedCell<>();
-        CellContent content = originalCell.getContent();
-        PlayerColors owner = originalCell.getOwner();
-        if (content == CellContent.PAWNS) {
-          for (int i = 0; i < originalCell.getPawnCount(); i++) {
-            try {
-              cellCopy.addPawn(owner);
-            } catch (Exception e) {
-              throw new IllegalStateException("Error copying pawn: " + e.getMessage());
-            }
-          }
-        } else if (content == CellContent.CARD) {
-          cellCopy.setCard(originalCell.getCard(), owner);
-          int valueModifier = originalCell.getValueModifier();
-          if (valueModifier > 0) {
-            cellCopy.upgrade(valueModifier);
-          } else if (valueModifier < 0) {
-            cellCopy.devalue(Math.abs(valueModifier));
-          }
-        } else if (originalCell.getValueModifier() != 0) {
-          int valueModifier = originalCell.getValueModifier();
-          if (valueModifier > 0) {
-            cellCopy.upgrade(valueModifier);
-          } else if (valueModifier < 0) {
-            cellCopy.devalue(Math.abs(valueModifier));
-          }
-        }
-        rowCopy.add(cellCopy);
+        PawnsBoardAugmentedCell<C> cellCopy = copy.augmentedBoard.get(r).get(c);
+        
+        copyCell(originalCell, cellCopy);
       }
-      copy.augmentedBoard.add(rowCopy);
     }
+  }
+
+  /**
+   * Copies a single cell's state.
+   *
+   * @param originalCell the source cell
+   * @param cellCopy the target cell
+   */
+  private void copyCell(PawnsBoardAugmentedCell<C> originalCell, PawnsBoardAugmentedCell<C> cellCopy) {
+    CellContent content = originalCell.getContent();
+    PlayerColors owner = originalCell.getOwner();
+    
+    if (content == CellContent.PAWNS) {
+      copyPawnsCell(originalCell, cellCopy, owner);
+    } else if (content == CellContent.CARD) {
+      copyCardCell(originalCell, cellCopy, owner);
+    } else if (originalCell.getValueModifier() != 0) {
+      // Copy value modifier for empty cells
+      cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
+    }
+  }
+
+  /**
+   * Copies a cell with pawns.
+   *
+   * @param originalCell the source cell
+   * @param cellCopy the target cell
+   * @param owner the owner of the pawns
+   */
+  private void copyPawnsCell(PawnsBoardAugmentedCell<C> originalCell, 
+                          PawnsBoardAugmentedCell<C> cellCopy,
+                          PlayerColors owner) {
+    try {
+      for (int i = 0; i < originalCell.getPawnCount(); i++) {
+        cellCopy.addPawn(owner);
+      }
+      
+      // Also copy any value modifier
+      if (originalCell.getValueModifier() != 0) {
+        cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
+      }
+    } catch (Exception e) {
+      throw new IllegalStateException("Error copying pawn: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Copies a cell with a card.
+   *
+   * @param originalCell the source cell
+   * @param cellCopy the target cell
+   * @param owner the owner of the card
+   */
+  private void copyCardCell(PawnsBoardAugmentedCell<C> originalCell, 
+                         PawnsBoardAugmentedCell<C> cellCopy,
+                         PlayerColors owner) {
+    // First set the card
+    cellCopy.setCard(originalCell.getCard(), owner);
+    
+    // Then copy the value modifier directly without triggering card removal
+    cellCopy.setValueModifierDirectly(originalCell.getValueModifier());
+  }
+
+  /**
+   * Copies decks and hands to the target copy.
+   *
+   * @param copy the target copy
+   */
+  private void copyDecksAndHands(PawnsBoardAugmented<C> copy) {
     copy.redDeck = new ArrayList<>(this.redDeck);
     copy.blueDeck = new ArrayList<>(this.blueDeck);
     copy.redHand = new ArrayList<>(this.redHand);
     copy.blueHand = new ArrayList<>(this.blueHand);
-    return copy;
   }
   
 }

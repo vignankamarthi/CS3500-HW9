@@ -233,6 +233,16 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
   }
   
   /**
+   * Sets the value modifier directly without triggering card removal checks.
+   * This is used specifically for copying the board state.
+   *
+   * @param modifier the value modifier to set
+   */
+  public void setValueModifierDirectly(int modifier) {
+    this.valueModifier = modifier;
+  }
+  
+  /**
    * Gets the effective value of the card in this cell, including any value modifiers.
    * If there is no card in the cell, returns 0.
    * The effective value will never be less than 0 for scoring purposes.

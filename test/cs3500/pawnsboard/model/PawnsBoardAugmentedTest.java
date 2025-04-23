@@ -18,6 +18,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -583,7 +585,7 @@ public class PawnsBoardAugmentedTest {
   }
 
   /**
-   * Tests checking if a card should be removed.
+   * Tests checking if a card should be removed and verifies actual removal.
    */
   @Test
   public void testShouldRemoveCard() throws InvalidDeckConfigurationException,
@@ -602,11 +604,19 @@ public class PawnsBoardAugmentedTest {
 
     // Apply devaluing less than value
     model.devalueCell(0, 0, originalValue - 1);
+
+    // Card should still exist but its effective value should be 1
+    assertNotNull(model.getCardAtCell(0, 0));
+    assertEquals(CellContent.CARD, model.getCellContent(0, 0));
+    assertEquals(1, originalValue + model.getCellValueModifier(0, 0));
     assertFalse(model.shouldRemoveCard(0, 0));
 
     // Devalue to exactly 0
     model.devalueCell(0, 0, 1);
-    assertTrue(model.shouldRemoveCard(0, 0));
+
+    // Now the card should be automatically removed and replaced with pawns
+    assertNull(model.getCardAtCell(0, 0));
+    assertEquals(CellContent.PAWNS, model.getCellContent(0, 0));
   }
 
   /**
