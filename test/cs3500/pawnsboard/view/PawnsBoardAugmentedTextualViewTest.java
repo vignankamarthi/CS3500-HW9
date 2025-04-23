@@ -2,11 +2,8 @@ package cs3500.pawnsboard.view;
 
 import cs3500.pawnsboard.model.AugmentedPawnsBoard;
 import cs3500.pawnsboard.model.PawnsBoardAugmented;
-import cs3500.pawnsboard.model.PawnsBoardBase;
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
-import cs3500.pawnsboard.model.cards.PawnsBoardBaseCard;
 import cs3500.pawnsboard.model.cards.deckbuilder.PawnsBoardAugmentedDeckBuilder;
-import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.model.exceptions.IllegalAccessException;
 import cs3500.pawnsboard.model.exceptions.IllegalCardException;
 import cs3500.pawnsboard.model.exceptions.IllegalOwnerException;
