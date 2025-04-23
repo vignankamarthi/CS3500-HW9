@@ -547,7 +547,7 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
   /**
    * Gets the dimensions of the board.
    *
-   * @return an array where the first element is the number of rows and the second is the number of columns
+   * @return an array where the first element = rows and the second = columns
    * @throws IllegalStateException if the game hasn't been started
    */
   @Override
@@ -681,7 +681,8 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
    * @param originalCell the source cell
    * @param cellCopy the target cell
    */
-  private void copyCell(PawnsBoardAugmentedCell<C> originalCell, PawnsBoardAugmentedCell<C> cellCopy) {
+  private void copyCell(PawnsBoardAugmentedCell<C> originalCell, 
+                        PawnsBoardAugmentedCell<C> cellCopy) {
     CellContent content = originalCell.getContent();
     PlayerColors owner = originalCell.getOwner();
     

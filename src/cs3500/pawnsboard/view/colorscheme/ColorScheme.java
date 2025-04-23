@@ -5,9 +5,8 @@ import java.awt.Color;
 /**
  * Interface that defines the color scheme for the Pawns Board game.
  * This allows for different visual themes to be implemented and switched at runtime,
- * following the Strategy pattern.
- * 
- * This interface focuses only on board cell colors and score text colors.
+ * following the Strategy pattern. This interface focuses only on board cell colors 
+ * and score text colors.
  */
 public interface ColorScheme {
   

@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.model.influence;
 
 import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 
 /**

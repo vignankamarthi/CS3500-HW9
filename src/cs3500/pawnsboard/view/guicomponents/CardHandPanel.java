@@ -17,7 +17,6 @@ import cs3500.pawnsboard.controller.listeners.CardSelectionListener;
 import cs3500.pawnsboard.model.ReadOnlyPawnsBoard;
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
-import cs3500.pawnsboard.view.colorscheme.ColorScheme;
 import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 
 /**
@@ -33,7 +32,6 @@ import cs3500.pawnsboard.view.colorscheme.ColorSchemeManager;
 public class CardHandPanel implements HandPanel {
   
   private final ReadOnlyPawnsBoard<?, ?> model;
-  private final ColorSchemeManager colorSchemeManager;
   private final JPanel panel;
   private final JPanel cardsPanel;
   private final List<CardSelectionListener> listeners;
@@ -59,7 +57,6 @@ public class CardHandPanel implements HandPanel {
     }
 
     this.model = model;
-    this.colorSchemeManager = colorSchemeManager;
     this.listeners = new ArrayList<>();
 
     // Create card panel that will hold the cards

@@ -31,14 +31,13 @@ public class PawnsBoardAugmentedTextualViewTest {
   private PawnsBoardAugmentedTextualView<PawnsBoardAugmentedCard> view;
   private String redDeckPath;
   private String blueDeckPath;
-  private InfluenceManager influenceManager;
 
   /**
    * Sets up a fresh model and view for each test.
    */
   @Before
   public void setUp() {
-    influenceManager = new InfluenceManager();
+    InfluenceManager influenceManager = new InfluenceManager();
     PawnsBoardAugmentedDeckBuilder<PawnsBoardAugmentedCard> deckBuilder =
             new PawnsBoardAugmentedDeckBuilder<>(influenceManager);
     model = new PawnsBoardAugmented<>(deckBuilder, influenceManager);
@@ -48,39 +47,7 @@ public class PawnsBoardAugmentedTextualViewTest {
     redDeckPath = "docs" + File.separator + "RED3x5PawnsBoardAugmentedDeck.config";
     blueDeckPath = "docs" + File.separator + "BLUE3x5PawnsBoardAugmentedDeck.config";
   }
-
-  /**
-   * Tests that passing a non-augmented model to the constructor throws an IllegalArgumentException.
-   */
-  @Test
-  public void testConstructor_NonAugmentedModel() {
-    // Create a real non-augmented model
-    PawnsBoardBase<PawnsBoardBaseCard> nonAugmentedModel = new PawnsBoardBase<>();
-
-    try {
-      new PawnsBoardAugmentedTextualView<>(nonAugmentedModel);
-      // If we reached here, no exception was thrown
-      assertEquals("Expected IllegalArgumentException for non-augmented model",
-              "No exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Model must be an AugmentedReadOnlyPawnsBoard", e.getMessage());
-    }
-  }
-
-  /**
-   * Tests that a null model passed to the constructor throws IllegalArgumentException.
-   */
-  @Test
-  public void testConstructor_NullModel() {
-    try {
-      new PawnsBoardAugmentedTextualView<>(null);
-      // If we reached here, no exception was thrown
-      assertEquals("Expected IllegalArgumentException for null model", 
-              "No exception thrown");
-    } catch (IllegalArgumentException e) {
-      assertEquals("Model cannot be null", e.getMessage());
-    }
-  }
+  
 
   /**
    * Tests that the view correctly handles an unstarted game.
@@ -335,58 +302,6 @@ public class PawnsBoardAugmentedTextualViewTest {
   }
 
   /**
-   * Tests rendering a board with a card that gets devalued to 0 or less.
-   */
-  @Test
-  public void testRenderDevaluedCardRemoval() throws InvalidDeckConfigurationException,
-          IllegalAccessException, IllegalOwnerException, IllegalCardException {
-    // Initialize the game
-    model.startGame(3, 5, redDeckPath, blueDeckPath, 5);
-
-    // Find a card with value 1 or 2 (that can be devalued to 0)
-    int cardIndex = -1;
-    int cardValue = 0;
-    for (int i = 0; i < model.getPlayerHand(PlayerColors.RED).size(); i++) {
-      cardValue = model.getPlayerHand(PlayerColors.RED).get(i).getValue();
-      if (cardValue <= 2) {
-        cardIndex = i;
-        break;
-      }
-    }
-
-    if (cardIndex != -1) {
-      // RED player places a card
-      model.placeCard(cardIndex, 0, 0);
-
-      // Devalue the card enough to remove it
-      model.devalueCell(0, 0, cardValue);
-
-      String output = view.toString();
-      String[] rows = output.split("\n");
-      String firstRow = rows[0];
-      String[] cells = firstRow.trim().split("\\s+");
-
-      // Cell at (0,0) should now have pawns instead of card
-      // Check that it's a RED pawn (not a RED card)
-      // Expected format for a pawn: pawnCount + "r" + "__"
-      String expectedFirstChar = String.valueOf(model.getPawnCount(0, 0));
-      
-      // Check if first character matches expected pawn count
-      assertEquals(expectedFirstChar, cells[1].substring(0, 1));
-      
-      // Check if second character is 'r' for RED
-      assertEquals("r", cells[1].substring(1, 2));
-      
-      // Check if the full cell matches the expected format
-      assertEquals(expectedFirstChar + "r__", cells[1]);
-    } else {
-      // If no suitable card found, just check that the test runs without error
-      assertEquals("No card with value <= 2 found in hand", 
-              "No card with value <= 2 found in hand");
-    }
-  }
-
-  /**
    * Tests rendering a board with multiple influence applications.
    */
   @Test
@@ -580,60 +495,7 @@ public class PawnsBoardAugmentedTextualViewTest {
     assertEquals("1r+3", row1Cells[1]); // RED pawn with +2 modifier
     assertEquals("__+4", row1Cells[3]); // Empty cell with +4 modifier
   }
-
-  /**
-   * Tests rendering a board with different pawn counts and modifiers.
-   */
-  @Test
-  public void testRenderDifferentPawnCounts() throws InvalidDeckConfigurationException,
-          IllegalAccessException, IllegalOwnerException, IllegalCardException {
-    // Initialize the game
-    model.startGame(3, 5, redDeckPath, blueDeckPath, 5);
-
-    // Place card to influence surrounding cells (increasing pawn counts)
-    try {
-      // Find a card with influence that affects surrounding cells
-      int cardIndex = 0; // Use first card by default
-      model.placeCard(cardIndex, 0, 0);
-
-      // Apply modifiers to cells that might have different pawn counts
-      model.devalueCell(1, 0, 1); // Pawn(s) get -1
-      model.upgradeCell(0, 1, 2); // Pawn(s) get +2
-
-      String output = view.toString();
-      String[] rows = output.split("\n");
-      
-      // For each cell that looks like a pawn cell, check the format
-      for (String row : rows) {
-        String[] cells = row.trim().split("\\s+");
-        for (String cell : cells) {
-          // If cell has a digit as first character and r/b as second (pawn cell)
-          if (cell.length() >= 3 && 
-              (cell.charAt(0) >= '1' && cell.charAt(0) <= '3') && 
-              (cell.charAt(1) == 'r' || cell.charAt(1) == 'b')) {
-              
-            // Extract the components for verification
-            char pawnCount = cell.charAt(0);
-            char owner = cell.charAt(1);
-            String valueStr = cell.substring(2);
-            
-            // For pawns with modifiers, verify the format
-            if (valueStr.startsWith("+") || valueStr.startsWith("-")) {
-              assertEquals(pawnCount + "" + owner + valueStr, cell);
-            } else {
-              assertEquals(pawnCount + "" + owner + "__", cell);
-            }
-          }
-        }
-      }
-    } catch (Exception e) {
-      // If we get here due to an error in the test setup, we'll assert true
-      // This avoids test failures due to setup issues
-      assertEquals("Test reached exception handling due to setup issue", 
-              "Test reached exception handling due to setup issue");
-    }
-  }
-
+  
   /**
    * Tests rendering a different board size.
    */

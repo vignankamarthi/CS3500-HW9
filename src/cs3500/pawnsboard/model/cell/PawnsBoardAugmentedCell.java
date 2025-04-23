@@ -283,8 +283,10 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
     card = null;
     
     // Reset value modifier to zero when a card is removed due to devaluation
-    // According to the rules: "Any increases or decreases from other influences exerted on that cell are removed."
-    // "In other words, the cell now adds +0 to a future card's value until another upgrading or devaluing influence affects it."
+    // According to the rules: "Any increases or decreases from other influences exerted on that 
+    // cell are removed."
+    // "In other words, the cell now adds +0 to a future card's value until another upgrading or 
+    // devaluing influence affects it."
     valueModifier = 0;
   }
 }

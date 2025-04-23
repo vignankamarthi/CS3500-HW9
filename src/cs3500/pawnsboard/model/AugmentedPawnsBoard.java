@@ -2,10 +2,7 @@ package cs3500.pawnsboard.model;
 
 import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.cell.PawnsBoardCell;
-import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.model.exceptions.IllegalAccessException;
-import cs3500.pawnsboard.model.exceptions.IllegalCardException;
-import cs3500.pawnsboard.model.exceptions.IllegalOwnerException;
 
 /**
  * This interface extends PawnsBoard with additional functionality for an augmented version

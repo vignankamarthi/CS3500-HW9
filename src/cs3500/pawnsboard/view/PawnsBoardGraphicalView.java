@@ -40,7 +40,6 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
   private final ColorSchemeManager colorSchemeManager;
   private final GameBoardPanel boardPanel;
   private final CardHandPanel handPanel;
-  private final JPanel infoPanel;
   private final JLabel statusLabel;
   private final JComboBox<String> colorSchemeComboBox;
 
@@ -76,7 +75,7 @@ public class PawnsBoardGraphicalView extends JFrame implements PawnsBoardGUIView
     // Create panels with this view's color scheme manager
     this.boardPanel = new GameBoardPanel(model, colorSchemeManager);
     this.handPanel = new CardHandPanel(model, colorSchemeManager);
-    this.infoPanel = new JPanel();
+    JPanel infoPanel = new JPanel();
 
     // Create dropdown for color schemes
     this.colorSchemeComboBox = new JComboBox<>(availableSchemes);

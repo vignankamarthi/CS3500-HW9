@@ -422,14 +422,6 @@ We extended our testing framework to verify the color scheme functionality:
     - Verified initial state, scheme switching, and high contrast detection
     - Tested toggling between schemes and scheme-specific state tracking
 
-#### Testing Images
-
-The implementation includes visual documentation in the form of screenshots showing the application with different color schemes. These images can be found in the `test/cs3500/pawnsboard/view/TestingImages` directory and show:
-
-- Normal mode vs. High Contrast mode comparison
-- Different board states with high contrast enabled
-- Card display with enhanced visibility
-- UI controls for switching between modes
 
 These screenshots serve as both documentation and a visual testing reference to ensure the color schemes are correctly implemented and provide the intended accessibility benefits.
 
@@ -439,7 +431,7 @@ These screenshots serve as both documentation and a visual testing reference to 
 
 ### Command Line Instructions to Ensure Smooth Submission
 
-zip -rX -D submission.zip src/ test/ docs/ homework5.jar README.md -x '*/.*' '*/__MACOSX/*'
+zip -rX -D submission.zip src/ test/ docs/ README.md -x '*/.*' '*/__MACOSX/*'
 
 
 

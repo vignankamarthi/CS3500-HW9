@@ -132,7 +132,8 @@ public class PawnsBoardStrategyMaximizeRowDemo {
       System.out.println("This affects the strategy's decision-making for the next move.");
 
       // ===== DEMONSTRATION 3: STRATEGY RESPONSE TO CHANGED CONDITIONS =====
-      System.out.println("============= STEP 3: STRATEGY RESPONSE TO CHANGED CONDITIONS =============");
+      System.out.println("============= STEP 3: STRATEGY RESPONSE TO CHANGED CONDITIONS " +
+              "=============");
       System.out.println("Now let's see how the strategy responds to the changed scores:");
 
       // Get strategy's updated move recommendation
@@ -160,7 +161,8 @@ public class PawnsBoardStrategyMaximizeRowDemo {
       printRowScores(model);
 
       // ===== DEMONSTRATION 4: COMPLEX SCENARIO WITH MULTIPLE INFLUENCES =====
-      System.out.println("============= STEP 4: COMPLEX SCENARIO WITH MULTIPLE INFLUENCES =============");
+      System.out.println("============= STEP 4: COMPLEX SCENARIO WITH MULTIPLE INFLUENCES " +
+              "=============");
       System.out.println("BLUE creates a more complex scenario with upgrading influences:");
 
       // BLUE makes another move to create a more complex board state
@@ -171,7 +173,8 @@ public class PawnsBoardStrategyMaximizeRowDemo {
       printRowScores(model);
 
       // ===== DEMONSTRATION 5: STRATEGY HANDLING COMPLEX BOARD STATE =====
-      System.out.println("============= STEP 5: STRATEGY HANDLING COMPLEX BOARD STATE =============");
+      System.out.println("============= STEP 5: STRATEGY HANDLING COMPLEX BOARD STATE " +
+              "=============");
       System.out.println("Now the strategy must analyze a board with multiple value modifiers:");
 
       // Get strategy's recommendation for the complex scenario
@@ -205,12 +208,16 @@ public class PawnsBoardStrategyMaximizeRowDemo {
       System.out.println("2. How value modifiers influence the strategy's decisions");
       System.out.println("3. How the strategy adapts to changing board conditions");
       System.out.println("4. How it handles complex scenarios with multiple influence types");
-      System.out.println("5. The strategy's focus on improving row scores relative to the opponent");
+      System.out.println("5. The strategy's focus on improving row scores relative to the " +
+              "opponent");
       System.out.println();
       System.out.println("Key insights:");
-      System.out.println("- The strategy works 'as-is' with the augmented model because it relies on");
-      System.out.println("  the model's methods to calculate scores, which already account for modifiers");
-      System.out.println("- No special adaptation was needed for the augmented features because the");
+      System.out.println("- The strategy works 'as-is' with the augmented model because it " +
+              "relies on");
+      System.out.println("  the model's methods to calculate scores, which already account for " +
+              "modifiers");
+      System.out.println("- No special adaptation was needed for the augmented features because" +
+              " the");
       System.out.println("  strategy is abstracted from the specific scoring implementation");
       System.out.println("- This demonstrates good separation of concerns in the design");
       System.out.println();
@@ -314,7 +321,8 @@ public class PawnsBoardStrategyMaximizeRowDemo {
                       newRowScores[0] == newRowScores[1] ? "tied" : "losing"));
 
       if (newRowScores[0] > newRowScores[1]) {
-        System.out.println("- This is a good move because it gives RED a higher score than BLUE in this row");
+        System.out.println("- This is a good move because it gives RED a higher score than BLUE " +
+                "in this row");
       }
 
     } catch (Exception e) {

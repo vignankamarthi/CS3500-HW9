@@ -317,8 +317,10 @@ public class GameBoardPanel implements BoardPanel {
       java.awt.Rectangle blueBounds = new java.awt.Rectangle(blueX, y, cellSize, cellSize);
       
       // Use DrawingUtils to draw scores
-      DrawingUtils.drawScore(g2d, redBounds, redScore, PlayerColors.RED, colorSchemeManager.getColorScheme());
-      DrawingUtils.drawScore(g2d, blueBounds, blueScore, PlayerColors.BLUE, colorSchemeManager.getColorScheme());
+      DrawingUtils.drawScore(g2d, redBounds, redScore, PlayerColors.RED, 
+              colorSchemeManager.getColorScheme());
+      DrawingUtils.drawScore(g2d, blueBounds, blueScore, PlayerColors.BLUE, 
+              colorSchemeManager.getColorScheme());
     } catch (IllegalArgumentException | IllegalStateException e) {
       // Row may be invalid or game not started
     }

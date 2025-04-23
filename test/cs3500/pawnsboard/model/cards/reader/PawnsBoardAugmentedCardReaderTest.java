@@ -424,9 +424,8 @@ public class PawnsBoardAugmentedCardReaderTest {
      * @throws Exception if there is an issue applying the influence
      */
     @Override
-    public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(T cell, 
-                                                                         PlayerColors currentPlayer) 
-            throws Exception {
+    public <T extends PawnsBoardAugmentedCell<?>> boolean applyInfluence(
+            T cell, PlayerColors currentPlayer) throws Exception {
       return false;
     }
 

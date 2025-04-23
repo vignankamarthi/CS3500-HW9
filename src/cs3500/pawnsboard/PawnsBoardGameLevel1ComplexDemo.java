@@ -46,7 +46,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       // Set up deck paths - use the complex-specific deck files
       String redDeckPath = "docs" + File.separator + "REDComplex3x5PawnsBoardAugmentedDeck.config";
-      String blueDeckPath = "docs" + File.separator + "BLUEComplex3x5PawnsBoardAugmentedDeck.config";
+      String blueDeckPath = "docs" + File.separator + "BLUEComplex3x5PawnsBoardAugmentedDeck" +
+              ".config";
 
       // Start the game
       model.startGame(BOARD_ROWS, BOARD_COLS, redDeckPath, blueDeckPath, HAND_SIZE);
@@ -55,7 +56,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
       PawnsBoardAugmentedTextualView<PawnsBoardAugmentedCard> view =
               new PawnsBoardAugmentedTextualView<>(model);
 
-      System.out.println("============= AUGMENTED PAWNS BOARD GAME - COMPLEX DEMONSTRATION =============");
+      System.out.println("============= AUGMENTED PAWNS BOARD GAME - COMPLEX DEMONSTRATION " +
+              "=============");
       System.out.println();
       System.out.println("Initial game state:");
       System.out.println(view.renderGameState("Game Start"));
@@ -64,15 +66,29 @@ public class PawnsBoardGameLevel1ComplexDemo {
       // Add pawns for demonstrations
       try {
         // For RED positions (top to bottom, left to right)
-        for (int i = 0; i < 1; i++) model.getCell(0, 0).addPawn(PlayerColors.RED);
-        for (int i = 0; i < 1; i++) model.getCell(1, 0).addPawn(PlayerColors.RED);
-        for (int i = 0; i < 1; i++) model.getCell(2, 1).addPawn(PlayerColors.RED);
+        for (int i = 0; i < 1; i++) {
+          model.getCell(0, 0).addPawn(PlayerColors.RED);
+        }
+        for (int i = 0; i < 1; i++) {
+          model.getCell(1, 0).addPawn(PlayerColors.RED);
+        }
+        for (int i = 0; i < 1; i++) {
+          model.getCell(2, 1).addPawn(PlayerColors.RED);
+        }
 
         // For BLUE positions
-        for (int i = 0; i < 1; i++) model.getCell(0, 1).addPawn(PlayerColors.BLUE);
-        for (int i = 0; i < 1; i++) model.getCell(0, 4).addPawn(PlayerColors.BLUE);
-        for (int i = 0; i < 1; i++) model.getCell(1, 4).addPawn(PlayerColors.BLUE);
-        for (int i = 0; i < 2; i++) model.getCell(2, 4).addPawn(PlayerColors.BLUE);
+        for (int i = 0; i < 1; i++) {
+          model.getCell(0, 1).addPawn(PlayerColors.BLUE);
+        }
+        for (int i = 0; i < 1; i++) {
+          model.getCell(0, 4).addPawn(PlayerColors.BLUE);
+        }
+        for (int i = 0; i < 1; i++) {
+          model.getCell(1, 4).addPawn(PlayerColors.BLUE);
+        }
+        for (int i = 0; i < 2; i++) {
+          model.getCell(2, 4).addPawn(PlayerColors.BLUE);
+        }
 
         System.out.println("Pawns set up successfully for the demonstration");
         System.out.println(view.renderGameState("After Setting Up Pawns"));
@@ -97,7 +113,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       // ===== DEMONSTRATION 2: PLACING A CARD WITH VALUE 1 ON A DEVALUED CELL =====
       System.out.println("============= FEATURE DEMONSTRATION: ZERO-VALUE CARD SCENARIO =====");
-      System.out.println("BLUE plays 'Fortify' (value 1) card at (0,1) - a cell with a -1 modifier");
+      System.out.println("BLUE plays 'Fortify' (value 1) card at (0,1) - a cell with a -1 " +
+              "modifier");
       System.out.println("Since 1 + (-1) = 0, this will result in a card with 0 effective value");
       System.out.println();
 
@@ -105,7 +122,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
               "BLUE places Fortify at (0,1)");
 
       System.out.println();
-      System.out.println("Notice the card's effective value is 0 - it contributes nothing to scoring");
+      System.out.println("Notice the card's effective value is 0 - it contributes nothing to " +
+              "scoring");
       System.out.println("But it remains on the board since it hasn't gone below 0");
       System.out.println();
 
@@ -123,7 +141,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       // ===== DEMONSTRATION 3: MULTIPLE DEVALUING EFFECTS FOR CARD REMOVAL =====
       System.out.println("============= FEATURE DEMONSTRATION: CARD REMOVAL MECHANICS =====");
-      System.out.println("RED plays 'Curse' card at (1,0) - This will apply additional -1 modifiers");
+      System.out.println("RED plays 'Curse' card at (1,0) - This will apply additional -1 " +
+              "modifiers");
       System.out.println("If these affect a card with effective value of 0, it will be removed");
       System.out.println();
 
@@ -133,7 +152,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
       System.out.println();
       System.out.println("Look at cell (0,1) - the card has been removed and replaced with pawns!");
       System.out.println("When a card's effective value drops below 0, it's automatically removed");
-      System.out.println("The cell now has pawns equal to the original card's cost (1 in this case)");
+      System.out.println("The cell now has pawns equal to the original card's cost (1 in this " +
+              "case)");
       System.out.println();
 
       // Add BLUE pawns to position (0,3) for next demonstration
@@ -159,13 +179,15 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       System.out.println();
       System.out.println("Notice cell (0,1) now has a new value modifier - the old one was reset");
-      System.out.println("When a card is removed due to devaluation, its cell's modifiers are reset");
+      System.out.println("When a card is removed due to devaluation, its cell's modifiers are " +
+              "reset");
       System.out.println("New influences can then affect the cell normally");
       System.out.println();
 
       // ===== DEMONSTRATION 5: COMPLEX PATTERN - MULTIPLE INFLUENCE TYPES =====
       System.out.println("============= FEATURE DEMONSTRATION: COMPLEX INFLUENCE PATTERNS =====");
-      System.out.println("RED plays 'Balance' card at (1,1) - This has a complex pattern of U and D influences");
+      System.out.println("RED plays 'Balance' card at (1,1) - This has a complex pattern of U " +
+              "and D influences");
       System.out.println("It showcases how different influence types can be arranged in a pattern");
       System.out.println();
 
@@ -174,13 +196,16 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       System.out.println();
       System.out.println("Observe the complex pattern of upgrading and devaluing around the card");
-      System.out.println("This demonstrates the flexibility of influence patterns in the augmented model");
+      System.out.println("This demonstrates the flexibility of influence patterns in the " +
+              "augmented model");
       System.out.println();
 
       // ===== DEMONSTRATION 6: REMOVING A HIGHER VALUE CARD =====
       System.out.println("============= FEATURE DEMONSTRATION: REMOVING HIGHER VALUE CARDS =====");
-      System.out.println("BLUE plays 'Corrupt' card at (0,3) - We're setting up to remove a higher value card");
-      System.out.println("This will demonstrate how larger value cards need more devaluing to remove");
+      System.out.println("BLUE plays 'Corrupt' card at (0,3) - We're setting up to remove a " +
+              "higher value card");
+      System.out.println("This will demonstrate how larger value cards need more devaluing " +
+              "to remove");
       System.out.println();
 
       executeMove(model, view, 0, 0, 3,
@@ -193,7 +218,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       // Add RED pawns to position (2,1) for next demonstration if needed
       try {
-        if (model.getCellContent(2, 1) == null || model.getPawnCount(2, 1) < 2) {
+        if (model.getCellContent(2, 1) == null 
+                || model.getPawnCount(2, 1) < 2) {
           for (int i = 0; i < 2 - (model.getPawnCount(2, 1)); i++) {
             model.getCell(2, 1).addPawn(PlayerColors.RED);
           }
@@ -206,8 +232,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
       }
 
       // ===== DEMONSTRATION 7: PLACING HIGHER VALUE CARD ON DEVALUED CELL =====
-      System.out.println("============= FEATURE DEMONSTRATION: HIGHER VALUE CARD ON DEVALUED CELL =====");
-      System.out.println("RED plays 'Shield' (value 3) card at (2,1) - This is a cell with a -1 modifier");
+      System.out.println("============= FEATURE DEMONSTRATION: HIGHER VALUE CARD ON DEVALUED " +
+              "CELL =====");
+      System.out.println("RED plays 'Shield' (value 3) card at (2,1) - This is a cell with " +
+              "a -1 modifier");
       System.out.println("The card will be played with effective value 2 (3 - 1)");
       System.out.println();
 
@@ -232,8 +260,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
       }
 
       // ===== DEMONSTRATION 8: EXTREME DEVALUING TO REMOVE HIGH-VALUE CARD =====
-      System.out.println("============= FEATURE DEMONSTRATION: EXTREME DEVALUING FOR REMOVAL =====");
-      System.out.println("BLUE plays 'Leech' card at (2,2) - This will apply more devaluing to the Shield card");
+      System.out.println("============= FEATURE DEMONSTRATION: EXTREME DEVALUING FOR " +
+              "REMOVAL =====");
+      System.out.println("BLUE plays 'Leech' card at (2,2) - This will apply more devaluing " +
+              "to the Shield card");
       System.out.println("Multiple devaluing effects should stack until the card is removed");
       System.out.println();
 
@@ -241,7 +271,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
               "BLUE places Leech at (2,2)");
 
       System.out.println();
-      System.out.println("Observe that the Shield card is still present but now with less effective value");
+      System.out.println("Observe that the Shield card is still present but now with less " +
+              "effective value");
       System.out.println("Let's add more devaluing effects to remove it completely");
       System.out.println();
 
@@ -258,8 +289,10 @@ public class PawnsBoardGameLevel1ComplexDemo {
       }
 
       // ===== DEMONSTRATION 9: FINAL DEVALUING TO REMOVE CARD =====
-      System.out.println("============= FEATURE DEMONSTRATION: FINAL DEVALUING TO REMOVE CARD =====");
-      System.out.println("RED plays 'Decay' card at (1,2) - This should be the final devaluing needed");
+      System.out.println("============= FEATURE DEMONSTRATION: FINAL DEVALUING TO REMOVE CARD " +
+              "=====");
+      System.out.println("RED plays 'Decay' card at (1,2) - This should be the final devaluing " +
+              "needed");
       System.out.println("After this, the Shield card should be removed and replaced with pawns");
       System.out.println();
 
@@ -285,9 +318,12 @@ public class PawnsBoardGameLevel1ComplexDemo {
       }
 
       // ===== DEMONSTRATION 10: ADVANCED MIXED INFLUENCE CARD =====
-      System.out.println("============= FEATURE DEMONSTRATION: ADVANCED MIXED INFLUENCE CARD =====");
-      System.out.println("BLUE plays 'Fusion' card at (2,3) - A card with strategically placed influences");
-      System.out.println("This shows how influence placement can create specific tactical patterns");
+      System.out.println("============= FEATURE DEMONSTRATION: ADVANCED MIXED INFLUENCE " +
+              "CARD =====");
+      System.out.println("BLUE plays 'Fusion' card at (2,3) - A card with strategically " +
+              "placed influences");
+      System.out.println("This shows how influence placement can create specific tactical " +
+              "patterns");
       System.out.println();
 
       executeMove(model, view, 0, 2, 3,
@@ -295,7 +331,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
 
       System.out.println();
       System.out.println("Notice the asymmetric pattern of influences around the card");
-      System.out.println("Strategic placement of different influence types is a key tactical element");
+      System.out.println("Strategic placement of different influence types is a key tactical " +
+              "element");
       System.out.println();
 
       // ===== DEMONSTRATION 11: ADVANCED SCORING CALCULATION =====
@@ -335,7 +372,8 @@ public class PawnsBoardGameLevel1ComplexDemo {
       // ===== DEMONSTRATION 12: MIXED INFLUENCE CARD ON MODIFIED CELL =====
       System.out.println("============= FEATURE DEMONSTRATION: MIXED CARD ON MODIFIED CELL =====");
       System.out.println("RED plays 'Dual' at (1,3) - A card with both U and D influences");
-      System.out.println("Placing it on a cell that already has modifiers shows compounding effects");
+      System.out.println("Placing it on a cell that already has modifiers shows compounding " +
+              "effects");
       System.out.println();
 
       executeMove(model, view, 0, 1, 3,

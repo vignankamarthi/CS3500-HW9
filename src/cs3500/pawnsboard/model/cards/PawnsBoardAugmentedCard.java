@@ -38,8 +38,8 @@ public class PawnsBoardAugmentedCard implements Card {
       throw new IllegalArgumentException("Card value must be positive");
     }
     if (influenceGrid == null || influenceGrid.length != 5 
-        || Arrays.stream(influenceGrid).anyMatch(
-                row -> row == null || row.length != 5)) {
+        || Arrays.stream(influenceGrid).anyMatch(row -> row == null 
+            || row.length != 5)) {
       throw new IllegalArgumentException("Influence grid must be a 5x5 grid");
     }
     

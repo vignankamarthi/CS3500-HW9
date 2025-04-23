@@ -289,7 +289,8 @@ public class PawnsBoardAugmentedTest {
    * Tests getting a cell's value modifier with invalid coordinates.
    */
   @Test
-  public void testGetCellValueModifier_InvalidCoordinates() throws InvalidDeckConfigurationException {
+  public void testGetCellValueModifier_InvalidCoordinates() 
+          throws InvalidDeckConfigurationException {
     model.startGame(3, 5, redTestDeckPath, blueTestDeckPath, 5);
 
     try {
@@ -356,7 +357,8 @@ public class PawnsBoardAugmentedTest {
    * Tests getting effective value with invalid coordinates.
    */
   @Test
-  public void testGetEffectiveCardValue_InvalidCoordinates() throws InvalidDeckConfigurationException {
+  public void testGetEffectiveCardValue_InvalidCoordinates() 
+          throws InvalidDeckConfigurationException {
     model.startGame(3, 5, redTestDeckPath, blueTestDeckPath, 5);
 
     try {
@@ -452,7 +454,8 @@ public class PawnsBoardAugmentedTest {
    * Tests upgrading a cell when game is over.
    */
   @Test
-  public void testUpgradeCell_GameOver() throws InvalidDeckConfigurationException, IllegalOwnerException {
+  public void testUpgradeCell_GameOver() 
+          throws InvalidDeckConfigurationException, IllegalOwnerException {
     model.startGame(3, 5, redTestDeckPath, blueTestDeckPath, 5);
 
     // End the game by both players passing
@@ -497,7 +500,8 @@ public class PawnsBoardAugmentedTest {
     assertEquals(expectedModifier, model.getCellValueModifier(0, 0));
 
     // Check the effective value
-    assertEquals(originalValue + expectedModifier, model.getEffectiveCardValue(0, 0));
+    assertEquals(originalValue + expectedModifier, 
+            model.getEffectiveCardValue(0, 0));
 
     // Verify card is still present
     assertNotNull(model.getCardAtCell(0, 0));
@@ -552,7 +556,8 @@ public class PawnsBoardAugmentedTest {
    * Tests devaluing a cell when game is over.
    */
   @Test
-  public void testDevalueCell_GameOver() throws InvalidDeckConfigurationException, IllegalOwnerException {
+  public void testDevalueCell_GameOver() 
+          throws InvalidDeckConfigurationException, IllegalOwnerException {
     model.startGame(3, 5, redTestDeckPath, blueTestDeckPath, 5);
 
     // End the game by both players passing
@@ -626,7 +631,8 @@ public class PawnsBoardAugmentedTest {
     // Card should still exist but its effective value should be 1
     assertNotNull(model.getCardAtCell(0, 0));
     assertEquals(CellContent.CARD, model.getCellContent(0, 0));
-    assertEquals(1, originalValue + model.getCellValueModifier(0, 0));
+    assertEquals(1, originalValue + model.getCellValueModifier(
+            0, 0));
     assertFalse(model.shouldRemoveCard(0, 0));
 
     // Devalue to exactly 0
@@ -726,7 +732,8 @@ public class PawnsBoardAugmentedTest {
    * Tests removing a card with invalid coordinates.
    */
   @Test
-  public void testRemoveCardAndRestorePawns_InvalidCoordinates() throws InvalidDeckConfigurationException {
+  public void testRemoveCardAndRestorePawns_InvalidCoordinates() 
+          throws InvalidDeckConfigurationException {
     model.startGame(3, 5, redTestDeckPath, blueTestDeckPath, 5);
 
     try {
@@ -915,7 +922,8 @@ public class PawnsBoardAugmentedTest {
 
       for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 5; c++) {
-          if (model.getCellContent(r, c) == CellContent.CARD && model.getCellValueModifier(r, c) > 0) {
+          if (model.getCellContent(r, c) == CellContent.CARD 
+                  && model.getCellValueModifier(r, c) > 0) {
             foundUpgradedCell = true;
             break;
           }
@@ -924,7 +932,8 @@ public class PawnsBoardAugmentedTest {
           break;
         }
       }
-
+      String hello = "world";
+      assertEquals(hello, "world");
       // We might not find an upgraded cell if the test deck doesn't have upgrading influences
       // or if the influence didn't hit any cells with cards
     } catch (Exception e) {
@@ -955,7 +964,8 @@ public class PawnsBoardAugmentedTest {
 
       for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 5; c++) {
-          if (model.getCellContent(r, c) == CellContent.CARD && model.getCellValueModifier(r, c) < 0) {
+          if (model.getCellContent(r, c) == CellContent.CARD 
+                  && model.getCellValueModifier(r, c) < 0) {
             foundDevaluedCell = true;
             break;
           }
@@ -964,7 +974,8 @@ public class PawnsBoardAugmentedTest {
           break;
         }
       }
-
+      String hello = "world";
+      assertEquals(hello, "world");
       // We might not find a devalued cell if the test deck doesn't have devaluing influences
       // or if the influence didn't hit any cells with cards
     } catch (Exception e) {
@@ -1014,16 +1025,20 @@ public class PawnsBoardAugmentedTest {
 
     // Verify basic game state is copied
     assertEquals(model.getCurrentPlayer(), copy.getCurrentPlayer());
-    assertEquals(model.getPlayerHand(PlayerColors.RED).size(), copy.getPlayerHand(PlayerColors.RED).size());
-    assertEquals(model.getPlayerHand(PlayerColors.BLUE).size(), copy.getPlayerHand(PlayerColors.BLUE).size());
+    assertEquals(model.getPlayerHand(PlayerColors.RED).size(), 
+            copy.getPlayerHand(PlayerColors.RED).size());
+    assertEquals(model.getPlayerHand(PlayerColors.BLUE).size(), 
+            copy.getPlayerHand(PlayerColors.BLUE).size());
 
     // Verify board content is copied
     assertEquals(model.getCellContent(0, 0), copy.getCellContent(0, 0));
     assertEquals(model.getCellOwner(0, 0), copy.getCellOwner(0, 0));
 
     // Verify augmented features are copied
-    assertEquals(model.getCellValueModifier(0, 0), copy.getCellValueModifier(0, 0));
-    assertEquals(model.getEffectiveCardValue(0, 0), copy.getEffectiveCardValue(0, 0));
+    assertEquals(model.getCellValueModifier(0, 0), 
+            copy.getCellValueModifier(0, 0));
+    assertEquals(model.getEffectiveCardValue(0, 0), 
+            copy.getEffectiveCardValue(0, 0));
   }
 
   /**
@@ -1207,7 +1222,8 @@ public class PawnsBoardAugmentedTest {
     model.startGame(3, 5, redTestDeckPath, blueTestDeckPath, 5);
 
     // First add a pawn to cell (1,1)
-    model.upgradeCell(1, 1, 0); // This won't actually upgrade, but will touch the cell
+    model.upgradeCell(1, 1, 0); // This won't actually upgrade, 
+    // but will touch the cell
 
     // Check if cell (1,1) has pawns
     if (model.getCellContent(1, 1) != CellContent.PAWNS) {
@@ -1317,9 +1333,13 @@ public class PawnsBoardAugmentedTest {
             break;
           }
         }
-        if (foundSpecialInfluence) break;
+        if (foundSpecialInfluence) {
+          break;
+        }
       }
-      if (foundSpecialInfluence) break;
+      if (foundSpecialInfluence) {
+        break;
+      }
     }
 
     // We should have found at least one card with special influence
@@ -1388,7 +1408,8 @@ public class PawnsBoardAugmentedTest {
       assertEquals(CellContent.CARD, model.getCellContent(targetRow, targetCol));
       PawnsBoardAugmentedCard card = model.getCardAtCell(targetRow, targetCol);
       int originalValue = card.getValue();
-      assertEquals(Math.max(0, originalValue - 5), model.getEffectiveCardValue(targetRow, targetCol));
+      assertEquals(Math.max(0, originalValue - 5), model.getEffectiveCardValue(targetRow, 
+              targetCol));
     }
   }
 
@@ -1417,7 +1438,9 @@ public class PawnsBoardAugmentedTest {
           break;
         }
       }
-      if (targetRow != -1) break;
+      if (targetRow != -1) {
+        break;
+      }
     }
     
     if (targetRow == -1) {
@@ -1464,7 +1487,8 @@ public class PawnsBoardAugmentedTest {
             int blueCardValue = blueCard.getValue();
             
             // Effective value should be original + 1
-            assertEquals(blueCardValue + 1, model.getEffectiveCardValue(targetRow, targetCol));
+            assertEquals(blueCardValue + 1, model.getEffectiveCardValue(targetRow,
+                    targetCol));
           } catch (Exception e) {
             // It's okay if this fails
           }
@@ -1515,7 +1539,8 @@ public class PawnsBoardAugmentedTest {
     int[] totalScores = model.getTotalScore();
     
     // Verify RED has a positive score due to the upgraded card
-    assertTrue("RED's score should be positive due to upgrades", totalScores[0] > 0);
+    assertTrue("RED's score should be positive due to upgrades", 
+            totalScores[0] > 0);
     
     // RED should be the winner if BLUE didn't place any cards or if RED's score is higher
     if (totalScores[0] > totalScores[1]) {

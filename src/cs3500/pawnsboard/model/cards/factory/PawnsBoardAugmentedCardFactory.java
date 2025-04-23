@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.model.cards.factory;
 
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
-import cs3500.pawnsboard.model.influence.Influence;
 import cs3500.pawnsboard.model.influence.InfluenceManager;
 
 /**
