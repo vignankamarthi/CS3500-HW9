@@ -179,9 +179,13 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
     if (amount < 0) {
       throw new IllegalArgumentException("Devalue amount cannot be negative");
     }
+    
+    // Decrease the value modifier
     valueModifier -= amount;
     
     // Check if there's a card and it needs to be removed due to devaluation
+    // Note: This is handled at cell level, but the model also checks, so it's okay
+    // if this doesn't always catch all cases
     checkAndHandleDevaluation();
     
     return valueModifier;
@@ -193,14 +197,20 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
    * and replaced with pawns equal to its cost.
    */
   private void checkAndHandleDevaluation() {
+    // Only check for removal if there's a card present
     if (content == CellContent.CARD && card != null) {
-      int effectiveValue = card.getValue() + valueModifier;
+      // Card should be removed if its effective value is 0 or less
+      // Effective value is original value + value modifier
+      int originalValue = card.getValue();
+      int effectiveValue = originalValue + valueModifier;
       
+      // If effective value is 0 or negative, remove the card
       if (effectiveValue <= 0) {
         // Store card cost and owner before removing it
         int cardCost = card.getCost();
         PlayerColors cardOwner = owner;
 
+        // Remove the card and restore pawns
         restorePawnsAfterCardRemoval(cardCost, cardOwner);
       }
     }
@@ -234,8 +244,11 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
       return 0;
     }
     
+    // Calculate the effective value including modifier
+    int effectiveValue = card.getValue() + valueModifier;
+    
     // For scoring purposes, a card cannot contribute negative points
-    return Math.max(0, card.getValue() + valueModifier);
+    return Math.max(0, effectiveValue);
   }
   
   /**
@@ -246,10 +259,19 @@ public class PawnsBoardAugmentedCell<C extends Card> implements PawnsBoardCell<C
    * @param cardOwner the owner of the card that was removed
    */
   public void restorePawnsAfterCardRemoval(int cardCost, PlayerColors cardOwner) {
+    // Change cell content from CARD to PAWNS
     content = CellContent.PAWNS;
+    
+    // Set pawn count to card cost (max 3)
     pawnCount = Math.min(cardCost, 3);
+    
+    // Keep the same owner
     owner = cardOwner;
+    
+    // Remove the card reference
     card = null;
-    valueModifier = 0; // Reset value modifier
+    
+    // Reset value modifier to zero - important to clear any devaluation
+    valueModifier = 0;
   }
 }

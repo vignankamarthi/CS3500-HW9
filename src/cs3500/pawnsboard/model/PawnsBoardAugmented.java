@@ -356,7 +356,21 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
           throws IllegalArgumentException, IllegalStateException {
     validateGameStarted();
     validateCoordinates(row, col);
-    return augmentedBoard.get(row).get(col).getEffectiveCardValue();
+    
+    PawnsBoardAugmentedCell<C> cell = augmentedBoard.get(row).get(col);
+    
+    // If there's no card, return 0
+    if (cell.getContent() != CellContent.CARD || cell.getCard() == null) {
+      return 0;
+    }
+    
+    // Calculate the effective value: original value + modifier
+    C card = cell.getCard();
+    int valueModifier = cell.getValueModifier();
+    int effectiveValue = card.getValue() + valueModifier;
+    
+    // For scoring purposes, a card cannot contribute negative points
+    return Math.max(0, effectiveValue);
   }
 
   /**
@@ -390,15 +404,26 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
           throws IllegalArgumentException, IllegalStateException {
     validateGameInProgress();
     validateCoordinates(row, col);
-    augmentedBoard.get(row).get(col).devalue(amount);
     
-    // Check if a card needs to be removed
-    if (shouldRemoveCard(row, col)) {
-      try {
-        removeCardAndRestorePawns(row, col);
-      } catch (IllegalAccessException e) {
-        // This should never happen since we checked shouldRemoveCard first
-        System.err.println("Unexpected error removing card: " + e.getMessage());
+    PawnsBoardAugmentedCell<C> cell = augmentedBoard.get(row).get(col);
+    
+    // Apply the devaluation
+    cell.devalue(amount);
+    
+    // Check if the card should be removed due to devaluation
+    // This is a separate check from the cell's internal check because we want to guarantee
+    // that cards with effective value <= 0 are removed at the model level
+    if (cell.getContent() == CellContent.CARD) {
+      C card = cell.getCard();
+      int effectiveValue = card.getValue() + cell.getValueModifier();
+      
+      if (effectiveValue <= 0) {
+        try {
+          removeCardAndRestorePawns(row, col);
+        } catch (IllegalAccessException e) {
+          // This should never happen since we've already checked for a card
+          System.err.println("Unexpected error removing card: " + e.getMessage());
+        }
       }
     }
   }
@@ -459,7 +484,14 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     }
     
     // Check if effective value is 0 or less
-    int effectiveValue = cell.getEffectiveCardValue();
+    // Don't use getEffectiveCardValue here as it applies Math.max(0, value)
+    // Instead calculate raw effective value to check if it's <= 0
+    C card = cell.getCard();
+    int valueModifier = cell.getValueModifier();
+    int originalValue = card.getValue();
+    int effectiveValue = originalValue + valueModifier;
+    
+    // Card should be removed if its effective value is 0 or negative
     return effectiveValue <= 0;
   }
 
@@ -595,14 +627,11 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
    * @return a new PawnsBoardAugmented with the same state
    * @throws IllegalStateException if the game hasn't been started
    */
+  //TODO: Refactor to under 50 lines
   @Override
   public PawnsBoardAugmented<C> copy() throws IllegalStateException {
     validateGameStarted();
-
-    // Create a new board with the same influence manager and deck builder
     PawnsBoardAugmented<C> copy = new PawnsBoardAugmented<>(deckBuilder, influenceManager);
-
-    // Copy basic game state
     copy.gameStarted = this.gameStarted;
     copy.gameOver = this.gameOver;
     copy.currentPlayerColors = this.currentPlayerColors;
@@ -610,21 +639,15 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
     copy.startingHandSize = this.startingHandSize;
     copy.rows = this.rows;
     copy.columns = this.columns;
-
-    // Deep copy of the board
     copy.augmentedBoard = new ArrayList<>(rows);
     for (int r = 0; r < rows; r++) {
       List<PawnsBoardAugmentedCell<C>> rowCopy = new ArrayList<>(columns);
       for (int c = 0; c < columns; c++) {
         PawnsBoardAugmentedCell<C> originalCell = this.augmentedBoard.get(r).get(c);
         PawnsBoardAugmentedCell<C> cellCopy = new PawnsBoardAugmentedCell<>();
-
-        // Copy cell state
         CellContent content = originalCell.getContent();
         PlayerColors owner = originalCell.getOwner();
-        
         if (content == CellContent.PAWNS) {
-          // Add pawns to the cell
           for (int i = 0; i < originalCell.getPawnCount(); i++) {
             try {
               cellCopy.addPawn(owner);
@@ -633,35 +656,30 @@ public class PawnsBoardAugmented<C extends PawnsBoardAugmentedCard>
             }
           }
         } else if (content == CellContent.CARD) {
-          // Set card on the cell
           cellCopy.setCard(originalCell.getCard(), owner);
-          
-          // Copy value modifier
-          if (originalCell.getValueModifier() > 0) {
-            cellCopy.upgrade(originalCell.getValueModifier());
-          } else if (originalCell.getValueModifier() < 0) {
-            cellCopy.devalue(-originalCell.getValueModifier());
+          int valueModifier = originalCell.getValueModifier();
+          if (valueModifier > 0) {
+            cellCopy.upgrade(valueModifier);
+          } else if (valueModifier < 0) {
+            cellCopy.devalue(Math.abs(valueModifier));
           }
         } else if (originalCell.getValueModifier() != 0) {
-          // Empty cell with value modifier
-          if (originalCell.getValueModifier() > 0) {
-            cellCopy.upgrade(originalCell.getValueModifier());
-          } else {
-            cellCopy.devalue(-originalCell.getValueModifier());
+          int valueModifier = originalCell.getValueModifier();
+          if (valueModifier > 0) {
+            cellCopy.upgrade(valueModifier);
+          } else if (valueModifier < 0) {
+            cellCopy.devalue(Math.abs(valueModifier));
           }
         }
-
         rowCopy.add(cellCopy);
       }
       copy.augmentedBoard.add(rowCopy);
     }
-
-    // Deep copy of decks and hands
     copy.redDeck = new ArrayList<>(this.redDeck);
     copy.blueDeck = new ArrayList<>(this.blueDeck);
     copy.redHand = new ArrayList<>(this.redHand);
     copy.blueHand = new ArrayList<>(this.blueHand);
-
     return copy;
   }
+  
 }
