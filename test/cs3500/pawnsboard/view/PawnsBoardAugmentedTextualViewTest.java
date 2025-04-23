@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
  * Verifies the correct rendering of the augmented game board with value modifiers.
  * Uses the real PawnsBoardAugmented model to ensure proper integration.
  */
+//TODO: Come back to this once the configuration file is done
 public class PawnsBoardAugmentedTextualViewTest {
 
   private AugmentedPawnsBoard<PawnsBoardAugmentedCard, ?> model;
@@ -41,18 +42,13 @@ public class PawnsBoardAugmentedTextualViewTest {
   @Before
   public void setUp() {
     influenceManager = new InfluenceManager();
-    model = new PawnsBoardAugmented<>(influenceManager);
+    //TODO: Come back to this ASAP
+   // model = new PawnsBoardAugmented<>(influenceManager);
     view = new PawnsBoardAugmentedTextualView<>(model);
 
     // Use test deck configuration paths
-    redDeckPath = "docs" + File.separator + "RED3x5AugmentedTestingDeck.config";
-    blueDeckPath = "docs" + File.separator + "BLUE3x5AugmentedTestingDeck.config";
-
-    // If test decks don't exist, use regular deck paths to avoid file not found errors
-    if (!new File(redDeckPath).exists() || !new File(blueDeckPath).exists()) {
-      redDeckPath = "docs" + File.separator + "RED3x5PawnsBoardBaseCompleteDeck.config";
-      blueDeckPath = "docs" + File.separator + "BLUE3x5PawnsBoardBaseCompleteDeck.config";
-    }
+    redDeckPath = "docs" + File.separator + "RED3x5PawnsBoardAugmentedDeck.config";
+    blueDeckPath = "docs" + File.separator + "BLUE3x5PawnsBoardAugmentedDeck.config";
   }
 
   /**

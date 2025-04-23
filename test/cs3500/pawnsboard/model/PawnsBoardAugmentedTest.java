@@ -44,8 +44,8 @@ public class PawnsBoardAugmentedTest {
     model = new PawnsBoardAugmented<>();
 
     // Use augmented deck configuration files
-    redTestDeckPath = "docs" + File.separator + "RED3x5AugmentedTestingDeck.config";
-    blueTestDeckPath = "docs" + File.separator + "BLUE3x5AugmentedTestingDeck.config";
+    redTestDeckPath = "docs" + File.separator + "RED3x5PawnsBoardAugmentedDeck.config";
+    blueTestDeckPath = "docs" + File.separator + "BLUE3x5PawnsBoardAugmentedDeck.config";
   }
 
   /**
