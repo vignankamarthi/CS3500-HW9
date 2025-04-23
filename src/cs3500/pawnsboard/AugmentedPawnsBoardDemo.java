@@ -4,8 +4,6 @@ import cs3500.pawnsboard.model.AugmentedPawnsBoard;
 import cs3500.pawnsboard.model.PawnsBoardAugmented;
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.cards.deckbuilder.PawnsBoardAugmentedDeckBuilder;
-import cs3500.pawnsboard.model.cell.PawnsBoardAugmentedCell;
-import cs3500.pawnsboard.model.cell.PawnsBoardCell;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.model.exceptions.InvalidDeckConfigurationException;
 import cs3500.pawnsboard.model.influence.InfluenceManager;
@@ -45,7 +43,7 @@ public class AugmentedPawnsBoardDemo {
     SwingUtilities.invokeLater(() -> {
       try {
         // Create components
-        AugmentedPawnsBoard<PawnsBoardAugmentedCard, PawnsBoardAugmentedCell> model = createModel();
+        PawnsBoardAugmented<PawnsBoardAugmentedCard> model = createModel();
         setupGame(model);
         createAndShowGUI(model);
       } catch (Exception e) {
@@ -62,7 +60,7 @@ public class AugmentedPawnsBoardDemo {
    *
    * @return the configured model
    */
-  private static AugmentedPawnsBoard<PawnsBoardAugmentedCard, PawnsBoardAugmentedCell> createModel() {
+  private static PawnsBoardAugmented<PawnsBoardAugmentedCard> createModel() {
     // Create an influence manager for handling different influence types
     InfluenceManager influenceManager = new InfluenceManager();
     
@@ -80,7 +78,7 @@ public class AugmentedPawnsBoardDemo {
    * @param model the model to set up
    * @throws InvalidDeckConfigurationException if there's an issue with the deck configuration
    */
-  private static void setupGame(AugmentedPawnsBoard<PawnsBoardAugmentedCard> model)
+  private static void setupGame(AugmentedPawnsBoard<PawnsBoardAugmentedCard, ?> model)
           throws InvalidDeckConfigurationException {
     // Define the paths to the deck configuration files
     String redDeckConfigPath = "docs" + File.separator + "RED3x5PawnsBoardAugmentedDeck.config";
@@ -136,7 +134,7 @@ public class AugmentedPawnsBoardDemo {
    *
    * @param model the model to connect to the view
    */
-  private static void createAndShowGUI(AugmentedPawnsBoard<PawnsBoardAugmentedCard> model) {
+  private static void createAndShowGUI(AugmentedPawnsBoard<PawnsBoardAugmentedCard, ?> model) {
     // Create human players
     Player<PawnsBoardAugmentedCard> redPlayer = new HumanPlayer<>(PlayerColors.RED);
     Player<PawnsBoardAugmentedCard> bluePlayer = new HumanPlayer<>(PlayerColors.BLUE);

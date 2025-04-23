@@ -1,6 +1,5 @@
 package cs3500.pawnsboard.model.cell;
 
-import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.enumerations.CellContent;
 import cs3500.pawnsboard.model.PawnsBoard;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
@@ -13,7 +12,7 @@ import cs3500.pawnsboard.model.exceptions.IllegalOwnerException;
  * 
  * @param <C> the type of Card that can be placed in this cell
  */
-public interface PawnsBoardCell<C extends Card> extends PawnsBoardCell<PawnsBoardAugmentedCard> {
+public interface PawnsBoardCell<C extends Card> {
 
   /**
    * Gets the content type of this cell.

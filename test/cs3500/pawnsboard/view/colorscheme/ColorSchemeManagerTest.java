@@ -292,6 +292,21 @@ public class ColorSchemeManagerTest {
     public Color getCardTextColor() {
       return Color.PINK;
     }
+    
+    @Override
+    public Color getUpgradingInfluenceColor() {
+      return Color.PINK;
+    }
+    
+    @Override
+    public Color getDevaluingInfluenceColor() {
+      return Color.PINK;
+    }
+    
+    @Override
+    public Color getValueModifierColor() {
+      return Color.PINK;
+    }
   }
   
   
