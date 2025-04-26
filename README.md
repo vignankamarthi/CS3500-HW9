@@ -600,10 +600,5 @@ In this iteration, we implemented visualization for the new influence types and 
 
 
 
-### Command Line Instructions to Ensure Smooth Submission
-
-zip -rX -D submission.zip src/ test/ docs/ README.md -x '*/.*' '*/__MACOSX/*'
-
-
 
 
