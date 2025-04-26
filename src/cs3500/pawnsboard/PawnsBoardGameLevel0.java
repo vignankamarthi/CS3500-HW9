@@ -65,7 +65,7 @@ public class PawnsBoardGameLevel0 {
       redPlayerType = args[2];
       bluePlayerType = args[3];
     } else {
-      bluePlayerType = "strategy1";
+      bluePlayerType = "human";
       redPlayerType = "human";
     }
 

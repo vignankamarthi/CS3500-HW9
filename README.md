@@ -2,11 +2,36 @@
 
 ## Overview
 
-The Pawns Board game is a two-player card placement strategy game played on a rectangular grid.
-Players take turns placing cards from their hands onto cells with their pawns, with each card having
-unique influence patterns that affect the board state. The game implements a complete model of the
-game rules described in the assignment, including card placement mechanics, influence patterns, pawn
-ownership, and scoring.
+Pawns Board is a strategic two-player board game implemented in Java, featuring a complete Model-View-Controller architecture. Players place cards with unique influence patterns onto a grid-based board, competing to maximize their score and establish territorial control.
+
+This project was developed incrementally through five phases, demonstrating robust object-oriented design principles, extensive test coverage, and a cleanly separated and extensible architecture.
+
+### Key Features
+
+- **Complete MVC Architecture**: Clean separation between model, view, and controller components
+- **Multiple Player Types**: Support for both human and AI players with different strategies
+- **Strategy Pattern Implementation**: Configurable AI decision-making algorithms
+- **Command Pattern**: For game action handling
+- **Observer Pattern**: For efficient view updates and event handling
+- **Enhanced Accessibility**: Support for high-contrast mode and other accessibility features
+- **Advanced Game Mechanics**: Support for upgrading and devaluing influences that modify cell values
+
+### Comprehensive Testing
+
+- **Unit Tests**: Isolated testing of individual components and methods
+- **Mock Tests**: Using mock objects to verify controller-model and view-controller interactions
+- **Integration Tests**: End-to-end verification of component interactions
+- **Edge Case Testing**: Verification of behavior under extreme conditions
+- 
+## Skills Demonstrated
+
+- Object-oriented design and architecture
+- Design pattern implementation (Strategy, Observer, Command, Factory, Builder)
+- Interface segregation and dependency injection
+- Test-driven development with mock objects
+- GUI development with Java Swing
+- Polymorphism and inheritance management
+- Documentation and project organization
 
 ### Key Assumptions and Design Goals
 

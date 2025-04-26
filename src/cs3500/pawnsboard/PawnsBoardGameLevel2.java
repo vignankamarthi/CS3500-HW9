@@ -1,12 +1,16 @@
 package cs3500.pawnsboard;
 
+import cs3500.pawnsboard.controller.AIPawnsBoardController;
 import cs3500.pawnsboard.model.AugmentedPawnsBoard;
 import cs3500.pawnsboard.model.PawnsBoardAugmented;
+import cs3500.pawnsboard.model.cards.Card;
 import cs3500.pawnsboard.model.cards.PawnsBoardAugmentedCard;
 import cs3500.pawnsboard.model.cards.deckbuilder.PawnsBoardAugmentedDeckBuilder;
 import cs3500.pawnsboard.model.enumerations.PlayerColors;
 import cs3500.pawnsboard.model.exceptions.InvalidDeckConfigurationException;
 import cs3500.pawnsboard.model.influence.InfluenceManager;
+import cs3500.pawnsboard.player.AIPlayer;
+import cs3500.pawnsboard.player.strategy.types.MaximizeRowScoreStrategy;
 import cs3500.pawnsboard.view.PawnsBoardAugmentedGUIView;
 import cs3500.pawnsboard.view.PawnsBoardAugmentedGraphicalView;
 import cs3500.pawnsboard.controller.HumanPawnsBoardController;
@@ -126,29 +130,36 @@ public class PawnsBoardGameLevel2 {
    * @param model the model to connect to the view
    */
   private static void createAndShowGUI(AugmentedPawnsBoard<PawnsBoardAugmentedCard, ?> model) {
-    // Create human players
     Player<PawnsBoardAugmentedCard> redPlayer = new HumanPlayer<>(PlayerColors.RED);
-    Player<PawnsBoardAugmentedCard> bluePlayer = new HumanPlayer<>(PlayerColors.BLUE);
+    MaximizeRowScoreStrategy<PawnsBoardAugmentedCard> strategy =
+            new MaximizeRowScoreStrategy<>();
+    Player<PawnsBoardAugmentedCard> bluePlayer = new AIPlayer<>(PlayerColors.BLUE);
+    ((AIPlayer<PawnsBoardAugmentedCard>) bluePlayer).setStrategy(strategy);
     
     // Create a view for RED player
     PawnsBoardAugmentedGUIView redView = new PawnsBoardAugmentedGraphicalView(model);
     redView.setTitle("Augmented Pawns Board - RED Player (Human)");
     ((PawnsBoardAugmentedGraphicalView) redView).setViewPlayer(PlayerColors.RED);
+
+   
     
     // Create a view for BLUE player
     PawnsBoardAugmentedGUIView blueView = new PawnsBoardAugmentedGraphicalView(model);
-    blueView.setTitle("Augmented Pawns Board - BLUE Player (Human)");
+    blueView.setTitle("Augmented Pawns Board - BLUE Strategy (AI)");
     ((PawnsBoardAugmentedGraphicalView) blueView).setViewPlayer(PlayerColors.BLUE);
     
     // Position the views side by side
     redView.setPosition(100, 100);
     blueView.setPosition(1300, 100);
     
+    
     // Create controllers for both views
     PawnsBoardController redController = new HumanPawnsBoardController<>(
             model, (HumanPlayer<PawnsBoardAugmentedCard>) redPlayer, redView);
-    PawnsBoardController blueController = new HumanPawnsBoardController<>(
-            model, (HumanPlayer<PawnsBoardAugmentedCard>) bluePlayer, blueView);
+    PawnsBoardController blueController = new AIPawnsBoardController<>(
+            model, (AIPlayer) bluePlayer, blueView);
+
+    
     
     // Initialize controllers
     redController.initialize(model, redView);
